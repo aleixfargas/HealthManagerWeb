@@ -1,0 +1,31 @@
+{% extends 'calendar/base_calendar.html.twig' %}
+
+{% block calendar %}
+{#    <div id="calendar" class="fc-calendar-container"> </div>#}
+    <div class="custom-header">
+        <h3 class="custom-month-year">
+            <span id="custom-month" class="custom-month"> </span>
+            <span id="custom-year" class="custom-year"> </span>
+            <nav>
+                <span id="custom-prev" class="custom-prev"> </span>
+                <span id="custom-next" class="custom-next"> </span>
+                <span id="custom-current" class="custom-current" title="Got to current date"></span>
+            </nav>
+            <div class="clearfix"> </div>
+        </h3>
+    </div>
+    <div id="calendar" class="fc-calendar-container"></div>
+{% endblock %}
+
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/month_calendar.css', 'calendar') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/minimal_admin_panel/css/calendar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/minimal_admin_panel/css/custom_1.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+{#    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/jquery.calendario.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/calendario.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/data.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/month_calendar.js', 'calendar') }}"></script>
+{% endblock %}

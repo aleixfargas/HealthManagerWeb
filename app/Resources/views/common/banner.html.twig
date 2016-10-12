@@ -1,0 +1,15 @@
+{% block banner %}
+    {% if is_section is defined %}
+        <!--banner-->	
+        <div class="banner">
+            <h2>
+                <a href="#">{{ 'base.global_section_home'|trans({}, 'base') }}</a>
+                {% for section in sections -%}
+                    <i class="fa fa-angle-right"></i>
+                    <span> {{ section.name }} </span>
+                {%- endfor %}
+            </h2>
+        </div>
+        <!--//banner-->
+    {% endif %}
+{% endblock %}

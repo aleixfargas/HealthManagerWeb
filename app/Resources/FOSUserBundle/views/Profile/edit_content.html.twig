@@ -1,0 +1,21 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<h3><i class="fa fa-user"></i>Edit Profile</h3>
+{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+    <div class="profile-bottom-top">
+        <div class="col-md-4 profile-bottom-img">
+            <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
+        </div>
+        <div class="col-md-8 profile-text">
+            <table>
+                {{ form_widget(form) }}
+            </table>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="profile-btn">
+        <input type="submit" class="btn btn-block btn-success" value="{{ 'profile.edit.submit'|trans }}" />
+{#        <a class="btn btn-block btn-success" href="{{ url('fos_user_profile_edit') }}"> Save </a>#}
+        <div class="clearfix"></div>
+    </div>
+{{ form_end(form) }}

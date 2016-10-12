@@ -1,0 +1,76 @@
+{% extends 'calendar/base_calendar.html.twig' %}
+
+{% block calendar %}
+    <ul class="cbp_tmtimeline">
+        <li class="all-day">
+            <time class="cbp_tmtime" datetime="all-day"><span>all-day</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="06:00"><span>06:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="07:00"><span>07:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="08:00"><span>08:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="09:00"><span>09:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="10:00"><span>10:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="11:00"><span>11:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="12:00"><span>12:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="13:00"><span>13:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="14:00"><span>14:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="15:00"><span>15:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="16:00"><span>16:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="17:00"><span>17:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="18:00"><span>18:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="19:00"><span>19:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="20:00"><span>20:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="21:00"><span>21:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="22:00"><span>22:00</span></time>
+        </li>
+        <li>
+            <time class="cbp_tmtime" datetime="23:00"><span>23:00</span></time>
+        </li>
+    </ul>
+{% endblock %}
+    
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/minimal_admin_panel/css/timeline.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/minimal_admin_panel/css/calendar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/minimal_admin_panel/css/custom_3.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/modernizr.custom.63321.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/calendario.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/minimal_admin_panel/js/dataTimeline.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/calendar.js', 'calendar') }}"></script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <div class="login">
+        <h1>{{ 'base.global_title'|trans({}, 'base') }}</h1>
+        <div class="login-bottom">
+            <h2>{{ 'login.signin_form_title'|trans({}, 'login') }}</h2>
+            {% block fos_user_content %}
+                {{ include('FOSUserBundle:Security:login_content.html.twig') }}
+            {% endblock fos_user_content %}
+        </div>
+    </div>
+    <div class="copy-right">
+        <p> &copy; 2016 HealthManager. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+    </div>
+{% endblock body %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css', 'login') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/login.js', 'login') }}"></script>
+{% endblock %}

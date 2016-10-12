@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="ca" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="signin_form_title">
+                <source>login.signin_form_title</source>
+                <target>Iniciar Sessió</target>
+            </trans-unit>
+            <trans-unit id="userName_form_input">
+                <source>login.userName_form_input</source>
+                <target>Nom d'usuari</target>
+            </trans-unit>
+            <trans-unit id="password_form_input">
+                <source>login.password_form_input</source>
+                <target>Contrassenya</target>
+            </trans-unit>
+            <trans-unit id="userType_form_input">
+                <source>login.userType_form_input</source>
+                <target>Tipus d'usuari</target>
+            </trans-unit>
+            <trans-unit id="login_form_button">
+                <source>login.login_form_button</source>
+                <target>Entrar</target>
+            </trans-unit>
+            <trans-unit id="admin_form_select">
+                <source>login.admin_form_select</source>
+                <target>Administració</target>
+            </trans-unit>
+            <trans-unit id="phisio_form_select">
+                <source>login.phisio_form_select</source>
+                <target>Fisioterapeuta</target>
+            </trans-unit>
+            <trans-unit id="secretary_form_select">
+                <source>login.secretary_form_select</source>
+                <target>Secretari</target>
+            </trans-unit>
+            <trans-unit id="super_form_select">
+                <source>login.super_form_select</source>
+                <target>Supervisor</target>
+            </trans-unit>                
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="ca" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="global_title">
+                <source>base.global_title</source>
+                <target>Gestor de Salut</target>
+            </trans-unit>
+            <trans-unit id="global_search">
+                <source>base.global_search</source>
+                <target>Cerca...</target>
+            </trans-unit>
+            <trans-unit id="global_section_home">
+                <source>base.global_section_home</source>
+                <target>Índex</target>
+            </trans-unit>
+            <trans-unit id="global_section_dashboard">
+                <source>base.global_section_dashboard</source>
+                <target>Tauler d'instruments</target>
+            </trans-unit>
+            <trans-unit id="global_section_calendar">
+                <source>base.global_section_calendar</source>
+                <target>Calendari</target>
+            </trans-unit>
+            <trans-unit id="global_section_patients">
+                <source>base.global_section_patients</source>
+                <target>Pacients</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

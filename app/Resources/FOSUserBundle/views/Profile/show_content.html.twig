@@ -1,0 +1,48 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<h3><i class="fa fa-user"></i>{{ user.username }}</h3>
+<div class="profile-bottom-top">
+    <div class="col-md-4 profile-bottom-img">
+        <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
+    </div>
+    <div class="col-md-8 profile-text">
+        <table>
+            <tr><td>{{ 'profile.show.username'|trans }}</td>  
+                <td>:</td>  
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr><td>Department</td>  
+                <td>:</td>  
+                <td>Test</td>
+            </tr>
+            <tr>
+                <td>{{ 'profile.show.email'|trans }}</td>
+                <td> :</td>
+                <td><a>{{ user.email }}</a></td>
+            </tr>
+            {#<tr>
+                <td>Skills</td>
+                <td> :</td>
+                <td> HTML, CSS,Jqury, Bootstrap</td>
+            </tr>
+            <tr>
+                <td>Country </td>
+                <td>:</td>
+                <td> United Arab Emirates</td>
+            </tr>#}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="profile-bottom-bottom">
+    <div class="col-md-4 profile-fo">
+        <h4>1.000.000</h4>
+        <p>Performed massages</p>
+{#        <a href="#"><i class="fa fa-cog"></i>Options</a>#}
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="profile-btn">
+    <a class="btn btn-block btn-info" href="{{ url('fos_user_profile_edit') }}"> Edit Profile </a>
+    <div class="clearfix"></div>
+</div>

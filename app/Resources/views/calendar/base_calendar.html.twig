@@ -1,0 +1,22 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <!--gallery-->
+    <div class="calendar">
+        <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab" class="nav nav-tabs" role="tablist">
+{#                <li role="presentation" class="active"><a href={{ path('calendar-month') }} id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Month</a></li>#}
+{#                <li role="presentation"><a href={{ path('calendar-week') }} role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Week</a></li>#}
+{#                <li role="presentation"><a href={{ path('calendar-day') }} role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Day</a></li>#}
+                <li role="presentation" {% if month %} class="active" {% endif %}><a href={{ path('calendar-month') }} role="tab" id="profile-tab">Month</a></li>
+                <li role="presentation" {% if week %} class="active" {% endif %}><a href={{ path('calendar-week') }} role="tab" id="profile-tab">Week</a></li>
+                <li role="presentation" {% if day %} class="active" {% endif %}><a href={{ path('calendar-day') }} role="tab" id="profile-tab">Day</a></li>
+            </ul>
+        </div>
+        <div class="custom-calendar-wrap custom-calendar-full">
+            {% block calendar %}{% endblock %}
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!--//gallery-->
+{% endblock %}

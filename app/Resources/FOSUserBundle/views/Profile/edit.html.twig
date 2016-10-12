@@ -1,0 +1,19 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <!--gallery-->
+    <div class=" profile">
+        <div class="profile-bottom">
+            {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+        </div>
+    </div>
+    <!--//gallery-->
+{% endblock content_main %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profile.css', 'profile') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/profile.js', 'profile') }}"></script>
+{% endblock %}
