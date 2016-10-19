@@ -1,0 +1,8 @@
+.table-img > img {
+    height: 60px;
+    width: 60px;
+}
+
+tr.table-row:hover{
+    cursor: pointer;
+}
