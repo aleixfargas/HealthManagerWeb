@@ -22,7 +22,26 @@ class PatientsController extends Controller
         return $this->render(
             'patients/patients.html.twig', array(
                 'is_section' =>true,
-                'sections' => [['url'=>$this->generateUrl('patients'), 'name'=>$this->getTranslatedSectionName()]]
+                'sections' => [
+                    ['url'=>'#', 'name'=>$this->getTranslatedSectionName()]
+                ]
+            )
+        );
+    }
+    
+    /**
+     * @Route("/patients/{patient}", name="patients_show")
+     */
+    public function showPatientAction($patient)
+    {
+        return $this->render(
+            'patients/patients_show.html.twig', array(
+                'patient_id'=>$patient,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('patients'), 'name'=>$this->getTranslatedSectionName()],
+                    ['url'=>'#','name'=>$patient]
+                ]
             )
         );
     }

@@ -22,11 +22,13 @@ class CalendarController extends Controller{
 
         return $this->render(
             'calendar/month_calendar.html.twig', array( 
-                'is_section' =>true,
-                'sections' => [['url'=>$this->generateUrl('calendar-month'), 'name'=>$this->getTranslatedSectionName()]],
                 'month'=>true, 
                 'week'=>false, 
-                'day'=>false
+                'day'=>false,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('calendar-month'), 'name'=>$this->getTranslatedSectionName()]
+                ]
             )
         );
     }
@@ -39,11 +41,13 @@ class CalendarController extends Controller{
 
         return $this->render(
             'calendar/week_calendar.html.twig', array(
-                'is_section' =>true,
-                'sections' => [['url'=>$this->generateUrl('calendar-week'), 'name'=>$this->getTranslatedSectionName()]],
                 'month'=>false, 
                 'week'=>true, 
-                'day'=>false
+                'day'=>false,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('calendar-week'), 'name'=>$this->getTranslatedSectionName()]
+                ]
             )
         );
     }
@@ -56,11 +60,14 @@ class CalendarController extends Controller{
 
         return $this->render(
             'calendar/day_calendar.html.twig', array(
-                'is_section' =>true,
-                'sections' => [['url'=>$this->generateUrl('calendar-week'), 'name'=>$this->getTranslatedSectionName()]],
                 'month'=>false, 
                 'week'=>false, 
-                'day'=>true)
+                'day'=>true,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('calendar-week'), 'name'=>$this->getTranslatedSectionName()]
+                ],
+            )
         );
     }
 }

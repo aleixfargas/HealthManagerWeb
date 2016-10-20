@@ -22,7 +22,9 @@ class DefaultController extends Controller
         return $this->render(
             'default/index.html.twig', array(
                 'is_section' =>true,
-                'sections' => [['url'=>$this->generateUrl('homepage'), 'name'=>$this->getTranslatedSectionName()]]
+                'sections' => [
+                    ['url'=>$this->generateUrl('homepage'), 'name'=>$this->getTranslatedSectionName()]
+                ]
             )
         );
     }

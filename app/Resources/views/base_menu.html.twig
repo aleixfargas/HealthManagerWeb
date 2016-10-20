@@ -117,7 +117,7 @@
                         <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret"> {{ app.user.username }} <i class="caret"></i></span><img src="{{ asset('assets/data/uploads/profile/testuser_small.png') }}"></a>
                         <!-- <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">User<i class="caret"></i></span></a> -->
                         <ul class="dropdown-menu " role="menu">
-                            <li><a href="{{ url('fos_user_profile_show') }}"><i class="fa fa-user"></i>Profile</a></li>
+                            <li><a href="{{ url('fos_user_profile_show') }}"><i class="glyphicon glyphicon-home"></i>Profile</a></li>
                             {#<li><a href="/inbox"><i class="fa fa-envelope"></i>Inbox</a></li>
                             <li><a href="/inbox"><i class="fa fa-clipboard"></i>Tasks</a></li>#}
                             <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i>Log out</a></li>
@@ -137,6 +137,20 @@
                         </li>
                         <li>
                             <a href="{{ url('patients') }}" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-paperclip nav_icon "></i><span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-piggy-bank nav_icon"></i> <span class="nav-label">Accounting</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-file-text-o nav_icon"></i>Invoices</a></li>
+                                <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i>Stock</a></li>
+                                <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Statistics</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-paper-plane-o nav_icon"></i>Notifications</a></li>
+                            </ul>
                         </li>
                         <!-- 
                         <li>

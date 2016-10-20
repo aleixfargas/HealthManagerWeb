@@ -1,0 +1,51 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <div class="typo-grid">
+        <div class="typo-1">
+            <div class="grid_3 grid_4">
+                <h2>Patient {{ patient_id }}</h2>
+                <br />
+                <div class="profile-bottom-top">
+                    <div class="col-md-3 profile-bottom-img">
+                        <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
+                    </div>
+                    <div class="col-md-9 profile-text">
+                        <h4>Information</h4>
+                        <table>
+                            <tr>
+                                <td>Name</td>
+                                <td>:</td>  
+                                <td>Lorem Ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>:</td>  
+                                <td>C/ ajks sadjk sadjknb</td>
+                            </tr>
+                            <tr>
+                                <td>Label</td>
+                                <td>:</td>  
+                                <td>Family</td>
+                            </tr>
+                            <tr>
+                                <td>Age</td>
+                                <td>:</td>  
+                                <td>24</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/patients.css', 'patients') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/patients.js', 'patients') }}"></script>
+{% endblock %}
