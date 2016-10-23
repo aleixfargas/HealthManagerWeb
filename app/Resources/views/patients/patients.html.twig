@@ -2,31 +2,10 @@
 
 {% block content_main %}
     <!--grid-->
-    {#    <div class="typo-grid">	  
-            <div class="typo-1">
-                <div class="grid_3 grid_4">
-                    <h3 class="head-top">{{ 'base.global_section_patients'|trans({}, 'base') }}</h3>
-                    <!-- Left-aligned media object -->
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="{{ asset('assets/data/img/avatar.jpg') }}" class="media-object" style="width:60px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Lídia Rubinat Rivas</h4>
-                            <p> C/ Puigterrà de Dalt 42, 2n, 2a, 08241, Manresa, Barcelona</p>
-                            <p>És la pixuncito més pixuncita de totes.</p>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-    #}
-    
     <div class="typo-grid">
         <div class="typo-1">
             <div class="grid_3 grid_4">
-            <!-- patients_toolbar-->
+                <!--patients_toolbar-->
                 <div class="mail-toolbar clearfix">
                     <div class="float-left">
                         <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
@@ -47,6 +26,11 @@
                             </div>
                             -->
                             <!--/folders-->
+                            <!--AddNew User-->
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew"><i class="glyphicon glyphicon-plus"></i></button>
+                            </div>
+                            <!--/AddNew User-->
                             <!--Labels-->
                             <div class="btn-group">
                                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
@@ -105,9 +89,9 @@
                         </div>
                     </div>				
                 </div>
-                <!-- /patients_toolbar-->
+                <!--/patients_toolbar-->
 
-                <!-- patients_gallery-->
+                <!--patients_gallery-->
                 <table class="table">
                     <tbody>
                         {% for i in [1,2,3,4,5,6,7,8,9] %}
@@ -342,7 +326,8 @@
                         </tr>#}
                     </tbody>
                 </table>
-                <!-- /patients_gallery-->
+                <!--/patients_gallery-->
+                {% include 'patients/add_patients.html.twig' %}
             </div>
         </div>
     </div>
