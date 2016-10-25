@@ -114,7 +114,13 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret"> {{ app.user.username }} <i class="caret"></i></span><img src="{{ asset('assets/data/uploads/profile/testuser_small.png') }}"></a>
+                        <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown">
+                            <span class=" name-caret"> 
+                                {{ app.user.username }} 
+                                <i class="caret"></i>
+                            </span>
+                            <img src="{{ asset('assets/data/uploads/profile/testuser_small.png') }}">
+                        </a>
                         <!-- <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">User<i class="caret"></i></span></a> -->
                         <ul class="dropdown-menu " role="menu">
                             <li><a href="{{ url('fos_user_profile_show') }}"><i class="glyphicon glyphicon-home"></i>Profile</a></li>

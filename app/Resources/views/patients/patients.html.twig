@@ -75,7 +75,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#" class="font-red" title="">
+                                    <a id="delete_patients" href="#" class="font-red" title="">
                                         <i class="fa fa-times" icon_9=""></i>
                                         Delete
                                     </a>
@@ -92,10 +92,21 @@
                 <!--/patients_toolbar-->
 
                 <!--patients_gallery-->
-                <table class="table">
+                <table class="table" data-click-to-select="true">
+                    <thead>
+                        <tr class="check_patient hidden">
+                            <th data-field="state" data-checkbox="true">
+                                <input name="btSelectAll" type="checkbox">
+                            </th>
+                            <th colspan="3"></th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {% for i in [1,2,3,4,5,6,7,8,9] %}
-                            <tr url="{{ url('patients_show', {'patient': i}) }}" class="table-row patient">
+                            <tr url="{{ url('patients_show', {'patient': i}) }}" data-index="{{ i }}" class="table-row patient">
+                                <td class="bs-checkbox check_patient hidden">
+                                    <input name="btSelectItem" type="checkbox">
+                                </td>
                                 <td class="table-img">
                                     <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="" />
                                 </td>
@@ -106,13 +117,13 @@
                                 <td>
                                     <span class="fam">Family</span>
                                 </td>
-                                <td class="march">
+                                {#<td class="march">
                                     in 5 days 
                                 </td>
 
                                 <td >
                                     <i class="fa fa-star-half-o icon-state-warning"></i>
-                                </td>
+                                </td>#}
                             </tr>
                         {% endfor %}
                         {#<tr class="table-row">
