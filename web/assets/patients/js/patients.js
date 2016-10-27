@@ -8,8 +8,19 @@ $(document).ready(function () {
     
     $('#delete_patients').click(function(){
         show_patients_checkbox();
-        remove_click_listener('.patient > :not(.bs-checkbox)');
+        remove_click_listener('.patient > :not(.bs-checkbox input)');
         add_checkbox_listener();
+    });
+    
+    $("#form_new_patient").submit(function(e){
+        e.preventDefault();
+        var formSerialize = $(this).serialize();
+        $.post($(this).attr('url'), formSerialize, function(response){
+            alert(response.status);
+            if(response.status == 'success'){
+                window.location.href = response.action;
+            }
+        },'JSON');
     });
 });
 

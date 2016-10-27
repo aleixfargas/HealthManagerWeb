@@ -75,7 +75,7 @@
                                 </li>
 
                                 <li>
-                                    <a id="delete_patients" href="#" class="font-red" title="">
+                                    <a id="delete_patients" class="font-red" title="">
                                         <i class="fa fa-times" icon_9=""></i>
                                         Delete
                                     </a>
@@ -92,7 +92,7 @@
                 <!--/patients_toolbar-->
 
                 <!--patients_gallery-->
-                <table class="table" data-click-to-select="true">
+                <table class="table">
                     <thead>
                         <tr class="check_patient hidden">
                             <th data-field="state" data-checkbox="true">
@@ -117,13 +117,6 @@
                                 <td>
                                     <span class="fam">Family</span>
                                 </td>
-                                {#<td class="march">
-                                    in 5 days 
-                                </td>
-
-                                <td >
-                                    <i class="fa fa-star-half-o icon-state-warning"></i>
-                                </td>#}
                             </tr>
                         {% endfor %}
                         {#<tr class="table-row">

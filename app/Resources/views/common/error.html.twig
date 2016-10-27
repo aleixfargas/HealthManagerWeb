@@ -1,0 +1,17 @@
+{% block error %}
+    {% if error is defined and error %}
+        <!--error-->
+{#        <div class="container-fluid">#}
+            <div id="alert-error" class="alert alert-danger error">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Warning</strong> {{ error_message }}
+            </div>
+{#        </div>#}
+        <!--//error-->
+    {% endif %}
+{% endblock %}
+
+{% block javascrits_error %}
+    <script src="{{ asset('js/error.js', 'base') }}"></script>
+{% endblock %}
+    

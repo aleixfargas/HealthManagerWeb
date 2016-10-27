@@ -4,11 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Patients
  *
  * @ORM\Table(name="patients")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PatientsRepository")
+ * @UniqueEntity("dni", message="Dni already exists!")
  */
 class Patients
 {
