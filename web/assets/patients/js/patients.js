@@ -12,16 +12,7 @@ $(document).ready(function () {
         add_checkbox_listener();
     });
     
-    $("#form_new_patient").submit(function(e){
-        e.preventDefault();
-        var formSerialize = $(this).serialize();
-        $.post($(this).attr('url'), formSerialize, function(response){
-            alert(response.status);
-            if(response.status == 'success'){
-                window.location.href = response.action;
-            }
-        },'JSON');
-    });
+    add_listener_form_new_patient();
 });
 
 function show_patients_checkbox(){
@@ -40,4 +31,23 @@ function add_checkbox_listener(){
         $(this).children('.bs-checkbox > :checkbox').checked = true;
         alert(patient_id);
     })
+}
+
+function add_listener_form_new_patient(){
+    $("#form_new_patient").submit(function(e){
+        e.preventDefault();
+        var formSerialize = $(this).serialize();
+        $.post($(this).attr('url'), formSerialize, function(response){
+            if(response.status == 'success'){
+                window.location.href = response.action;
+            } else {
+                refresh_form_new_patient(response.action);
+            }
+        },'JSON');
+    });
+}
+
+function refresh_form_new_patient(html){
+    $('#patient_addnew_modal').html(html);
+    add_listener_form_new_patient();
 }

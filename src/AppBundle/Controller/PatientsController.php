@@ -29,11 +29,13 @@ class PatientsController extends Controller
      */
     public function indexAction($form = false)
     {
+        $patients_list = $this->get_all_patients();
+        
         if($form === false){
             $patients = new Patients();
             $form = $this->createForm(PatientsType::class, $patients,
                 array(
-                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
+                    'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
 //                    'action' => $this->generateUrl('patients_save'),
 //                    'method' => 'POST',
                 )
@@ -45,6 +47,7 @@ class PatientsController extends Controller
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'form' => $form->createView(),
+                'patients_list' => $patients_list,
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>'#', 'name'=>$this->getTranslatedSectionName()]
@@ -60,64 +63,100 @@ class PatientsController extends Controller
         $logger = $this->get('logger');
 
         $result = 'error';
-        $action = 0;
+        $action = 'Unknown error';
 
         $patients = new Patients();
         $form = $this->createForm(PatientsType::class, $patients,
             array(
                 'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
-//                'action' => $this->generateUrl('patients_save'),
-//                'method' => 'POST',
             )
         );
         
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $patients = $form->getData();
-
+            $patient = $form->getData();
+            
             try {
-                $logger->info('Trace Doctrine OK');
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($patients);
                 $em->flush();
-                $action = $this->generateUrl('patients_show', ['patient'=>$patients->getId()]);
+                $action = $this->generateUrl('patients_show', ['patient'=>$patient->getId()]);
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
-                $this->error_message = $e->getMessage();
+                $logger->error($e->getMessage());
             }
         } else {
-            $logger->info('Trace unique exception');
-            $action = $form->createView();
+            $action = $this->render(
+                'patients/add_patients.html.twig', array(
+                    'form' => $form->createView(),
+                )
+            )->getContent();
+            
+            $form->createView();
         }
-                
-        $logger->info('result = ' . $result);
-        $logger->info('action = ' . $action);
 
         $response = json_encode(array('status'=>$result, 'action'=>$action));
-        
-        if($response) $logger->info('Response = ' . $response);
-        else $logger->info('json_decode returns false!');
-        
         return new Response($response);
     }
 
     /**
-     * @Route("/patients/{patient}", name="patients_show")
+     * @Route("/patients/{patient_id}", name="patients_show")
      */
-    public function showPatientAction($patient)
+    public function showPatientAction($patient_id)
     {
+        $patient = $this->get_patient($patient_id);
+        
         return $this->render(
             'patients/show_patients.html.twig', array(
-                'patient_id'=>$patient,
+                'patient'=>$patient,
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('patients'), 'name'=>$this->getTranslatedSectionName()],
-                    ['url'=>'#','name'=>$patient]
+                    ['url'=>'#','name'=>$patient->getName()]
                 ]
             )
         );
+    }
+    
+    //================== PRIVATE METHODS ===================
+    /**
+     * Method to get all the patients
+     * 
+     * @return array Containing all patients
+     * @throws Exception NotFoundException
+     */
+    private function get_all_patients(){
+        $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
+        $patients_list = $patients_repository->findAll();
+
+        if (!$patients_list) {
+            throw $this->createNotFoundException(
+                'No patients found'
+            );
+        }
+        
+        return $patients_list;
+    }
+    /**
+     * Method to get the patient that match with the id
+     * 
+     * @param Integer $patient_id Containing patient id
+     * @return Entity Containing the patient
+     * @throws Exception NotFoundException
+     */
+    private function get_patient($patient_id){
+        $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
+        $patient = $patients_repository->find($patient_id);
+
+        if (!$patient) {
+            throw $this->createNotFoundException(
+                'No patient found'
+            );
+        }
+        
+        return $patient;
     }
 }

@@ -4,7 +4,7 @@
     <div class="typo-grid">
         <div class="typo-1">
             <div class="grid_3 grid_4">
-                <h2>Patient {{ patient_id }}</h2>
+                <h2>{{ patient.name }} {{ patient.surname }}</h2>
                 <br />
                 <div class="profile-bottom-top">
                     <div class="col-md-3 profile-bottom-img">
@@ -16,7 +16,7 @@
                             <tr>
                                 <td>Name</td>
                                 <td>:</td>  
-                                <td>Lorem Ipsum</td>
+                                <td>{{ patient.name }}</td>
                             </tr>
                             <tr>
                                 <td>Address</td>

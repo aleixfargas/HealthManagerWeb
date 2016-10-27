@@ -28,7 +28,7 @@
                             <!--/folders-->
                             <!--AddNew User-->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew"><i class="glyphicon glyphicon-plus"></i></button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew_modal"><i class="glyphicon glyphicon-plus"></i></button>
                             </div>
                             <!--/AddNew User-->
                             <!--Labels-->
@@ -102,8 +102,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for i in [1,2,3,4,5,6,7,8,9] %}
-                            <tr url="{{ url('patients_show', {'patient': i}) }}" data-index="{{ i }}" class="table-row patient">
+                        {% for patient in patients_list %}
+                            <tr url="{{ url('patients_show', {'patient_id': patient.id}) }}" data-index="{{ patient.id }}" class="table-row patient">
                                 <td class="bs-checkbox check_patient hidden">
                                     <input name="btSelectItem" type="checkbox">
                                 </td>
@@ -111,7 +111,7 @@
                                     <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="" />
                                 </td>
                                 <td class="table-text">
-                                    <h6>Pacient {{ i }}</h6>
+                                    <h6>{{ patient.name }} {{ patient.surname }}</h6>
                                     <p>LoremIpsum asdjsad asddsaas saddas asddsaasdds</p>
                                 </td>
                                 <td>
@@ -331,7 +331,9 @@
                     </tbody>
                 </table>
                 <!--/patients_gallery-->
-                {% include 'patients/add_patients.html.twig' %}
+                <div class="modal fade" id="patient_addnew_modal" role="dialog">
+                    {% include 'patients/add_patients.html.twig' %}
+                </div>
             </div>
         </div>
     </div>
