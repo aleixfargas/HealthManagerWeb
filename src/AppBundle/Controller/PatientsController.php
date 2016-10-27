@@ -27,20 +27,10 @@ class PatientsController extends Controller
     /**
      * @Route("/patients", name="patients")
      */
-    public function indexAction($form = false)
+    public function indexAction()
     {
-        $patients_list = $this->get_all_patients();
-        
-        if($form === false){
-            $patients = new Patients();
-            $form = $this->createForm(PatientsType::class, $patients,
-                array(
-                    'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
-//                    'action' => $this->generateUrl('patients_save'),
-//                    'method' => 'POST',
-                )
-            );
-        }
+        $patients_list = $this->get_all_patients();        
+        $form = $this->create_addNew_patient_form();
         
         return $this->render(
             'patients/patients.html.twig', array(
@@ -65,12 +55,7 @@ class PatientsController extends Controller
         $result = 'error';
         $action = 'Unknown error';
 
-        $patients = new Patients();
-        $form = $this->createForm(PatientsType::class, $patients,
-            array(
-                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
-            )
-        );
+        $form = $this->create_addNew_patient_form();
         
         $form->handleRequest($request);
 
@@ -79,7 +64,7 @@ class PatientsController extends Controller
             
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($patients);
+                $em->persist($patient);
                 $em->flush();
                 $action = $this->generateUrl('patients_show', ['patient'=>$patient->getId()]);
                 $result = 'success';
@@ -140,6 +125,7 @@ class PatientsController extends Controller
         
         return $patients_list;
     }
+    
     /**
      * Method to get the patient that match with the id
      * 
@@ -158,5 +144,24 @@ class PatientsController extends Controller
         }
         
         return $patient;
+    }
+    
+    /**
+     * Method to get a patient form
+     * 
+     * @param Integer $patient Containing a patient Entity
+     * @return Object Containing the form
+     */
+    private function create_addNew_patient_form(){
+        $patient = new Patients();
+        $form = $this->createForm(PatientsType::class, $patient,
+            array(
+                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
+//                    'action' => $this->generateUrl('patients_save'),
+//                    'method' => 'POST',
+            )
+        );
+        
+        return $form;
     }
 }
