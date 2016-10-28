@@ -49,7 +49,7 @@ function check_uncheck_patient(patient_row_object, check){
 }
 
 function add_checkbox_listener(){
-    $('.patient').click(function(e){
+    $('#patients-table .patient').click(function(e){
         var status = checkbox_action(e, $(this).children('.bs-checkbox').children('input[type=checkbox]'));
         check_uncheck_patient(this, status);
     })
