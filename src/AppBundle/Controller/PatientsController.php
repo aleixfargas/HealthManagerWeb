@@ -11,6 +11,7 @@ use AppBundle\Form\PatientsType;
 use AppBundle\Entity\Patients;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PatientsController extends Controller
 {
@@ -25,7 +26,7 @@ class PatientsController extends Controller
     }
     
     /**
-     * @Route("/patients", name="patients")
+     * @Route("/patients", name="patients-list")
      */
     public function indexAction()
     {
@@ -47,9 +48,9 @@ class PatientsController extends Controller
     }
     
     /**
-     * @Route("/patients/save", name="patients_save")
+     * @Route("/patients/save", name="patients-save")
      */
-    public function savePatient(Request $request){
+    public function savePatientAction(Request $request){
         $logger = $this->get('logger');
 
         $result = 'error';
@@ -66,7 +67,7 @@ class PatientsController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($patient);
                 $em->flush();
-                $action = $this->generateUrl('patients_show', ['patient'=>$patient->getId()]);
+                $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
                 $logger->error($e->getMessage());
@@ -84,9 +85,34 @@ class PatientsController extends Controller
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
     }
+    
+    /**
+     * @Route("/patients/remove", name="patients-remove")
+     */
+    public function removePatientAction(Request $request){
+        $patients_array = $request->request->get('patients_array');
+        
+        $logger = $this->get('logger');
+        $result = 'error';
+        
+        foreach ($patients_array as $patient_id){
+            try {
+                $this->delete_patient($patient_id);
+                $result = 'success';
+                $action = $this->generateUrl('patients-list');
+            } catch (NotFoundHttpException $e){
+                $logger->error($e->getMessage());
+                $result = 'error';
+                $action = "Could not remove patient with id $patient_id, try again later!";
+            }
+        }
+
+        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        return new Response($response);
+    }
 
     /**
-     * @Route("/patients/{patient_id}", name="patients_show")
+     * @Route("/patients/{patient_id}", name="patients-show")
      */
     public function showPatientAction($patient_id)
     {
@@ -99,7 +125,7 @@ class PatientsController extends Controller
                 'error_message' => $this->error_message,
                 'is_section' =>true,
                 'sections' => [
-                    ['url'=>$this->generateUrl('patients'), 'name'=>$this->getTranslatedSectionName()],
+                    ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
                     ['url'=>'#','name'=>$patient->getName()]
                 ]
             )
@@ -117,11 +143,11 @@ class PatientsController extends Controller
         $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
         $patients_list = $patients_repository->findAll();
 
-        if (!$patients_list) {
-            throw $this->createNotFoundException(
-                'No patients found'
-            );
-        }
+//        if (!$patients_list) {
+//            throw $this->createNotFoundException(
+//                'No patients found'
+//            );
+//        }
         
         return $patients_list;
     }
@@ -147,6 +173,27 @@ class PatientsController extends Controller
     }
     
     /**
+     * Method to remove a patient
+     * 
+     * @param Integer $patient_id Containing patient id
+     * @return void
+     * @throws Exception NotFoundException
+     */
+    private function delete_patient($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient = $em->getRepository('AppBundle:Patients')->find($patient_id);
+
+        if (!$patient) {
+            throw $this->createNotFoundException(
+                'No patient found for id ' . $patient_id
+            );
+        }
+
+        $em->remove($patient);
+        $em->flush();
+    }
+    
+    /**
      * Method to get a patient form
      * 
      * @param Integer $patient Containing a patient Entity
@@ -156,7 +203,7 @@ class PatientsController extends Controller
         $patient = new Patients();
         $form = $this->createForm(PatientsType::class, $patient,
             array(
-                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients_save')],
+                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients-save')],
 //                    'action' => $this->generateUrl('patients_save'),
 //                    'method' => 'POST',
             )
