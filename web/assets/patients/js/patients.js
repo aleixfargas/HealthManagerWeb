@@ -28,8 +28,9 @@ function add_checkbox_listener(){
         var patient_id = $(this).attr('data-index');
         
         $(this).toggleClass('selected');
-        $(this).children('.bs-checkbox > :checkbox').checked = true;
-        alert(patient_id);
+        //$(this).children('.bs-checkbox').children('input').prop('checked', true);
+        var checkbox = $(this).children('.bs-checkbox').children('input[type=checkbox]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
     })
 }
 
