@@ -92,13 +92,15 @@
                 <!--/patients_toolbar-->
 
                 <!--patients_gallery-->
-                <table class="table">
+                <table id="patients-table" class="table">
                     <thead>
                         <tr class="check_patient hidden">
-                            <th data-field="state" data-checkbox="true">
-                                <input name="btSelectAll" type="checkbox">
+                            <th colspan="3" data-field="state" data-checkbox="true">
+                                <p id="check_all_patients"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
                             </th>
-                            <th colspan="3"></th>
+                            <th colspan="2">
+                            </th>
+
                         </tr>
                     </thead>
                     <tbody>

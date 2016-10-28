@@ -6,3 +6,7 @@
 tr.table-row:hover{
     cursor: pointer;
 }
+
+.selected {
+    background-color: #d9edf7;
+}
