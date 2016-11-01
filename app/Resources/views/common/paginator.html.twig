@@ -1,0 +1,51 @@
+{% block paginator %}
+    <!--paginator-->
+    {% if pages > 0 %}
+        {% set total_showed_pages = 5 %}
+        {% set page_offset = 2 %}
+        
+        {# Define paginator last page #}
+        {% if pages > total_showed_pages %}
+            {% if (current_page+page_offset) > pages %} 
+                {% set last_page = pages %}
+            {% elseif (current_page+page_offset) < total_showed_pages %}
+                {% set last_page = total_showed_pages %}
+            {% else %}
+                {% set last_page = current_page+page_offset %}
+            {% endif %}
+        {% else %}
+            {% set last_page = pages %}            
+        {% endif %}
+
+        {# Define paginator start page #}
+        {% if pages > total_showed_pages %}
+            {% if current_page <= page_offset %}
+                {% set start_page = 1 %}
+            {% elseif current_page+1 >= pages %}
+                {% set start_page = (pages-total_showed_pages)+1 %}
+            {% else %}
+                {% set start_page = current_page-page_offset %}
+            {% endif %}
+        {% else %}
+            {% set start_page = 1 %}
+        {% endif %}
+        <div class="text-center">
+            <ul class="pagination">
+                {% if pages > total_showed_pages %}
+                    <li><a href="{{ url('patients-list', {'page': 1}) }}">«</a></li>
+                {% endif %}
+
+                {% for page in start_page..last_page %}
+                    <li {% if page == current_page %} class="active" {% endif %}>
+                        <a href="{{ url('patients-list', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pages > total_showed_pages %}
+                    <li><a href="{{ url('patients-list', {'page': pages}) }}">»</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+    <!--/paginator-->
+{% endblock %}

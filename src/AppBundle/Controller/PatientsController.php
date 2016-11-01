@@ -12,11 +12,12 @@ use AppBundle\Entity\Patients;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PatientsController extends Controller
 {
     private $section_name = 'base.global_section_patients';
-    
+    private $maxResults = 6;
     private $error = false;
     private $error_message = '';
 
@@ -26,18 +27,28 @@ class PatientsController extends Controller
     }
     
     /**
-     * @Route("/patients", name="patients-list")
+     * @Route("/patients/list/{page}", name="patients-list")
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
-        $patients_list = $this->get_all_patients();        
+        $logger = $this->get('logger');
+        
+        list($total_patients, $patients_list) = $this->get_all_patients($page);        
         $form = $this->create_addNew_patient_form();
+        
+        $pages = ((int)($total_patients/$this->maxResults))+(($total_patients%$this->maxResults)==0? 0 : 1);
+        
+        $logger->info('Total patients = ' . $total_patients);
+        $logger->info('Pages = ' . $pages);
+        $logger->info('Current page = ' . $page);
         
         return $this->render(
             'patients/patients.html.twig', array(
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'form' => $form->createView(),
+                'pages' => $pages,
+                'current_page' => $page,
                 'patients_list' => $patients_list,
                 'is_section' =>true,
                 'sections' => [
@@ -112,7 +123,7 @@ class PatientsController extends Controller
     }
 
     /**
-     * @Route("/patients/{patient_id}", name="patients-show")
+     * @Route("/patients/show/{patient_id}", name="patients-show")
      */
     public function showPatientAction($patient_id)
     {
@@ -139,17 +150,29 @@ class PatientsController extends Controller
      * @return array Containing all patients
      * @throws Exception NotFoundException
      */
-    private function get_all_patients(){
-        $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
-        $patients_list = $patients_repository->findAll();
+    private function get_all_patients($page){
+        $limit = $this->maxResults;
+        $offset = $this->maxResults * ($page-1);
+//        $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
+//        $patients_list = $patients_repository->findAll();
 
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p
+            FROM AppBundle:Patients p
+            ORDER BY p.name ASC'
+        )->setFirstResult($offset)->setMaxResults($limit);
+
+//        $patients_list = $query->getResult();
+        $paginator = new Paginator($query);
+        
 //        if (!$patients_list) {
 //            throw $this->createNotFoundException(
 //                'No patients found'
 //            );
 //        }
         
-        return $patients_list;
+        return [$paginator->count(), $paginator->getIterator()];
     }
     
     /**

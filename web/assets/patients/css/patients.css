@@ -10,3 +10,7 @@ tr.table-row:hover{
 .selected {
     background-color: #d9edf7;
 }
+
+tr.selected:hover{
+    background-color: #d9edf1!important;
+}

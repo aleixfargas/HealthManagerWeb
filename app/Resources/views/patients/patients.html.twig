@@ -28,12 +28,17 @@
                             <!--/folders-->
                             <!--AddNew User-->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew_modal"><i class="glyphicon glyphicon-plus"></i></button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#patient_addnew_modal"><i class="glyphicon glyphicon-plus"></i> Add New Patient</button>
                             </div>
                             <!--/AddNew User-->
-                            {% if patients_list %}
-                            <!--Labels-->
-                            <div class="btn-group">
+                        </div>
+                    </div>
+                    
+                    {% if patients_list %}
+                    <div class="float-right">
+                        <!--Labels-->
+                        <div class="btn-group">
+                            {#<div class="btn-group">
                                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                     <li><a href="#">Work</a></li>
@@ -44,53 +49,47 @@
                                     <li><a href="#">Promotions</a></li>
                                     <li><a href="#">Forums</a></li>
                                 </ul>
-                            </div>
-                            {% endif %}                    
+                            </div>#}
                             <!--/Labels-->
-                        </div>
-                    </div>
-                    
-                    {% if patients_list %}
-                    <div class="float-right">
-                        <div class="dropdown">
-                            <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-cog icon_8"></i>
-                                <i class="fa fa-chevron-down icon_8"></i>
-                                <div class="ripple-wrapper"></div>
-                            </a>
-                            <ul class="dropdown-menu float-right">
-                                {#<li>
-                                    <a href="#" title="">
-                                        <i class="fa fa-pencil-square-o icon_9"></i>
-                                        Edit
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="">
-                                        <i class="fa fa-calendar icon_9"></i>
-                                        Schedule
-                                    </a>
-                                </li>#}
-                                <li>
-                                    <a href="#" title="">
-                                        <i class="fa fa-download icon_9"></i>
-                                        Download
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a id="delete_patients" class="font-red" title="">
-                                        <i class="fa fa-times" icon_9=""></i>
-                                        Delete
-                                    </a>
-                                </li>
-                            </ul>
+                            <div class="btn-group dropdown">
+                                <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i>
+                                    <i class="fa fa-chevron-down icon_8"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </a>
+                                <ul class="dropdown-menu float-right">
+                                    {#<li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-pencil-square-o icon_9"></i>
+                                            Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-calendar icon_9"></i>
+                                            Schedule
+                                        </a>
+                                    </li>#}
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-download icon_9"></i>
+                                            Download
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="delete_patients" class="font-red" title="">
+                                            <i class="fa fa-times" icon_9=""></i>
+                                            Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <div class="btn-group">
+                        {#<div class="btn-group">
                             <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
                             <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
-                        </div>
+                        </div>#}
                     </div>
                     {% endif %}                    
                 </div>
@@ -104,9 +103,9 @@
                                 <th colspan="2" data-field="state" data-checkbox="true">
                                     <p id="check_all_patients"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
                                 </th>
-                                <th></th>
+{#                                <th></th>#}
                                 <th>
-                                    <div class="btn-group-sm">
+                                    <div class="btn-group-sm pull-right">
                                         <button id="delete_patients_btn" class="btn btn-danger">Delete</button>
                                         <button id="cancel_delete_patients_btn" class="btn btn-default">Cancel</button>
                                     </div>
@@ -126,9 +125,9 @@
                                         <h6>{{ patient.name }} {{ patient.surname }}</h6>
                                         <p>LoremIpsum asdjsad asddsaas saddas asddsaasdds</p>
                                     </td>
-                                    <td>
+                                    {#<td>
                                         <span class="fam">Family</span>
-                                    </td>
+                                    </td>#}
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -141,7 +140,8 @@
                             </tr>
                         </tbody>
                     {% endif %}
-                        {#<tr class="table-row">
+                    {#
+                        <tr class="table-row">
                             <td class="table-img">
                                 <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="" />
                             </td>
@@ -349,9 +349,12 @@
                             <td >
                                 <i class="fa fa-star-half-o icon-state-warning"></i>
                             </td>
-                        </tr>#}
+                        </tr>
+                    #}
                 </table>
                 <!--/patients_gallery-->
+                {% include 'common/paginator.html.twig' %}
+
                 <div class="modal fade" id="patient_addnew_modal" role="dialog">
                     {% include 'patients/add_patients.html.twig' %}
                 </div>

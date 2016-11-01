@@ -76,19 +76,44 @@ function add_all_checkbox_listener(){
 function add_removePatient_btn_listener(){
     $('#delete_patients_btn').click(function(e){
         e.preventDefault();
-        if(patients_selected.length > 0){
-            $.post('patients/remove', {"patients_array":patients_selected}, function(response){
-                if(response.status == 'success'){
-                    window.location.href = response.action;
-                } else {
-                    alert(response.action);
-                }
-            },'JSON');
-        } else {
-            alert("First select a patient to delete");
-        }
         
-        check_uncheck_all_patients(false);
+        if(patients_selected.length > 0){
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+//                confirmButtonColor: '#3085d6',
+//                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete'
+            }).then(function() {
+                $.post('/patients/remove', {"patients_array":patients_selected}, function(response){
+                    if(response.status == 'success'){
+                        swal(
+                            'Deleted!',
+                            'The patients has been deleted.',
+                            'success'
+                        );
+                        setTimeout(function() {
+                            check_uncheck_all_patients(false);
+                            window.location.href = response.action;
+                        }, 1000);
+                    } else {
+                        swal(
+                            'Error!',
+                            response.action,
+                            'error'
+                        );
+                    }
+                },'JSON');                
+            })
+        } else {
+            swal(
+                'Error!',
+                'First select a patient to delete',
+                'error'
+            );
+        }        
     });
 }
 

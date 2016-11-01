@@ -25,7 +25,7 @@ class PatientsType extends AbstractType
             ->add('allergies')
             ->add('registerDate')
             ->add('notes')
-            ->add('save', SubmitType::class, array('label' => 'Create Patient'))
+//            ->add('save', SubmitType::class, array('label' => 'Create Patient'))
         ;
     }
 }
