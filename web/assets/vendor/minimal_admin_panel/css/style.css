@@ -2586,12 +2586,12 @@ tr.table-row {
     }
 }
 @media(max-width:404px){
-    span.name-caret {
+/*    span.name-caret {
         display: none;
-    }
-    .navbar-left-right {
+    }*/
+/*    .navbar-left-right {
         width: 74%;
-    }
+    }*/
     .navbar-left-right input[type="text"] {
         width: 80%;
     }
