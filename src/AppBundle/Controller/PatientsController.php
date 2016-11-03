@@ -43,7 +43,7 @@ class PatientsController extends Controller
         $logger->info('Current page = ' . $page);
         
         return $this->render(
-            'patients/patients.html.twig', array(
+            'patients/list_patients.html.twig', array(
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'form' => $form->createView(),
