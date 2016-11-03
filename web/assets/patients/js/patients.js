@@ -83,7 +83,7 @@ function add_removePatient_btn_listener(){
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
-//                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#d9534f',
 //                cancelButtonColor: '#d33',
                 confirmButtonText: 'Delete'
             }).then(function() {

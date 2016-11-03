@@ -28,7 +28,7 @@
                             <!--/folders-->
                             <!--AddNew User-->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#patient_addnew_modal"><i class="glyphicon glyphicon-plus"></i> Add New Patient</button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew_modal"><i class="glyphicon glyphicon-plus text-color-green"></i> Add New Patient</button>
                             </div>
                             <!--/AddNew User-->
                         </div>
@@ -97,7 +97,7 @@
 
                 <!--patients_gallery-->
                 <table id="patients-table" class="table">
-                    {% if patients_list %}
+                    {% if patients_list|length > 0  %}
                         <thead>
                             <tr class="check_patient hidden">
                                 <th colspan="2" data-field="state" data-checkbox="true">

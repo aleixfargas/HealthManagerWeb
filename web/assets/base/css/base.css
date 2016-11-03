@@ -8,6 +8,10 @@ a:hover {
     padding-bottom: 15px;
 }
 
+.text-color-green{
+    color: green;
+}
+
 @media(max-width:404px){
     .navbar-left-right{
         width: 100%;
