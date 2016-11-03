@@ -4,6 +4,7 @@ a:hover {
 
 .cursor-pointer:hover {
     cursor: pointer;
+}
 
 .my-padding-user{
     padding-top: 15px;
