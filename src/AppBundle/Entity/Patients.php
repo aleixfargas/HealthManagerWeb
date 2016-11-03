@@ -500,4 +500,3 @@ class Patients
         return $this->notes;
     }
 }
-

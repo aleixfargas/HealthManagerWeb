@@ -142,8 +142,20 @@
                             <a href="{{ url('calendar-month') }}" class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_calendar'|trans({}, 'base') }}</span></a>
                         </li>
                         <li>
-                            <a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-paperclip nav_icon "></i><span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span></a>
+                            <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-paperclip nav_icon "></i><span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span></a></li>
+{#                            
+                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-user nav_icon"></i> <span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-paperclip nav_icon "></i><span class="nav-label">List</span></a></li>
+                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-heartbeat nav_icon"></i>Allergies</a></li>
+                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-ambulance nav_icon"></i>Diseases</a></li>
+                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-hospital-o nav_icon"></i>Operations</a></li>
+                            </ul>
+#}
                         </li>
+                        <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-heartbeat nav_icon"></i>Allergies</a></li>
+                        <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-ambulance nav_icon"></i>Diseases</a></li>
+                        <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-hospital-o nav_icon"></i>Operations</a></li>
                         <li>
                             <a href="#" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-piggy-bank nav_icon"></i> <span class="nav-label">Accounting</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
