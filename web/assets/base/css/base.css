@@ -4,4 +4,19 @@ a:hover {
 
 .cursor-pointer:hover {
     cursor: pointer;
+
+.my-padding-user{
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.text-color-green{
+    color: green;
+}
+
+@media(max-width:404px){
+    .navbar-left-right{
+        width: 100%;
+    }
 }
