@@ -17,15 +17,25 @@ class PatientsType extends AbstractType
             ->add('birthday')
             ->add('job')
             ->add('photo')
-            ->add('addresses')
-            ->add('telephones')
-            ->add('emails')
-            ->add('diseases')
-            ->add('operations')
-            ->add('allergies')
-            ->add('registerDate')
-            ->add('notes')
+            ->add('PatientAddressTypeSubForm', PatientAddressType::class, new PatientAddressType())
+//            ->add('telephones')
+//            ->add('emails')
+//            ->add('diseases')
+//            ->add('operations')
+//            ->add('allergies')
+//            ->add('registerDate')
+//            ->add('notes')
 //            ->add('save', SubmitType::class, array('label' => 'Create Patient'))
         ;
+    }
+    
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Patients'
+        ));
     }
 }

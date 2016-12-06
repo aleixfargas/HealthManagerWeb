@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use ORM\OneToMany;
 use ORM\JoinColumn;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * PatientAddress
  *
@@ -26,7 +28,7 @@ class PatientAddress
 
     /**
      * @var int
-     *
+     * @Assert\Type(type="AppBundle\Entity\AddressTypes")
      * @ORM\Column(name="addressType", type="integer")
      * @ORM\ManyToOne(targetEntity="AddressTypes")
      * @ORM\JoinColumn(name="addressType", referencedColumnName="id")

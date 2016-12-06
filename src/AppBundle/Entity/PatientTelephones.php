@@ -130,4 +130,28 @@ class PatientTelephones
     {
         return $this->comments;
     }
+
+    /**
+     * Set telephoneType
+     *
+     * @param integer $telephoneType
+     *
+     * @return PatientTelephones
+     */
+    public function setTelephoneType($telephoneType)
+    {
+        $this->telephoneType = $telephoneType;
+
+        return $this;
+    }
+
+    /**
+     * Get telephoneType
+     *
+     * @return integer
+     */
+    public function getTelephoneType()
+    {
+        return $this->telephoneType;
+    }
 }

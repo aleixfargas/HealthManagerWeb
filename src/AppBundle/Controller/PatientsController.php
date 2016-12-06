@@ -8,7 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Form\PatientsType;
+use AppBundle\Form\PatientAddressType;
+use AppBundle\Form\AddressTypesType;
+
 use AppBundle\Entity\Patients;
+use AppBundle\Entity\PatientAddress;
+use AppBundle\Entity\AddressTypes;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -214,15 +219,40 @@ class PatientsController extends Controller
      * @return Object Containing the form
      */
     private function create_addNew_patient_form(){
+        $namesArray = array();
+
+        //Seguir aquests passos, assert a les entites posat...
+        //https://symfony.com/doc/current/form/embedded.html
+        
+        $repository = $this->getDoctrine()->getRepository('AppBundle:AddressTypes');
+        $all_addressTypes = $repository->findAll();
+        foreach ($all_addressTypes as $addressTypesField){
+            array_push($namesArray, $addressTypesField->getName());
+        }
+        
+        $addressTypes = new AddressTypes();
+        $patientAddress = new PatientAddress();
         $patient = new Patients();
-        $form = $this->createForm(PatientsType::class, $patient,
+        
+        $addressTypesType_subForm = $this->createForm(AddressTypesType::class, $addressTypes,
             array(
-                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients-save')],
+                'names'=>$namesArray
+            )
+        );
+        $patientAddressType_subForm = $this->createForm(PatientAddressType::class, $patientAddress
+//            array(
+//                'AddressTypesTypeSubForm' => $addressTypesType_subForm,
+//            )
+        );
+        
+        $patients_form = $this->createForm(PatientsType::class, $patient,
+            array(
+                'attr' => ['id'=>'form_new_patient', 'url'=>$this->generateUrl('patients-save')]
 //                    'action' => $this->generateUrl('patients_save'),
 //                    'method' => 'POST',
             )
         );
         
-        return $form;
+        return $patients_form;
     }
 }
