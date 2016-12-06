@@ -153,8 +153,6 @@ class PatientsController extends Controller
     private function get_all_patients($page){
         $limit = $this->maxResults;
         $offset = $this->maxResults * ($page-1);
-//        $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
-//        $patients_list = $patients_repository->findAll();
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
@@ -163,14 +161,7 @@ class PatientsController extends Controller
             ORDER BY p.name ASC'
         )->setFirstResult($offset)->setMaxResults($limit);
 
-//        $patients_list = $query->getResult();
         $paginator = new Paginator($query);
-        
-//        if (!$patients_list) {
-//            throw $this->createNotFoundException(
-//                'No patients found'
-//            );
-//        }
         
         return [$paginator->count(), $paginator->getIterator()];
     }
