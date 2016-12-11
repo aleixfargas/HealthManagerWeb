@@ -12,8 +12,8 @@ services:
         tags:
             - { name: form.type, alias: app_user_registration }
             
-    app.form.patients:
-        class: AppBundle\Form\Type\PatientsType
-        arguments: ['@security.token_storage']
-        tags:
-            - { name: form.type }
+#    app.form.patients:
+#        class: AppBundle\Form\Type\PatientsType
+#        arguments: ['@security.token_storage']
+#        tags:
+#            - { name: form.type }

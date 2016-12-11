@@ -4,6 +4,7 @@ $(document).ready(function () {
     add_show_patient_listener();
     show_patients_checkbox();
     add_form_new_patient_listener();
+    form_new_patient_datepicker();
 });
 
 //=================== LIST FUNCTIONS ===================
@@ -138,6 +139,7 @@ function add_form_new_patient_listener(){
         e.preventDefault();
         var formSerialize = $(this).serialize();
         $.post($(this).attr('url'), formSerialize, function(response){
+//            console.log(response);
             if(response.status == 'success'){
                 window.location.href = response.action;
             } else {
@@ -150,5 +152,14 @@ function add_form_new_patient_listener(){
 function refresh_form_new_patient(html){
     $('#patient_addnew_modal').html(html);
     add_form_new_patient_listener();
+}
+
+function form_new_patient_datepicker(){
+    $('#datetimepicker1').datetimepicker({
+//        pickTime: false,
+        viewMode: 'years',
+//        debug:true,
+        format: 'YYYY-MM-DD'
+    });
 }
 //=================== END FORM ADDNEW FUNCTIONS ===================

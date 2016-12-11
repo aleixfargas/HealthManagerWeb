@@ -21,9 +21,19 @@
         <!-- Jquery Files -->
         <script src="{{ asset('assets/vendor/minimal_admin_panel/js/jquery.min.js') }}"></script>
 
+        <!-- Moment Files, necessary for bootstrap-datetimepicker -->
+        <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>        
+{#        <script src="{{ asset('assets/vendor/bootstrap/js/transition.js') }}"></script>#}
+{#        <script src="{{ asset('assets/vendor/bootstrap/js/collapse.js') }}"></script>#}
+        
         <!-- Bootstrap Files -->
         <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
         <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+        <!-- bootstrap-datetimepicker -->
+        {# DOCS - http://eonasdan.github.io/bootstrap-datetimepicker/ #}
+        <script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
         
         <!-- Sweet Alert files -->
         <script src="{{ asset('assets/vendor/es6-promise/es6-promise.auto.min.js') }}"></script>

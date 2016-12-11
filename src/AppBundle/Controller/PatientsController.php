@@ -14,6 +14,14 @@ use AppBundle\Form\AddressTypesType;
 use AppBundle\Entity\Patients;
 use AppBundle\Entity\PatientAddress;
 use AppBundle\Entity\AddressTypes;
+use AppBundle\Entity\PatientEmails;
+use AppBundle\Entity\EmailTypes;
+use AppBundle\Entity\PatientTelephones;
+use AppBundle\Entity\TelephoneTypes;
+use AppBundle\Entity\PatientOperations;
+use AppBundle\Entity\Operations;
+use AppBundle\Entity\PatientAllergies;
+use AppBundle\Entity\Allergies;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,7 +47,13 @@ class PatientsController extends Controller
         $logger = $this->get('logger');
         
         list($total_patients, $patients_list) = $this->get_all_patients($page);        
-        $form = $this->create_addNew_patient_form();
+        $address_types = $this->getAddressTypes();
+        $telephone_types = $this->getTelephoneTypes();
+        $email_types = $this->getEmailTypes();
+        $diseases = $this->getDiseases();
+        $operations = $this->getOperations();
+        $allergies = $this->getAllergies();
+//        $form = $this->create_addNew_patient_form();
         
         $pages = ((int)($total_patients/$this->maxResults))+(($total_patients%$this->maxResults)==0? 0 : 1);
         
@@ -51,7 +65,13 @@ class PatientsController extends Controller
             'patients/list_patients.html.twig', array(
                 'error' => $this->error,
                 'error_message' => $this->error_message,
-                'form' => $form->createView(),
+//                'form' => $form->createView(),
+                'address_types' => $address_types,
+                'phone_types' => $telephone_types,
+                'email_types' => $email_types,
+                'diseases_types' => $diseases,
+                'operations_types' => $operations,
+                'allergies_types' => $allergies,
                 'pages' => $pages,
                 'current_page' => $page,
                 'patients_list' => $patients_list,
@@ -71,24 +91,102 @@ class PatientsController extends Controller
 
         $result = 'error';
         $action = 'Unknown error';
+        $data_correctly_formated = true;
 
-        $form = $this->create_addNew_patient_form();
-        
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $patient = $form->getData();
-            
+        //set patient values
+        $patient = new Patients();
+        $patient->setName($request->request->get('name'));
+        $patient->setSurname($request->request->get('surname'));
+        $patient->setAge($request->request->get('age'));
+        $date = $request->request->get('birthday');
+        $date = \DateTime::createFromFormat('Y-m-d', $date);
+        $patient->setBirthday($date);
+        $patient->setJob($request->request->get('job'));
+        $patient->setPhoto(FALSE);
+        $patient->setEmails(FALSE);
+        if($request->request->get('email') != null){
+            $patient->setEmails(TRUE);
+            $patientEmails = new PatientEmails();
+            $patientEmails->setEmail($request->request->get('email'));
+            $patientEmails->setEmailType($request->request->get('email_type'));
+        }
+        $patient->setAddresses(FALSE);
+        if($request->request->get('address') != null){
+            $patient->setAddresses(TRUE);
+            $patientAddress = new PatientAddress();
+            $patientAddress->setAddress($request->request->get('address'));
+            $patientAddress->setAddressType($request->request->get('address_type'));
+        }
+        $patient->setTelephones(FALSE);
+        if($request->request->get('phone') != null){
+            $patient->setTelephones(TRUE);
+            $patientTelephones = new PatientTelephones();
+            $patientTelephones->setAddress($request->request->get('phone'));
+            $patientTelephones->setAddressType($request->request->get('phone_type'));
+        }
+//        $request->request->get('diseases_type'];
+        $patient->setDiseases(FALSE);
+        $patient->setOperations(FALSE);
+        if($request->request->get('operations_type') != null){
+            $patient->setOperations(TRUE);
+            $patientOperations = new PatientOperations();
+            $patientOperations->setOperation($request->request->get('operations_type'));
+//            $patientOperations->setComments($request->request->get('allergies_comments'));
+        }
+        $patient->setAllergies(FALSE);
+        if($request->request->get('allergies_type') != null){
+            $patient->setAllergies(TRUE);
+            $patientAllergies = new PatientAllergies();
+            $patientAllergies->setAllergy($request->request->get('allergies_type'));
+//            $patientAllergies->setComments($request->request->get('allergies_comments'));
+        }
+        $patient->setNotes($request->request->get('notes'));
+        $data_correctly_formated = true;
+        if($data_correctly_formated){
+            //everything ok
             try {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($patient);
                 $em->flush();
+                
+                if($patient->getEmails() == TRUE){
+                    $patientEmails->setPatient($patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($patientEmails);
+                    $em->flush();
+                }
+                if($patient->getAddresses() == TRUE){
+                    $patientAddress->setPatient($patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($patientAddress);
+                    $em->flush();
+                }
+                if($patient->getTelephones() == TRUE){
+                    $patientTelephones->setPatient($patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($patientTelephones);
+                    $em->flush();
+                }
+                if($patient->getOperations() == TRUE){
+                    $patientOperations->setPatient($patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($patientOperations);
+                    $em->flush();
+                }
+                if($patient->getAllergies() == TRUE){
+                    $patientAllergies->setPatient($patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($patientAllergies);
+                    $em->flush();
+                }
+                
                 $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
                 $logger->error($e->getMessage());
             }
         } else {
+            //not valid
             $action = $this->render(
                 'patients/add_patients.html.twig', array(
                     'form' => $form->createView(),
@@ -101,6 +199,43 @@ class PatientsController extends Controller
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
     }
+
+//  With form submitting
+//    public function savePatientAction(Request $request){
+//        $logger = $this->get('logger');
+//
+//        $result = 'error';
+//        $action = 'Unknown error';
+//
+//        $form = $this->create_addNew_patient_form();
+//        
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $patient = $form->getData();
+//            
+//            try {
+//                $em = $this->getDoctrine()->getManager();
+//                $em->persist($patient);
+//                $em->flush();
+//                $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
+//                $result = 'success';
+//            } catch (UniqueConstraintViolationException $e){
+//                $logger->error($e->getMessage());
+//            }
+//        } else {
+//            $action = $this->render(
+//                'patients/add_patients.html.twig', array(
+//                    'form' => $form->createView(),
+//                )
+//            )->getContent();
+//            
+//            $form->createView();
+//        }
+//
+//        $response = json_encode(array('status'=>$result, 'action'=>$action));
+//        return new Response($response);
+//    }
     
     /**
      * @Route("/patients/remove", name="patients-remove")
@@ -213,6 +348,103 @@ class PatientsController extends Controller
     }
     
     /**
+     * Method to get all the address Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getAddressTypes(){
+        $address_typesArray = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:AddressTypes');
+        $all_addressTypes = $repository->findAll();
+        foreach ($all_addressTypes as $addressTypesField){
+            array_push($address_typesArray, array('id' => $addressTypesField->getId(), 'name' => $addressTypesField->getName()));
+        }
+        
+        return $address_typesArray;
+    }
+    
+    /**
+     * Method to get all the telephone Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getTelephoneTypes(){
+        $telephone_typesArray = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:TelephoneTypes');
+        $all_telephoneTypes = $repository->findAll();
+        foreach ($all_telephoneTypes as $telephoneTypesField){
+            array_push($telephone_typesArray, array('id' => $telephoneTypesField->getId(), 'name' => $telephoneTypesField->getName()));
+        }
+        
+        return $telephone_typesArray;
+    }
+    
+    /**
+     * Method to get all the email Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getEmailTypes(){
+        $email_typesArray = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:EmailTypes');
+        $all_emailTypes = $repository->findAll();
+        foreach ($all_emailTypes as $emailTypesField){
+            array_push($email_typesArray, array('id' => $emailTypesField->getId(), 'name' => $emailTypesField->getName()));
+        }
+        
+        return $email_typesArray;
+    }
+    
+    
+    /**
+     * Method to get all the diseases Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getDiseases(){
+        $diseases_Array = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Diseases');
+        $all_diseases = $repository->findAll();
+        foreach ($all_diseases as $diseasesField){
+            array_push($diseases_Array, array('id' => $diseasesField->getId(), 'name' => $diseasesField->getName(), 'characteristics' => $diseasesField->getCharacteristics()));
+        }
+        
+        return $diseases_Array;
+    }
+    
+    /**
+     * Method to get all the operations Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getOperations(){
+        $operations_Array = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Operations');
+        $all_operations = $repository->findAll();
+        foreach ($all_operations as $operationsField){
+            array_push($operations_Array, array('id' => $operationsField->getId(), 'name' => $operationsField->getName()));
+        }
+        
+        return $operations_Array;
+    }
+    
+    /**
+     * Method to get all the allergies Types
+     * 
+     * @return Array Containing all the types
+     */
+    private function getAllergies(){
+        $allergies_Array = array();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Allergies');
+        $all_allergies = $repository->findAll();
+        foreach ($all_allergies as $allergiesField){
+            array_push($allergies_Array, array('id' => $allergiesField->getId(), 'name' => $allergiesField->getName()));
+        }
+        
+        return $allergies_Array;
+    }
+    
+    /**
      * Method to get a patient form
      * 
      * @param Integer $patient Containing a patient Entity
@@ -224,11 +456,7 @@ class PatientsController extends Controller
         //Seguir aquests passos, assert a les entites posat...
         //https://symfony.com/doc/current/form/embedded.html
         
-        $repository = $this->getDoctrine()->getRepository('AppBundle:AddressTypes');
-        $all_addressTypes = $repository->findAll();
-        foreach ($all_addressTypes as $addressTypesField){
-            array_push($namesArray, $addressTypesField->getName());
-        }
+        
         
         $addressTypes = new AddressTypes();
         $patientAddress = new PatientAddress();

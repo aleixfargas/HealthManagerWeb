@@ -130,6 +130,13 @@ class Patients
     private $notes;
 
 
+    public function __construct() {
+        $format = 'Y-m-d H:i:s';
+        $date = \DateTime::createFromFormat($format, date($format));
+        $this->setRegisterDate($date);
+    }
+
+
     /**
      * Get id
      *
@@ -139,7 +146,7 @@ class Patients
     {
         return $this->id;
     }
-
+    
     /**
      * Set dni
      *

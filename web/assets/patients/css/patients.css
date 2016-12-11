@@ -14,3 +14,7 @@ tr.table-row:hover{
 tr.selected:hover{
     background-color: #d9edf1!important;
 }
+
+.datepicker div table tbody tr td span {
+    color: #333!important;
+}
