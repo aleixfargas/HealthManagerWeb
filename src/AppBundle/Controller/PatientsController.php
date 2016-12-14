@@ -121,8 +121,8 @@ class PatientsController extends Controller
         if($request->request->get('phone') != null){
             $patient->setTelephones(TRUE);
             $patientTelephones = new PatientTelephones();
-            $patientTelephones->setAddress($request->request->get('phone'));
-            $patientTelephones->setAddressType($request->request->get('phone_type'));
+            $patientTelephones->setNumber($request->request->get('phone'));
+            $patientTelephones->setTelephoneType($request->request->get('phone_type'));
         }
 //        $request->request->get('diseases_type'];
         $patient->setDiseases(FALSE);
