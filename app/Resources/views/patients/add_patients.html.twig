@@ -98,7 +98,7 @@
                         <div class="input-group">
                             <select multiple name="operations_type[]">
                                 {% for operations_type in operations_types %}
-                                    <option value="{{ operations_type.id }}">{{ operations_type.name }}</option>
+                                    <option value="{{ operations_type.id }}">{{ operations_type.name }} - {{ operations_type.characteristic }}</option>
                                 {%endfor%}
                             </select>
                         </div>
@@ -108,7 +108,7 @@
                         <div class="input-group">
                             <select multiple name="allergies_type[]">
                                 {% for allergies_type in allergies_types %}
-                                    <option value="{{ allergies_type.id }}">{{ allergies_type.name }}</option>
+                                    <option value="{{ allergies_type.id }}">{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
                                 {%endfor%}
                             </select>
                         </div>

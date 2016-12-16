@@ -98,9 +98,11 @@ class PatientsController extends Controller
         $patient->setName($request->request->get('name'));
         $patient->setSurname($request->request->get('surname'));
         $patient->setAge($request->request->get('age'));
-        $date = $request->request->get('birthday');
-        $date = \DateTime::createFromFormat('Y-m-d', $date);
-        $patient->setBirthday($date);
+        if($request->request->get('birthday') != null){
+            $date = $request->request->get('birthday');
+            $date = \DateTime::createFromFormat('Y-m-d', $date);
+            $patient->setBirthday($date);
+        }
         $patient->setJob($request->request->get('job'));
         $patient->setPhoto(FALSE);
         $patient->setEmails(FALSE);
@@ -129,16 +131,26 @@ class PatientsController extends Controller
         $patient->setOperations(FALSE);
         if($request->request->get('operations_type') != null){
             $patient->setOperations(TRUE);
-            $patientOperations = new PatientOperations();
-            $patientOperations->setOperation($request->request->get('operations_type'));
-//            $patientOperations->setComments($request->request->get('allergies_comments'));
+            $operationType = null;
+            $patientOperations = array();
+            foreach($request->request->get('operations_type') as $operationType){
+                $patientOperations_register = new PatientOperations();
+                $patientOperations_register->setOperation($operationType);
+    //            $patientOperations->setComments($request->request->get('allergies_comments'));
+                array_push($patientOperations, $patientOperations_register);
+            }
         }
         $patient->setAllergies(FALSE);
         if($request->request->get('allergies_type') != null){
             $patient->setAllergies(TRUE);
-            $patientAllergies = new PatientAllergies();
-            $patientAllergies->setAllergy($request->request->get('allergies_type'));
-//            $patientAllergies->setComments($request->request->get('allergies_comments'));
+            $allergiesType = null;
+            $patientAllergies = array();
+            foreach($request->request->get('allergies_type') as $allergiesType){
+                $patientAllergies_register = new PatientAllergies();
+                $patientAllergies_register->setAllergy($allergiesType);
+//              $patientAllergies->setComments($request->request->get('allergies_comments'));
+                array_push($patientAllergies, $patientAllergies_register);
+            }
         }
         $patient->setNotes($request->request->get('notes'));
         $data_correctly_formated = true;
@@ -168,16 +180,20 @@ class PatientsController extends Controller
                     $em->flush();
                 }
                 if($patient->getOperations() == TRUE){
-                    $patientOperations->setPatient($patient->getId());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($patientOperations);
-                    $em->flush();
+                    foreach($patientOperations as $one_patientOperations){
+                        $one_patientOperations->setPatient($patient->getId());
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($one_patientOperations);
+                        $em->flush();
+                    }
                 }
                 if($patient->getAllergies() == TRUE){
-                    $patientAllergies->setPatient($patient->getId());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($patientAllergies);
-                    $em->flush();
+                    foreach($patientAllergies as $one_patientAllergies){
+                        $one_patientAllergies->setPatient($patient->getId());
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($one_patientAllergies);
+                        $em->flush();
+                    }
                 }
                 
                 $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
@@ -267,17 +283,18 @@ class PatientsController extends Controller
      */
     public function showPatientAction($patient_id)
     {
-        $patient = $this->get_patient($patient_id);
+        // $patient_data = [patient, addresses, allergies, diseases, emails, operations, telephones]
+        $patient_data = $this->get_patient($patient_id);
         
         return $this->render(
             'patients/show_patients.html.twig', array(
-                'patient'=>$patient,
+                'patient'=>$patient_data['patient'],
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
-                    ['url'=>'#','name'=>$patient->getName()]
+                    ['url'=>'#','name'=>$patient_data['patient']->getName()]
                 ]
             )
         );
@@ -310,10 +327,17 @@ class PatientsController extends Controller
      * Method to get the patient that match with the id
      * 
      * @param Integer $patient_id Containing patient id
-     * @return Entity Containing the patient
+     * @return array Associative array of enttities, [patient, addresses, allergies, diseases, emails, operations, telephones]
      * @throws Exception NotFoundException
      */
     private function get_patient($patient_id){
+        $addresses = $this->get_patient_addresses($patient_id);
+        $allergies = $this->get_patient_allergies($patient_id);
+        $diseases = $this->get_patient_diseases($patient_id);
+        $emails = $this->get_patient_emails($patient_id);
+        $operations = $this->get_patient_operations($patient_id);
+        $telephones = $this->get_patient_telephones($patient_id);
+        
         $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
         $patient = $patients_repository->find($patient_id);
 
@@ -323,17 +347,108 @@ class PatientsController extends Controller
             );
         }
         
-        return $patient;
+        return ['patient'=>$patient, 'addresses'=>$addresses, 'allergies'=>$allergies, 'diseases'=>$diseases, 'emails'=>$emails, 'operations'=>$operations, 'telephones'=>$telephones];
+    }
+    
+    private function get_patient_addresses($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAddress');
+        $patient_addresses = $repository->findByPatient($patient_id);
+
+        if (!$patient_addresses) {
+//            throw $this->createNotFoundException(
+//                'No address found'
+//            );
+            return false;
+        }
+        
+        return $patient_addresses;
+    }
+    
+    private function get_patient_allergies($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAllergies');
+        $patient_allergies = $repository->findByPatient($patient_id);
+
+        if (!$patient_allergies) {
+//            throw $this->createNotFoundException(
+//                'No allergies found'
+//            );
+            return false;
+        }
+        
+        return $patient_allergies;
+    }
+    
+    private function get_patient_diseases($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientDiseases');
+        $patient_diseases = $repository->findByPatient($patient_id);
+
+        if (!$patient_diseases) {
+//            throw $this->createNotFoundException(
+//                'No diseases found'
+//            );
+            return false;
+        }
+        
+        return $patient_diseases;
+    }
+    
+    private function get_patient_emails($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientEmails');
+        $patient_emails = $repository->findByPatient($patient_id);
+
+        if (!$patient_emails) {
+//            throw $this->createNotFoundException(
+//                'No emails found'
+//            );
+            return false;
+        }
+        
+        return $patient_emails;
+    }
+    
+    private function get_patient_operations($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientOperations');
+        $patient_operations = $repository->findByPatient($patient_id);
+
+        if (!$patient_operations) {
+//            throw $this->createNotFoundException(
+//                'No operations found'
+//            );
+            return false;
+        }
+        
+        return $patient_operations;
+    }
+
+    private function get_patient_telephones($patient_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:PatientTelephones');
+        $patient_telephones = $repository->findByPatient($patient_id);
+
+        if (!$patient_telephones) {
+//            throw $this->createNotFoundException(
+//                'No telephones found'
+//            );
+            return false;
+        }
+        
+        return $patient_telephones;
     }
     
     /**
-     * Method to remove a patient
+     * Methods to remove a patient
      * 
      * @param Integer $patient_id Containing patient id
      * @return void
      * @throws Exception NotFoundException
      */
     private function delete_patient($patient_id){
+        $this->delete_patient_addresses($patient_id);
+        $this->delete_patient_allergies($patient_id);
+        $this->delete_patient_diseases($patient_id);
+        $this->delete_patient_emails($patient_id);
+        $this->delete_patient_operations($patient_id);
+        $this->delete_patient_telephones($patient_id);
+        
         $em = $this->getDoctrine()->getManager();
         $patient = $em->getRepository('AppBundle:Patients')->find($patient_id);
 
@@ -344,6 +459,108 @@ class PatientsController extends Controller
         }
 
         $em->remove($patient);
+        $em->flush();
+    }
+    
+    private function delete_patient_addresses($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_addresses = $em->getRepository('AppBundle:PatientAddress')->findByPatient($patient_id);
+        
+        if (!$patient_addresses) {
+//            throw $this->createNotFoundException(
+//                'No patient Addresses found for id ' . $patient_id
+//            );
+            return false;
+        }
+        foreach($patient_addresses as $register){
+            $em->remove($register);
+        }
+        $em->flush();
+    }
+    
+    private function delete_patient_allergies($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_allergies = $em->getRepository('AppBundle:PatientAllergies')->findByPatient($patient_id);
+        
+        if (!$patient_allergies) {
+//            throw $this->createNotFoundException(
+//                'No patient Allergies found for id ' . $patient_id
+//            );
+            return false;
+        }
+        
+        foreach($patient_allergies as $register){
+            $em->remove($register);
+        }
+        $em->flush();
+    }
+    
+    private function delete_patient_diseases($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_diseases = $em->getRepository('AppBundle:PatientDiseases')->findByPatient($patient_id);
+        
+        if (!$patient_diseases) {
+//            throw $this->createNotFoundException(
+//                'No patient Diseases found for id ' . $patient_id
+//            );
+            return false;
+        }
+
+        foreach($patient_diseases as $register){
+            $em->remove($register);
+        }
+        $em->flush();
+    }
+    
+    private function delete_patient_emails($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_emails = $em->getRepository('AppBundle:PatientEmails')->findByPatient($patient_id);
+        
+        if (!$patient_emails) {
+//            throw $this->createNotFoundException(
+//                'No patient Emails found for id ' . $patient_id
+//            );
+            return false;
+
+        }
+
+        foreach($patient_emails as $register){
+            $em->remove($register);
+        }
+        $em->flush();
+    }
+    
+    private function delete_patient_operations($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_operations = $em->getRepository('AppBundle:PatientOperations')->findByPatient($patient_id);
+        
+        if (!$patient_operations) {
+//            throw $this->createNotFoundException(
+//                'No patient Operations found for id ' . $patient_id
+//            );
+            return false;
+        }
+
+        foreach($patient_operations as $register){
+            $em->remove($register);
+        }
+        $em->flush();
+    }
+    
+    private function delete_patient_telephones($patient_id){
+        $em = $this->getDoctrine()->getManager();
+        $patient_telephones = $em->getRepository('AppBundle:PatientTelephones')->findByPatient($patient_id);
+        
+        if (!$patient_telephones) {
+//            throw $this->createNotFoundException(
+//                'No patient Operations found for id ' . $patient_id
+//            );
+            return false;
+        }
+
+        foreach($patient_telephones as $register){
+            $em->remove($register);
+        }
         $em->flush();
     }
     
@@ -422,7 +639,7 @@ class PatientsController extends Controller
         $repository = $this->getDoctrine()->getRepository('AppBundle:Operations');
         $all_operations = $repository->findAll();
         foreach ($all_operations as $operationsField){
-            array_push($operations_Array, array('id' => $operationsField->getId(), 'name' => $operationsField->getName()));
+            array_push($operations_Array, array('id' => $operationsField->getId(), 'name' => $operationsField->getName(), 'characteristic' => $operationsField->getCharacteristics()));
         }
         
         return $operations_Array;
@@ -438,7 +655,7 @@ class PatientsController extends Controller
         $repository = $this->getDoctrine()->getRepository('AppBundle:Allergies');
         $all_allergies = $repository->findAll();
         foreach ($all_allergies as $allergiesField){
-            array_push($allergies_Array, array('id' => $allergiesField->getId(), 'name' => $allergiesField->getName()));
+            array_push($allergies_Array, array('id' => $allergiesField->getId(), 'name' => $allergiesField->getName(), 'characteristic' => $allergiesField->getCharacteristics()));
         }
         
         return $allergies_Array;

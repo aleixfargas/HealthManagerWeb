@@ -55,7 +55,12 @@ class PatientOperations
      * @ORM\Column(name="timestamp", type="datetime")
      */
     private $timestamp;
-
+    
+    public function __construct() {
+        $format = 'Y-m-d H:i:s';
+        $date = \DateTime::createFromFormat($format, date($format));
+        $this->setTimestamp($date);
+    }
 
     /**
      * Get id
