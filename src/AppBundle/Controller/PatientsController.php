@@ -47,12 +47,12 @@ class PatientsController extends Controller
         $logger = $this->get('logger');
         
         list($total_patients, $patients_list) = $this->get_all_patients($page);        
-        $address_types = $this->getAddressTypes();
-        $telephone_types = $this->getTelephoneTypes();
-        $email_types = $this->getEmailTypes();
-        $diseases = $this->getDiseases();
-        $operations = $this->getOperations();
-        $allergies = $this->getAllergies();
+        $address_types = $this->get_all_address_types();
+        $telephone_types = $this->get_all_telephone_types();
+        $email_types = $this->get_all_email_types();
+        $diseases = $this->get_all_diseases();
+        $operations = $this->get_all_operations();
+        $allergies = $this->get_all_allergies();
 //        $form = $this->create_addNew_patient_form();
         
         $pages = ((int)($total_patients/$this->maxResults))+(($total_patients%$this->maxResults)==0? 0 : 1);
@@ -288,7 +288,7 @@ class PatientsController extends Controller
         
         return $this->render(
             'patients/show_patients.html.twig', array(
-                'patient'=>$patient_data['patient'],
+                'patient_data'=>$patient_data,
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'is_section' =>true,
@@ -353,85 +353,199 @@ class PatientsController extends Controller
     private function get_patient_addresses($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAddress');
         $patient_addresses = $repository->findByPatient($patient_id);
-
+        
+        $address_types = array();
+        foreach($patient_addresses as $patient_address){
+            array_push($address_types, $this->get_address_types($patient_address->getAddressType()));
+        }
+        
         if (!$patient_addresses) {
 //            throw $this->createNotFoundException(
 //                'No address found'
 //            );
-            return false;
+            return [];
         }
         
-        return $patient_addresses;
+        return ['types'=>$address_types, 'patient_address'=>$patient_addresses];
+    }
+    
+    private function get_address_types($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:AddressTypes');
+        $address_types = $repository->find($type_id);
+        
+        if (!$address_types) {
+//            throw $this->createNotFoundException(
+//                'No address types found'
+//            );
+            return [];
+        }
+        
+        return $address_types;
     }
     
     private function get_patient_allergies($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAllergies');
         $patient_allergies = $repository->findByPatient($patient_id);
 
+        $allergies = array();
+        foreach($patient_allergies as $patient_allergy){
+            array_push($allergies, $this->get_allergy($patient_allergy->getAllergy()));
+        }
+        
         if (!$patient_allergies) {
 //            throw $this->createNotFoundException(
 //                'No allergies found'
 //            );
-            return false;
+            return [];
+        }
+                
+        return $allergies;
+    }
+    
+    private function get_allergy($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Allergies');
+        $allergy = $repository->find($type_id);
+        
+        if (!$allergy) {
+//            throw $this->createNotFoundException(
+//                'No address types found'
+//            );
+            return [];
         }
         
-        return $patient_allergies;
+        return $allergy;
     }
     
     private function get_patient_diseases($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientDiseases');
         $patient_diseases = $repository->findByPatient($patient_id);
 
+        $diseases = array();
+        foreach($patient_diseases as $patient_disease){
+            array_push($diseases, $this->get_diseases($patient_disease->getDisease()));
+        }
+        
         if (!$patient_diseases) {
 //            throw $this->createNotFoundException(
 //                'No diseases found'
 //            );
-            return false;
+            return [];
         }
         
-        return $patient_diseases;
+        return $diseases;
+    }
+    
+    private function get_diseases($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Diseases');
+        $diseases = $repository->find($type_id);
+        
+        if (!$diseases) {
+//            throw $this->createNotFoundException(
+//                'No diseases found'
+//            );
+            return [];
+        }
+        
+        return $diseases;
     }
     
     private function get_patient_emails($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientEmails');
         $patient_emails = $repository->findByPatient($patient_id);
-
+        
+        $email_types = array();
+        foreach($patient_emails as $patient_email){
+            array_push($email_types, $this->get_email_types($patient_email->getEmailType()));
+        }
+        
         if (!$patient_emails) {
 //            throw $this->createNotFoundException(
 //                'No emails found'
 //            );
-            return false;
+            return [];
         }
         
-        return $patient_emails;
+        return ['types'=>$email_types, 'patient_emails'=>$patient_emails];
+    }
+    
+    private function get_email_types($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:EmailTypes');
+        $email_type = $repository->find($type_id);
+        
+        if (!$email_type) {
+//            throw $this->createNotFoundException(
+//                "No email types found for type_id = {$type_id}"
+//            );
+            return [];
+        }
+        
+        return $email_type;
     }
     
     private function get_patient_operations($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientOperations');
         $patient_operations = $repository->findByPatient($patient_id);
-
+        
+        $operations = array();
+        foreach($patient_operations as $patient_operation){
+            array_push($operations, $this->get_operations($patient_operation->getOperation()));
+        }
+        
         if (!$patient_operations) {
 //            throw $this->createNotFoundException(
 //                'No operations found'
 //            );
-            return false;
+            return [];
         }
         
-        return $patient_operations;
+        return $operations;
     }
-
+ 
+    private function get_operations($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Operations');
+        $operation = $repository->find($type_id);
+        
+        if (!$operation) {
+//            throw $this->createNotFoundException(
+//                'No operation found'
+//            );
+            return [];
+        }
+        
+        return $operation;
+    }
+    
     private function get_patient_telephones($patient_id){
         $repository = $this->getDoctrine()->getRepository('AppBundle:PatientTelephones');
         $patient_telephones = $repository->findByPatient($patient_id);
-
+        
+        $telephones_types = array();
+        foreach($patient_telephones as $patient_telephone){
+            array_push($telephones_types, $this->get_telephones_types($patient_telephone->getTeleponeType()));
+        }
+        
         if (!$patient_telephones) {
 //            throw $this->createNotFoundException(
 //                'No telephones found'
 //            );
-            return false;
+            return [];
         }
         
-        return $patient_telephones;
+        return ['types'=>$telephones_types, 'patient_telephones'=>$patient_telephones];
+    }
+    
+    private function get_telephones_types($type_id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:TelephoneTypes');
+        $telephones_type = $repository->find($type_id);
+        
+        if (!$telephones_type) {
+//            throw $this->createNotFoundException(
+//                'No telephone types found'
+//            );
+            return [];
+        }
+        
+        return $telephones_type;
     }
     
     /**
@@ -569,7 +683,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getAddressTypes(){
+    private function get_all_address_types(){
         $address_typesArray = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:AddressTypes');
         $all_addressTypes = $repository->findAll();
@@ -585,7 +699,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getTelephoneTypes(){
+    private function get_all_telephone_types(){
         $telephone_typesArray = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:TelephoneTypes');
         $all_telephoneTypes = $repository->findAll();
@@ -601,7 +715,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getEmailTypes(){
+    private function get_all_email_types(){
         $email_typesArray = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:EmailTypes');
         $all_emailTypes = $repository->findAll();
@@ -618,7 +732,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getDiseases(){
+    private function get_all_diseases(){
         $diseases_Array = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:Diseases');
         $all_diseases = $repository->findAll();
@@ -634,7 +748,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getOperations(){
+    private function get_all_operations(){
         $operations_Array = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:Operations');
         $all_operations = $repository->findAll();
@@ -650,7 +764,7 @@ class PatientsController extends Controller
      * 
      * @return Array Containing all the types
      */
-    private function getAllergies(){
+    private function get_all_allergies(){
         $allergies_Array = array();
         $repository = $this->getDoctrine()->getRepository('AppBundle:Allergies');
         $all_allergies = $repository->findAll();

@@ -4,40 +4,137 @@
     <div class="typo-grid">
         <div class="typo-1">
             <div class="grid_3 grid_4">
-                <h2>{{ patient.name }} {{ patient.surname }}</h2>
+                <h2>{{ patient_data.patient.name }} {{ patient_data.patient.surname }}</h2>
                 <br />
                 <div class="profile-bottom-top">
                     <div class="col-md-3 profile-bottom-img">
                         <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
                     </div>
                     <div class="col-md-9 profile-text">
-                        <h4>Information</h4>
-                        <table>
-                            <tr>
-                                <td>Name</td>
-                                <td>:</td>  
-                                <td>{{ patient.name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Address</td>
-                                <td>:</td>  
-                                <td>C/ ajks sadjk sadjknb</td>
-                            </tr>
-                            <tr>
-                                <td>Label</td>
-                                <td>:</td>  
-                                <td>Family</td>
-                            </tr>
-                            <tr>
-                                <td>Age</td>
-                                <td>:</td>  
-                                <td>24</td>
-                            </tr>
-                        </table>
+                        <h3>Basic Information</h3>
+                        <br />
+                        <ul class="list-group">
+                           {# <li class="list-group-item">
+                                <h4 class="list-group-item-heading">Name</h4>
+                                <p class="list-group-item-text">{{ patient_data.patient.name }} {{ patient_data.patient.surname }}</p>
+                            </li>#}
+                            {% if patient_data.patient.job is not empty %}            
+                                <li class="list-group-item">
+                                    <h4 class="list-group-item-heading">Job</h4>
+                                    <p class="list-group-item-text">{{ patient_data.patient.job }}</p>
+                                </li>
+                            {% endif %}
+                            {% if patient_data.patient.age is not empty and patient_data.patient.age > 0 %}            
+                                <li class="list-group-item">
+                                    <h4 class="list-group-item-heading">Age</h4>
+                                    <p class="list-group-item-text">{{ patient_data.patient.age }}</p>
+                                </li>
+                            {% endif %}
+                            {% if patient_data.patient.birthday is not empty %}            
+                                <li class="list-group-item">
+                                    <h4 class="list-group-item-heading">Birthday</h4>
+                                    <p class="list-group-item-text">{{ patient_data.patient.birthday|date("d/m/Y", "Europe/Paris") }}</p>
+                                </li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
+                            
+            {% if patient_data.emails is not empty or patient_data.addresses is not empty or patient_data.telephones is not empty %}            
+            <div class="grid_3 grid_4">
+                <div class="col-md-12 profile-text">
+                    <h3>Contact</h3>
+                    <br />
+                    {% if patient_data.telephones is not empty %}
+                        <div class="col-md-4 col-sm-12">                        
+                            <li class="list-group-item">
+                                <h4 class="list-group-item-heading">Telephone</h4>
+                                {% set telephones_types = patient_data.telephones.types %}
+                                {% set telephones_names = patient_data.telephones.patient_telephones %}
+                                {% set telephones_num = patient_data.telephones.types|length %}
+                                {% for i in range(0, telephones_num-1) %}
+                                    <p class="list-group-item-text">
+                                        <span class="label label-primary">{{ telephones_types[i].name }}</span> <a href="tel:+{{ telephones_names[i].number }}">{{ telephones_names[i].number }}</a>
+                                    </p>
+                                </tr>
+                                {% endfor%}
+                            </li>
+                        </div>                
+                    {% endif %}
+                    {% if patient_data.emails is not empty %}            
+                        <div class="col-md-4 col-sm-12">
+                            <li class="list-group-item">
+                                <h4 class="list-group-item-heading">Email</h4>
+                                {% set email_types = patient_data.emails.types %}
+                                {% set email_names = patient_data.emails.patient_emails %}
+                                {% set email_num = patient_data.emails.types|length %}
+                                {% for i in range(0, email_num-1) %}
+                                    <p class="list-group-item-text">
+                                        <span class="label label-primary">{{ email_types[i].name }}</span> <a href="mailto:{{ email_names[i].email }}">{{ email_names[i].email }}</a>
+                                    </p>
+                                </tr>
+                                {% endfor%}
+                            </li>
+                        </div>
+                    {% endif %}
+                    {% if patient_data.addresses is not empty %}
+                        <div class="col-md-4 col-sm-12">
+                            <li class="list-group-item">
+                                <h4 class="list-group-item-heading">Address</h4>
+                                {% set address_types = patient_data.addresses.types %}
+                                {% set address_names = patient_data.addresses.patient_address %}
+                                {% set address_num = patient_data.addresses.types|length %}
+                                {% for i in range(0, address_num-1) %}
+                                    <p class="list-group-item-text">
+                                        <span class="label label-primary">{{ address_types[i].name }}</span> {{ address_names[i].address }}
+                                    </p>
+                                </tr>
+                                {% endfor%}
+                            </li>
+                        </div>
+                    {% endif %}
+                </div>                
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            
+            {% if patient_data.allergies is not empty %}
+            <div class="grid_3 grid_4">
+                <div class="col-md-12 profile-text">
+                    <h3>Allergies</h3>
+                    <br />
+                    <ul class="list-group">
+                        {% for allergy in patient_data.allergies %}
+                            <li class="list-group-item">
+                                <h4 class="list-group-item-heading">{{ allergy.name }}</h4>
+                                <p class="list-group-item-text">{{ allergy.characteristics }}</p>
+                            </li>
+                        {% endfor%}                    
+                    </ul>
+                </div>                
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            
+            {% if patient_data.operations is not empty %}
+            <div class="grid_3 grid_4">
+                <div class="col-md-12 profile-text">
+                    <h3>Operations</h3>
+                    <br />
+                    <ul class="list-group">
+                    {% for operation in patient_data.operations %}
+                        <li class="list-group-item">
+                            <h4 class="list-group-item-heading">{{ operation.name }}</h4>
+                            <p class="list-group-item-text">{{ operation.characteristics }}</p>
+                        </li>
+                    {% endfor%}
+                    </ul>
+                </div>                
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

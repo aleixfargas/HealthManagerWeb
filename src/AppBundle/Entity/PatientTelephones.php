@@ -122,13 +122,13 @@ class PatientTelephones
     }
 
     /**
-     * Get comments
+     * Get number
      *
      * @return string
      */
     public function getNumber()
     {
-        return $this->comments;
+        return $this->number;
     }
 
     /**
