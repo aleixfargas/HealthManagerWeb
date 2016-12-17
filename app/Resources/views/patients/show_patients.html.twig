@@ -51,7 +51,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a id="delete_patients" class="font-red" title="">
+                                        <a id="delete_patients_btn" class="font-red" title="">
                                             <i class="fa fa-times" icon_9=""></i>
                                             Delete
                                         </a>
@@ -206,5 +206,9 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/patients.js', 'patients') }}"></script>
+    <script>
+        patients_selected.push({{ patient_data.patient.id }});
+    </script>
     <script type="text/javascript" src="{{ asset('js/show_patients.js', 'patients') }}"></script>
 {% endblock %}
