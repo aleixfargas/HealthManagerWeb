@@ -4,8 +4,70 @@
     <div class="typo-grid">
         <div class="typo-1">
             <div class="grid_3 grid_4">
-                <h2>{{ patient_data.patient.name }} {{ patient_data.patient.surname }}</h2>
-                <br />
+                <div class="mail-toolbar clearfix">
+                    <div class="float-left">
+                        <h2>{{ patient_data.patient.name }} {{ patient_data.patient.surname }}</h2>
+                    </div>
+                    <!--patient_toolbar-->
+                    <div class="float-right">
+                        <div class="btn-group">
+                            {#<!--Labels-->
+                            <div class="btn-group">
+                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="#">Work</a></li>
+                                    <li><a href="#">Family</a></li>
+                                    <li><a href="#">Social</a></li>
+
+                                    <li><a href="#">Primary</a></li>
+                                    <li><a href="#">Promotions</a></li>
+                                    <li><a href="#">Forums</a></li>
+                                </ul>
+                            </div>
+                            <!--/Labels-->#}
+                            <div class="btn-group dropdown">
+                                <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i>
+                                    <i class="fa fa-chevron-down icon_8"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </a>
+                                <ul class="dropdown-menu float-right">
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-pencil-square-o icon_9"></i>
+                                            Edit
+                                        </a>
+                                    </li>
+                                    {#<li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-calendar icon_9"></i>
+                                            Schedule
+                                        </a>
+                                    </li>#}
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-download icon_9"></i>
+                                            Export
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="delete_patients" class="font-red" title="">
+                                            <i class="fa fa-times" icon_9=""></i>
+                                            Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {#<!-- next_patient -->
+                        <div class="btn-group">
+                            <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                            <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                        <!-- /next_patient -->#}
+                    </div>
+                    <!--/patient_toolbar-->
+                </div>
                 <div class="profile-bottom-top">
                     <div class="col-md-3 profile-bottom-img">
                         <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
@@ -33,7 +95,7 @@
                             {% if patient_data.patient.birthday is not empty %}            
                                 <li class="list-group-item">
                                     <h4 class="list-group-item-heading">Birthday</h4>
-                                    <p class="list-group-item-text">{{ patient_data.patient.birthday|date("d/m/Y", "Europe/Paris") }}</p>
+                                    <p class="list-group-item-text">{{ patient_data.patient.birthday|date("d/m/Y", "Europe/Madrid") }}</p>
                                 </li>
                             {% endif %}
                         </ul>
