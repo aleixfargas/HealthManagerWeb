@@ -148,6 +148,18 @@ class Patients
     }
     
     /**
+     * @param string $id
+     *
+     * @return Patients
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        
+        return $this->id;
+    }
+    
+    /**
      * Set dni
      *
      * @param string $dni

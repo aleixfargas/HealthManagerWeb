@@ -1,0 +1,169 @@
+{% block form_patients %}
+    {% if patient_data.patient.id is not empty %}
+        <input type="text" id="id_input" name="id" value="{{ patient_data.patient.id }}" hidden>
+    {% endif %}
+    <div class="grid_3 grid_4">
+        <div class="profile-bottom-top">
+            <div class="col-md-12">
+                <div class="col-md-6 col-xs-6">
+                    <div class="input-group">
+                        <label for="name_input">Name</label>
+                        <input type="text" class="form-control" id="name_input" name="name" value="{{ patient_data.patient.name }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <div class="input-group">
+                        <label for="surname_input">Surname</label>
+                        <input type="text" class="form-control" id="surname_input" name="surname" value="{{ patient_data.patient.surname }}" required>                                    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 profile-bottom-img">
+                <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
+            </div>
+            <div class="col-md-9 profile-text">
+                <h3>Basic Information</h3>
+                <br />
+                <div class="form-group">
+                    <label for="job_input">Job</label>
+                    <input type="text" class="form-control" id="job_input" name="job" value="{{ patient_data.patient.job }}">
+                </div>
+                <div class="form-group">
+                    <label for="age_input">Age</label>
+                    <input type="text" class="form-control" id="age_input" name="age" {% if patient_data.patient.age is not empty and patient_data.patient.age > 0 %} value="{{ patient_data.patient.age }}" {% endif %}>
+                </div>
+                <div class="form-group">
+                    <label for="birthday_input">Birthday</label>
+{#                        <input type="datetime" class="form-control" id="birthday_input" name="birthday">#}
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="birthday" {% if patient_data.patient.birthday is not empty %} value="{{ patient_data.patient.birthday|date("Y/m/d", "Europe/Madrid") }}" {% endif %}/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="grid_3 grid_4">
+        <div class="col-md-12 profile-text">
+            <h3>Contact</h3>
+            <br />
+            <div class="form-group">
+                <label>Phone</label>
+                {% if patient_data.telephones is not empty %}
+                    {% set telephones_types = patient_data.telephones.types %}
+                    {% set telephones_names = patient_data.telephones.patient_telephones %}
+                    {% set telephones_num = patient_data.telephones.types|length %}
+                {% else %}
+                    {% set telephones_num = 1 %}
+                {% endif %}
+
+                {% for i in range(0, telephones_num-1) %}                            
+                    <div class="input-group">
+                        <select name="phone_type" class="custom-select">
+                            {% for phone_type in all_phone_types %}
+                                <option value="{{ phone_type.id }}" {% if telephones_types is defined and phone_type.id == telephones_types[i].id %} selected {% endif %}>{{ phone_type.name }}</option>
+                            {%endfor%}
+                        </select>
+                        <input type="number" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
+                    </div>
+                {% endfor%}                            
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                {% if patient_data.emails is not empty %}
+                    {% set email_types = patient_data.emails.types %}
+                    {% set email_names = patient_data.emails.patient_emails %}
+                    {% set email_num = patient_data.emails.types|length %}
+                {% else %}
+                    {% set email_num = 1 %}
+                {% endif %}
+
+                {% for i in range(0, email_num-1) %}                            
+                    <div class="input-group">
+                        <select name="email_type" class="custom-select">
+                            {% for email_type in all_email_types %}
+                                <option value="{{ email_type.id }}" {% if email_types is defined and email_type.id == email_types[i].id %} selected {% endif %}>{{ email_type.name }}</option>
+                            {%endfor%}
+                        </select>
+                        <input type="email" name="email" {% if email_names is defined %} value="{{ email_names[i].email }}" {% endif %}>
+                    </div>
+                {% endfor%}                            
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                {% if patient_data.addresses is not empty %}
+                    {% set address_types = patient_data.addresses.types %}
+                    {% set address_names = patient_data.addresses.patient_address %}
+                    {% set address_num = patient_data.addresses.types|length %}
+                {% else %}
+                    {% set address_num = 1 %}
+                {% endif %}
+
+                {% for i in range(0, address_num-1) %}                            
+                    <div class="input-group">
+                        <select name="address_type" class="custom-select">
+                            {% for address_type in all_address_types %}
+                                <option value="{{ address_type.id }}" {% if address_types is defined and address_type.id == address_types[i].id %} selected {% endif %}>{{ address_type.name }}</option>
+                            {%endfor%}
+                        </select>
+                        <input type="text" name="address" {% if address_names is defined %} value="{{ address_names[i].address }}" {% endif %}>
+                    </div>
+                {% endfor%}                            
+            </div>
+        </div>                
+        <div class="clearfix"></div>
+    </div>
+
+    {% if patient_data.allergies is not empty %}
+        {% set patient_allergies_id_array = [] %}
+        {% for allergy in patient_data.allergies %}
+            {% set patient_allergies_id_array = patient_allergies_id_array|merge([allergy.id]) %}
+        {% endfor %}
+    {% endif %}
+    <div class="grid_3 grid_4">
+        <div class="col-md-12 profile-text">
+            <h3>Allergies</h3>
+            <br />
+            <div class="input-group">
+                <select multiple name="allergies_type[]">
+                    {% for allergies_type in all_allergies_types %}
+                        <option value="{{ allergies_type.id }}" {% if patient_allergies_id_array is defined and allergies_type.id in patient_allergies_id_array %} selected {% endif %}>{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>                
+        <div class="clearfix"></div>
+    </div>
+
+    {% if patient_data.operations is not empty %}
+        {% set patient_operations_id_array = [] %}
+        {% for operation in patient_data.operations %}
+            {% set patient_operations_id_array = patient_operations_id_array|merge([operation.id]) %}
+        {% endfor %}
+    {% endif %}
+    <div class="grid_3 grid_4">
+        <div class="col-md-12 profile-text">
+            <h3>Operations</h3>
+            <br />
+            <div class="input-group">
+                <select multiple name="operations_type[]">
+                    {% for operations_type in all_operations_types %}
+                        <option value="{{ operations_type.id }}" {% if patient_operations_id_array is defined and operations_type.id in patient_operations_id_array %} selected {% endif %}>{{ operations_type.name }} - {{ operations_type.characteristic }}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>                
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+{% block form_patients_stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/form_patients.css', 'patients') }}" />
+{% endblock %}
+
+{% block form_patients_javascripts %}
+    <script type="text/javascript" src="{{ asset('js/form_patients.js', 'patients') }}"></script>
+{% endblock %}

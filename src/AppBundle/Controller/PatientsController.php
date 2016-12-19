@@ -31,6 +31,14 @@ class PatientsController extends Controller
 {
     private $section_name = 'base.global_section_patients';
     private $maxResults = 6;
+    
+    private $patient = null;
+    private $patientEmails = null;
+    private $patientAddress = null;
+    private $patientTelephones = null;
+    private $patientOperations = null;
+    private $patientAllergies = null;
+    
     private $error = false;
     private $error_message = '';
 
@@ -86,117 +94,59 @@ class PatientsController extends Controller
     /**
      * @Route("/patients/save", name="patients-save")
      */
-    public function savePatientAction(Request $request){
+    public function saveNewPatientAction(Request $request){
         $logger = $this->get('logger');
 
         $result = 'error';
         $action = 'Unknown error';
         $data_correctly_formated = true;
 
-        //set patient values
-        $patient = new Patients();
-        $patient->setName($request->request->get('name'));
-        $patient->setSurname($request->request->get('surname'));
-        $patient->setAge($request->request->get('age'));
-        if($request->request->get('birthday') != null){
-            $date = $request->request->get('birthday');
-            $date = \DateTime::createFromFormat('Y-m-d', $date);
-            $patient->setBirthday($date);
-        }
-        $patient->setJob($request->request->get('job'));
-        $patient->setPhoto(FALSE);
-        $patient->setEmails(FALSE);
-        if($request->request->get('email') != null){
-            $patient->setEmails(TRUE);
-            $patientEmails = new PatientEmails();
-            $patientEmails->setEmail($request->request->get('email'));
-            $patientEmails->setEmailType($request->request->get('email_type'));
-        }
-        $patient->setAddresses(FALSE);
-        if($request->request->get('address') != null){
-            $patient->setAddresses(TRUE);
-            $patientAddress = new PatientAddress();
-            $patientAddress->setAddress($request->request->get('address'));
-            $patientAddress->setAddressType($request->request->get('address_type'));
-        }
-        $patient->setTelephones(FALSE);
-        if($request->request->get('phone') != null){
-            $patient->setTelephones(TRUE);
-            $patientTelephones = new PatientTelephones();
-            $patientTelephones->setNumber($request->request->get('phone'));
-            $patientTelephones->setTelephoneType($request->request->get('phone_type'));
-        }
-//        $request->request->get('diseases_type'];
-        $patient->setDiseases(FALSE);
-        $patient->setOperations(FALSE);
-        if($request->request->get('operations_type') != null){
-            $patient->setOperations(TRUE);
-            $operationType = null;
-            $patientOperations = array();
-            foreach($request->request->get('operations_type') as $operationType){
-                $patientOperations_register = new PatientOperations();
-                $patientOperations_register->setOperation($operationType);
-    //            $patientOperations->setComments($request->request->get('allergies_comments'));
-                array_push($patientOperations, $patientOperations_register);
-            }
-        }
-        $patient->setAllergies(FALSE);
-        if($request->request->get('allergies_type') != null){
-            $patient->setAllergies(TRUE);
-            $allergiesType = null;
-            $patientAllergies = array();
-            foreach($request->request->get('allergies_type') as $allergiesType){
-                $patientAllergies_register = new PatientAllergies();
-                $patientAllergies_register->setAllergy($allergiesType);
-//              $patientAllergies->setComments($request->request->get('allergies_comments'));
-                array_push($patientAllergies, $patientAllergies_register);
-            }
-        }
-        $patient->setNotes($request->request->get('notes'));
+        $this->build_patient_entities($request);
+        
         $data_correctly_formated = true;
         if($data_correctly_formated){
             //everything ok
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($patient);
+                $em->persist($this->patient);
                 $em->flush();
                 
-                if($patient->getEmails() == TRUE){
-                    $patientEmails->setPatient($patient->getId());
+                if($this->patient->getEmails() == TRUE){
+                    $this->patientEmails->setPatient($this->patient->getId());
                     $em = $this->getDoctrine()->getManager();
-                    $em->persist($patientEmails);
+                    $em->persist($this->patientEmails);
                     $em->flush();
                 }
-                if($patient->getAddresses() == TRUE){
-                    $patientAddress->setPatient($patient->getId());
+                if($this->patient->getAddresses() == TRUE){
+                    $this->patientAddress->setPatient($this->patient->getId());
                     $em = $this->getDoctrine()->getManager();
-                    $em->persist($patientAddress);
+                    $em->persist($this->patientAddress);
                     $em->flush();
                 }
-                if($patient->getTelephones() == TRUE){
-                    $patientTelephones->setPatient($patient->getId());
+                if($this->patient->getTelephones() == TRUE){
+                    $this->patientTelephones->setPatient($this->patient->getId());
                     $em = $this->getDoctrine()->getManager();
-                    $em->persist($patientTelephones);
+                    $em->persist($this->patientTelephones);
                     $em->flush();
                 }
-                if($patient->getOperations() == TRUE){
-                    foreach($patientOperations as $one_patientOperations){
-                        $one_patientOperations->setPatient($patient->getId());
+                if($this->patient->getOperations() == TRUE){
+                    foreach($this->patientOperations as $one_patientOperations){
+                        $one_patientOperations->setPatient($this->patient->getId());
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($one_patientOperations);
                         $em->flush();
                     }
                 }
-                if($patient->getAllergies() == TRUE){
-                    foreach($patientAllergies as $one_patientAllergies){
-                        $one_patientAllergies->setPatient($patient->getId());
+                if($this->patient->getAllergies() == TRUE){
+                    foreach($this->patientAllergies as $one_patientAllergies){
+                        $one_patientAllergies->setPatient($this->patient->getId());
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($one_patientAllergies);
                         $em->flush();
                     }
                 }
                 
-                $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
+                $action = $this->generateUrl('patients-show', ['patient_id'=>$this->patient->getId()]);
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
                 $logger->error($e->getMessage());
@@ -215,43 +165,6 @@ class PatientsController extends Controller
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
     }
-
-//  With form submitting
-//    public function savePatientAction(Request $request){
-//        $logger = $this->get('logger');
-//
-//        $result = 'error';
-//        $action = 'Unknown error';
-//
-//        $form = $this->create_addNew_patient_form();
-//        
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $patient = $form->getData();
-//            
-//            try {
-//                $em = $this->getDoctrine()->getManager();
-//                $em->persist($patient);
-//                $em->flush();
-//                $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
-//                $result = 'success';
-//            } catch (UniqueConstraintViolationException $e){
-//                $logger->error($e->getMessage());
-//            }
-//        } else {
-//            $action = $this->render(
-//                'patients/add_patients.html.twig', array(
-//                    'form' => $form->createView(),
-//                )
-//            )->getContent();
-//            
-//            $form->createView();
-//        }
-//
-//        $response = json_encode(array('status'=>$result, 'action'=>$action));
-//        return new Response($response);
-//    }
     
     /**
      * @Route("/patients/remove", name="patients-remove")
@@ -298,6 +211,178 @@ class PatientsController extends Controller
                 ]
             )
         );
+    }
+
+    /**
+     * @Route("/patients/edit/{patient_id}", name="patients-edit")
+     */
+    public function editPatientAction($patient_id)
+    {
+        // $patient_data = [patient, addresses, allergies, diseases, emails, operations, telephones]
+        $patient_data = $this->get_patient($patient_id);
+        $all_telephone_types = $this->get_all_telephone_types();
+        $all_email_types = $this->get_all_email_types();
+        $all_address_types = $this->get_all_address_types();
+        $all_allergies_types = $this->get_all_allergies();
+        $all_operations_types = $this->get_all_operations();
+        
+        return $this->render(
+            'patients/edit_patients.html.twig', array(
+                'patient_data'=>$patient_data,
+                'all_phone_types'=>$all_telephone_types,
+                'all_email_types'=>$all_email_types,
+                'all_address_types'=>$all_address_types,
+                'all_allergies_types'=>$all_allergies_types,
+                'all_operations_types'=>$all_operations_types,
+                'error' => $this->error,
+                'error_message' => $this->error_message,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
+                    ['url'=>'#','name'=>$patient_data['patient']->getName()]
+                ]
+            )
+        );
+    }
+    
+    /**
+     * @Route("/patients/save/edit", name="patients-save-edit")
+     */
+    public function saveEditPatientAction(Request $request){
+        $result = 'error';
+        $action = "No modification made";
+        $changes = false;
+        
+        $all_data_success = $this->build_patient_entities($request);
+        if($all_data_success){
+            try{
+                $current_patient = $this->get_patient($this->patient->getId());
+                
+                $em = $this->getDoctrine()->getManager();
+                $patient_to_update = $em->getRepository('AppBundle:Patients')->find($this->patient->getId());
+                
+                $newDni = $this->patient->getDni();
+                if($current_patient['patient']->getDni() != $newDni){
+                    $patient_to_update->setDni($newDni);
+                    $changes = true;
+                }
+                $newName = $this->patient->getName();
+                if($current_patient['patient']->getName() != $newName){
+                    $patient_to_update->setName($newName);
+                    $changes = true;
+                }
+                $newSurname = $this->patient->getSurname();
+                if($current_patient['patient']->getSurname() != $newSurname){
+                    $patient_to_update->setSurname($newSurname);
+                    $changes = true;
+                }
+                $newAge = $this->patient->getAge();
+                if($current_patient['patient']->getAge() != $newAge){
+                    $patient_to_update->setAge($newAge);
+                    $changes = true;
+                }
+                $newBirthday = $this->patient->getBirthday();
+                if($current_patient['patient']->getBirthday() != $newBirthday){
+                    $patient_to_update->setBirthday($newBirthday);
+                    $changes = true;
+                }
+                $newJob = $this->patient->getJob();
+                if($current_patient['patient']->getJob() != $newJob){
+                    $patient_to_update->setJob($newJob);
+                    $changes = true;
+                }
+                $newAddresses = $this->patient->getAddresses();
+                if($current_patient['patient']->getAddresses() != $newAddresses){
+                    $patient_to_update->setAddresses($newAddresses);
+                    $changes = true;
+                }
+                $newTelephones = $this->patient->getTelephones();
+                if($current_patient['patient']->getTelephones() != $newTelephones){
+                    $patient_to_update->setTelephones($newTelephones);
+                    $changes = true;
+                }
+                $newEmails = $this->patient->getEmails();
+                if($current_patient['patient']->getEmails() != $newEmails){
+                    $patient_to_update->setEmails($newEmails);
+                    $changes = true;
+                }
+                $newDiseases = $this->patient->getDiseases();
+                if($current_patient['patient']->getDiseases() != $newDiseases){
+                    $patient_to_update->setDiseases($newDiseases);
+                    $changes = true;
+                }
+                $newOperations = $this->patient->getOperations();
+                if($current_patient['patient']->getOperations() != $newOperations){
+                    $patient_to_update->setOperations($newOperations);
+                    $changes = true;
+                }
+                $newAllergies = $this->patient->getAllergies();
+                if($current_patient['patient']->getAllergies() != $newAllergies){
+                    $patient_to_update->setAllergies($newAllergies);
+                    $changes = true;
+                }
+                $newNotes = $this->patient->getNotes();
+                if($current_patient['patient']->getNotes() != $newNotes){
+                    $patient_to_update->setNotes($newNotes);
+                    $changes = true;
+                }                
+                
+                //========= Patient Telephones Update =======
+                $patientTelephones_to_update = $em->getRepository('AppBundle:PatientTelephones')->find($this->patient->getId());
+                
+                $newPhoneType = $this->patient->getTeleponeType();
+                if($current_patient['telephones']->getTeleponeType() != $newPhoneType){
+                    $patientTelephones_to_update->setTeleponeType($newPhoneType);
+                    $changes = true;
+                }
+                $newPhoneNumber = $this->patient->getNumber();
+                if($current_patient['telephones']->getNumber() != $newPhoneNumber){
+                    $patientTelephones_to_update->setNumber($newPhoneNumber);
+                    $changes = true;
+                }
+                
+                if($changes){
+                    $em->flush();
+                    $result = 'success';
+                    $action = $this->generateUrl('patients-show', ['patient_id'=>$this->patient->getId()]);
+                } else {
+                    $action = "No changes found!";                    
+                }
+
+//                            $this->patientEmails->setPatient($this->patient->getId());
+//                            $em = $this->getDoctrine()->getManager();
+//                            $em->persist($this->patientEmails);
+//                            $em->flush();
+//                            $this->patientAddress->setPatient($this->patient->getId());
+//                            $em = $this->getDoctrine()->getManager();
+//                            $em->persist($this->patientAddress);
+//                            $em->flush();
+//                            $this->patientTelephones->setPatient($this->patient->getId());
+//                            $em = $this->getDoctrine()->getManager();
+//                            $em->persist($this->patientTelephones);
+//                            $em->flush();
+//                            foreach($this->patientOperations as $one_patientOperations){
+//                                $one_patientOperations->setPatient($this->patient->getId());
+//                                $em = $this->getDoctrine()->getManager();
+//                                $em->persist($one_patientOperations);
+//                                $em->flush();
+//                            }
+//                            foreach($this->patientAllergies as $one_patientAllergies){
+//                                $one_patientAllergies->setPatient($this->patient->getId());
+//                                $em = $this->getDoctrine()->getManager();
+//                                $em->persist($one_patientAllergies);
+//                                $em->flush();
+//                            }
+
+            } catch(NotFoundException $e){
+                $action = $e->getMessage();                
+            }
+        }
+        
+        
+        
+        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        return new Response($response);
     }
     
     //================== PRIVATE METHODS ===================
@@ -774,6 +859,119 @@ class PatientsController extends Controller
         
         return $allergies_Array;
     }
+    
+    /**
+     * Method to build a patient Entity and all subEntities based on a request
+     * 
+     * @param Request $request Containing a patient form
+     * @return boolean True if success, false otherwise
+     */
+    private function build_patient_entities($request){
+        $result = true;
+        
+        $this->patient = new Patients();
+        if($request->request->get('id') != null){
+            $this->patient->setId($request->request->get('id'));            
+        }
+        $this->patient->setName($request->request->get('name'));
+        $this->patient->setSurname($request->request->get('surname'));
+        $this->patient->setAge($request->request->get('age'));
+        if($request->request->get('birthday') != null){
+            $date = $request->request->get('birthday');
+            $date = \DateTime::createFromFormat('Y-m-d', $date);
+            $this->patient->setBirthday($date);
+        }
+        $this->patient->setJob($request->request->get('job'));
+        $this->patient->setPhoto(FALSE);
+        $this->patient->setEmails(FALSE);
+        if($request->request->get('email') != null){
+            $this->patient->setEmails(TRUE);
+            $this->patientEmails = new PatientEmails();
+            $this->patientEmails->setEmail($request->request->get('email'));
+            $this->patientEmails->setEmailType($request->request->get('email_type'));
+        }
+        $this->patient->setAddresses(FALSE);
+        if($request->request->get('address') != null){
+            $this->patient->setAddresses(TRUE);
+            $this->patientAddress = new PatientAddress();
+            $this->patientAddress->setAddress($request->request->get('address'));
+            $this->patientAddress->setAddressType($request->request->get('address_type'));
+        }
+        $this->patient->setTelephones(FALSE);
+        if($request->request->get('phone') != null){
+            $this->patient->setTelephones(TRUE);
+            $this->patientTelephones = new PatientTelephones();
+            $this->patientTelephones->setNumber($request->request->get('phone'));
+            $this->patientTelephones->setTelephoneType($request->request->get('phone_type'));
+        }
+//        $request->request->get('diseases_type'];
+        $this->patient->setDiseases(FALSE);
+        $this->patient->setOperations(FALSE);
+        if($request->request->get('operations_type') != null){
+            $this->patient->setOperations(TRUE);
+            $operationType = null;
+            $this->patientOperations = array();
+            foreach($request->request->get('operations_type') as $operationType){
+                $patientOperations_register = new PatientOperations();
+                $patientOperations_register->setOperation($operationType);
+    //            $patientOperations_register->setComments($request->request->get('allergies_comments'));
+                array_push($this->patientOperations, $patientOperations_register);
+            }
+        }
+        $this->patient->setAllergies(FALSE);
+        if($request->request->get('allergies_type') != null){
+            $this->patient->setAllergies(TRUE);
+            $allergiesType = null;
+            $this->patientAllergies = array();
+            foreach($request->request->get('allergies_type') as $allergiesType){
+                $patientAllergies_register = new PatientAllergies();
+                $patientAllergies_register->setAllergy($allergiesType);
+//              $patientAllergies_register->setComments($request->request->get('allergies_comments'));
+                array_push($this->patientAllergies, $patientAllergies_register);
+            }
+        }
+        $this->patient->setNotes($request->request->get('notes'));
+        
+        return $result;
+    }
+    
+    
+//  With form submitting methods
+//    public function savePatientAction(Request $request){
+//        $logger = $this->get('logger');
+//
+//        $result = 'error';
+//        $action = 'Unknown error';
+//
+//        $form = $this->create_addNew_patient_form();
+//        
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $patient = $form->getData();
+//            
+//            try {
+//                $em = $this->getDoctrine()->getManager();
+//                $em->persist($patient);
+//                $em->flush();
+//                $action = $this->generateUrl('patients-show', ['patient_id'=>$patient->getId()]);
+//                $result = 'success';
+//            } catch (UniqueConstraintViolationException $e){
+//                $logger->error($e->getMessage());
+//            }
+//        } else {
+//            $action = $this->render(
+//                'patients/add_patients.html.twig', array(
+//                    'form' => $form->createView(),
+//                )
+//            )->getContent();
+//            
+//            $form->createView();
+//        }
+//
+//        $response = json_encode(array('status'=>$result, 'action'=>$action));
+//        return new Response($response);
+//    }
     
     /**
      * Method to get a patient form

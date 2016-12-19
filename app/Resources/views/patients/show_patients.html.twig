@@ -33,7 +33,7 @@
                                 </a>
                                 <ul class="dropdown-menu float-right">
                                     <li>
-                                        <a href="#" title="">
+                                        <a href="{{ url('patients-edit', {'patient_id': patient_data.patient.id})  }}" title="">
                                             <i class="fa fa-pencil-square-o icon_9"></i>
                                             Edit
                                         </a>
@@ -120,7 +120,6 @@
                                     <p class="list-group-item-text">
                                         <span class="label label-primary">{{ telephones_types[i].name }}</span> <a href="tel:+{{ telephones_names[i].number }}">{{ telephones_names[i].number }}</a>
                                     </p>
-                                </tr>
                                 {% endfor%}
                             </li>
                         </div>                
@@ -136,7 +135,6 @@
                                     <p class="list-group-item-text">
                                         <span class="label label-primary">{{ email_types[i].name }}</span> <a href="mailto:{{ email_names[i].email }}">{{ email_names[i].email }}</a>
                                     </p>
-                                </tr>
                                 {% endfor%}
                             </li>
                         </div>
@@ -152,7 +150,6 @@
                                     <p class="list-group-item-text">
                                         <span class="label label-primary">{{ address_types[i].name }}</span> {{ address_names[i].address }}
                                     </p>
-                                </tr>
                                 {% endfor%}
                             </li>
                         </div>
