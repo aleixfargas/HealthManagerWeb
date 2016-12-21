@@ -22,6 +22,10 @@
                 <source>base.global_section_calendar</source>
                 <target>Calendario</target>
             </trans-unit>
+            <trans-unit id="global_section_visits">
+                <source>base.global_section_visits</source>
+                <target>Visitas</target>
+            </trans-unit>
             <trans-unit id="global_section_patients">
                 <source>base.global_section_patients</source>
                 <target>Pacientes</target>

@@ -1,0 +1,133 @@
+{#{% form_theme form 'bootstrap_3_layout.html.twig' %}#}
+
+{% block add_patients %}
+    <!--Modal add_patients-->
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Patient</h4>
+            </div>
+            <form id="form_new_patient" url="{{ url('patients-save') }}">
+                <div class="modal-body">
+                    {#<div class="form-group">
+                        <label for="dni_input">Dni</label>
+                        <input type="text" class="form-control" id="dni_input" name="dni">
+                    </div>#}
+                    <div class="form-group">
+                        <label for="name_input">Name</label>
+                        <input type="text" class="form-control" id="name_input" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname_input">Surname</label>
+                        <input type="text" class="form-control" id="surname_input" name="surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age_input">Age</label>
+                        <input type="text" class="form-control" id="age_input" name="age">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday_input">Birthday</label>
+{#                        <input type="datetime" class="form-control" id="birthday_input" name="birthday">#}
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="birthday"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job_input">Job</label>
+                        <input type="text" class="form-control" id="job_input" name="job">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-group">
+                            <select name="email_type" class="custom-select">
+                                {% for email_type in email_types %}
+                                    <option value="{{ email_type.id }}">{{ email_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                            <input type="email" name="email">                    
+                        </div>
+                    </div>
+                    {#<div class="form-group">
+                        <label>Photo</label>
+                        <div class="input-group">
+                            <label class="custom-file">
+                                <input type="file" class="custom-file-input" id="photo_input" name="photo">
+                                <span class="custom-file-control"></span>
+                            </label>
+                        </div>
+                    </div>#}
+                    <div class="form-group">
+                        <label>Address</label>
+                        <div class="input-group">
+                            <select name="address_type" class="custom-select">
+                                {% for address_type in address_types %}
+                                    <option value="{{ address_type.id }}">{{ address_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                            <input type="text" name="address">                    
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <div class="input-group">
+                            <select name="phone_type" class="custom-select">
+                                {% for phone_type in phone_types %}
+                                    <option value="{{ phone_type.id }}">{{ phone_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                            <input type="number" name="phone">                    
+                        </div>
+                    </div>
+{#                    <div class="form-group">
+                        <label>Diseases</label>
+                        <div class="input-group">
+                            <select multiple name="diseases_type[]">
+                                {% for diseases_type in diseases_types %}
+                                    <option value="{{ diseases_type.id }}">{{ diseases_type.name }} - {{ diseases_type.characteristics }}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>#}
+                    <div class="form-group">
+                        <label>Operations</label>
+                        <div class="input-group">
+                            <select multiple name="operations_type[]">
+                                {% for operations_type in operations_types %}
+                                    <option value="{{ operations_type.id }}">{{ operations_type.name }} - {{ operations_type.characteristic }}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Allergies</label>
+                        <div class="input-group">
+                            <select multiple name="allergies_type[]">
+                                {% for allergies_type in allergies_types %}
+                                    <option value="{{ allergies_type.id }}">{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes_input">Notes</label>
+                        <textarea class="form-control" id="notes_input" name="notes"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-success">Create Patient</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--/Modal add_patients-->
+{% endblock %}

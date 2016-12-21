@@ -70,7 +70,7 @@
                 </div>
                 <div class="profile-bottom-top">
                     <div class="col-md-3 profile-bottom-img">
-                        <img src="{{ asset('assets/data/uploads/profile/testuser_big.png') }}" alt="">
+                        <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="">
                     </div>
                     <div class="col-md-9 profile-text">
                         <h3>Basic Information</h3>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-                            
+                                                   
             {% if patient_data.emails is not empty or patient_data.addresses is not empty or patient_data.telephones is not empty %}            
             <div class="grid_3 grid_4">
                 <div class="col-md-12 profile-text">
@@ -154,6 +154,18 @@
                             </li>
                         </div>
                     {% endif %}
+                </div>                
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            
+            
+            {% if patient_data.patient.notes is not empty %}
+            <div class="grid_3 grid_4">
+                <div class="col-md-12 profile-text">
+                    <h3>Notes</h3>
+                    <br />
+                    {{ patient_data.patient.notes }}
                 </div>                
                 <div class="clearfix"></div>
             </div>

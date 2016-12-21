@@ -91,6 +91,54 @@ class PatientsController extends Controller
         );
     }
     
+    
+    /**
+     * @Route("/patients/new", name="patients-new")
+     */
+    public function createNewPatientAction()
+    {
+        $all_telephone_types = $this->get_all_telephone_types();
+        $all_email_types = $this->get_all_email_types();
+        $all_address_types = $this->get_all_address_types();
+        $all_allergies_types = $this->get_all_allergies();
+        $all_operations_types = $this->get_all_operations();
+        
+//        return $this->render(
+//            'patients/edit_patients.html.twig', array(
+//                'patient_data'=>$patient_data,
+//                'all_phone_types'=>$all_telephone_types,
+//                'all_email_types'=>$all_email_types,
+//                'all_address_types'=>$all_address_types,
+//                'all_allergies_types'=>$all_allergies_types,
+//                'all_operations_types'=>$all_operations_types,
+//                'error' => $this->error,
+//                'error_message' => $this->error_message,
+//                'is_section' =>true,
+//                'sections' => [
+//                    ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
+//                    ['url'=>'#','name'=>$patient_data['patient']->getName()]
+//                ]
+//            )
+//        );
+        
+        return $this->render(
+            'patients/add_patients.html.twig', array(
+                'all_phone_types'=>$all_telephone_types,
+                'all_email_types'=>$all_email_types,
+                'all_address_types'=>$all_address_types,
+                'all_allergies_types'=>$all_allergies_types,
+                'all_operations_types'=>$all_operations_types,
+                'error' => $this->error,
+                'error_message' => $this->error_message,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
+                    ['url'=>'#','name'=>"Add new Patient Form"]
+                ]
+            )
+        );
+    }
+    
     /**
      * @Route("/patients/save", name="patients-save")
      */
@@ -331,14 +379,27 @@ class PatientsController extends Controller
                 
                 //========= Patient Telephones Update =======
                 if($this->patientTelephones != null){
-                    $patientTelephones_to_update = $em->getRepository('AppBundle:PatientTelephones')->find($this->patientTelephones->getId());
+                    if($this->patientTelephones->getId() != null){
+                        $patientTelephones_to_update = $em->getRepository('AppBundle:PatientTelephones')->find($this->patientTelephones->getId());
+                    } else {
+                        $patientTelephones_to_update = clone($this->patientTelephones);
+                        $em->persist($patientTelephones_to_update);
+                    }
+                    
+                    $oldPhoneType = null;
+                    $oldPhoneNumber = null;
+                    if(!empty($current_patient['telephones'])){
+                        $oldPhoneType = $current_patient['telephones']['patient_telephones'][0]->getTeleponeType();
+                        $oldPhoneNumber = $current_patient['telephones']['patient_telephones'][0]->getNumber();
+                    }
+                    
                     $newPhoneType = $this->patientTelephones->getTeleponeType();
-                    if($current_patient['telephones']['patient_telephones'][0]->getTeleponeType() != $newPhoneType){
+                    if($oldPhoneType != $newPhoneType){
                         $patientTelephones_to_update->setTeleponeType($newPhoneType);
                         $changes = true;
                     }
                     $newPhoneNumber = $this->patientTelephones->getNumber();
-                    if($current_patient['telephones']['patient_telephones'][0]->getNumber() != $newPhoneNumber){
+                    if($oldPhoneNumber != $newPhoneNumber){
                         $patientTelephones_to_update->setNumber($newPhoneNumber);
                         $changes = true;
                     }
@@ -352,13 +413,21 @@ class PatientsController extends Controller
                         $patientEmails_to_update = clone($this->patientEmails);
                         $em->persist($patientEmails_to_update);
                     }
+                    
+                    $oldEmailType = null;
+                    $oldEmailAddress = null;
+                    if(!empty($current_patient['emails'])){
+                        $oldEmailType = $current_patient['emails']['patient_emails'][0]->getEmailType();
+                        $oldEmailAddress = $current_patient['emails']['patient_emails'][0]->getEmail();
+                    }
+                    
                     $newEmailType = $this->patientEmails->getEmailType();
-                    if($current_patient['emails']['patient_emails'][0]->getEmailType() != $newEmailType){
+                    if($oldEmailType != $newEmailType){
                         $patientEmails_to_update->setEmailType($newEmailType);
                         $changes = true;
                     }
                     $newEmailAddress = $this->patientEmails->getEmail();
-                    if($current_patient['emails']['patient_emails'][0]->getEmail() != $newEmailAddress){
+                    if($oldEmailAddress != $newEmailAddress){
                         $patientEmails_to_update->setEmail($newEmailAddress);
                         $changes = true;
                     }
@@ -366,14 +435,27 @@ class PatientsController extends Controller
                 
                 //========= Patient Address Update =======
                 if($this->patientAddress != null){
-                    $patientAddress_to_update = $em->getRepository('AppBundle:patientAddress')->find($this->patientAddress->getId());
+                    if($this->patientAddress->getId() != null){
+                        $patientAddress_to_update = $em->getRepository('AppBundle:patientAddress')->find($this->patientAddress->getId());
+                    } else {
+                        $patientAddress_to_update = clone($this->patientAddress);
+                        $em->persist($patientAddress_to_update);
+                    }
+                    
+                    $oldAddressType = null;
+                    $oldAddressName = null;
+                    if(!empty($current_patient['addresses'])){
+                        $oldAddressType = $current_patient['addresses']['patient_address'][0]->getAddressType();
+                        $oldAddressName = $current_patient['addresses']['patient_address'][0]->getAddress();
+                    }
+                    
                     $newAddressType = $this->patientAddress->getAddressType();
-                    if($current_patient['addresses']['patient_address'][0]->getAddressType() != $newAddressType){
+                    if($oldAddressType != $newAddressType){
                         $patientAddress_to_update->setAddressType($newAddressType);
                         $changes = true;
                     }
                     $newAddressName = $this->patientAddress->getAddress();
-                    if($current_patient['addresses']['patient_address'][0]->getAddress() != $newAddressName){
+                    if($oldAddressName != $newAddressName){
                         $patientAddress_to_update->setAddress($newAddressName);
                         $changes = true;
                     }
@@ -1010,6 +1092,7 @@ class PatientsController extends Controller
             $this->patient->setEmails(TRUE);
             $this->patientEmails = new PatientEmails();
             $this->patientEmails->setId($request->request->get('email_id'));
+            $this->patientEmails->setPatient($this->patient->getId());
             $this->patientEmails->setEmail($request->request->get('email'));
             $this->patientEmails->setEmailType($request->request->get('email_type'));
         }
@@ -1018,6 +1101,7 @@ class PatientsController extends Controller
             $this->patient->setAddresses(TRUE);
             $this->patientAddress = new PatientAddress();
             $this->patientAddress->setId($request->request->get('address_id'));
+            $this->patientAddress->setPatient($this->patient->getId());
             $this->patientAddress->setAddress($request->request->get('address'));
             $this->patientAddress->setAddressType($request->request->get('address_type'));
         }
@@ -1026,30 +1110,33 @@ class PatientsController extends Controller
             $this->patient->setTelephones(TRUE);
             $this->patientTelephones = new PatientTelephones();
             $this->patientTelephones->setId($request->request->get('phone_id'));
+            $this->patientTelephones->setPatient($this->patient->getId());
             $this->patientTelephones->setNumber($request->request->get('phone'));
             $this->patientTelephones->setTelephoneType($request->request->get('phone_type'));
         }
 //        $request->request->get('diseases_type'];
         $this->patient->setDiseases(FALSE);
         $this->patient->setOperations(FALSE);
-        if($request->request->get('operations_type') != null){
+        if($request->request->get('operations_type') != null && $request->request->get('operations_type')[0] != -1){
             $this->patient->setOperations(TRUE);
             $operationType = null;
             $this->patientOperations = array();
             foreach($request->request->get('operations_type') as $operationType){
                 $patientOperations_register = new PatientOperations();
+                $patientOperations_register->setPatient($this->patient->getId());
                 $patientOperations_register->setOperation($operationType);
     //            $patientOperations_register->setComments($request->request->get('allergies_comments'));
                 array_push($this->patientOperations, $patientOperations_register);
             }
         }
         $this->patient->setAllergies(FALSE);
-        if($request->request->get('allergies_type') != null){
+        if($request->request->get('allergies_type') != null && $request->request->get('allergies_type')[0] != -1){
             $this->patient->setAllergies(TRUE);
             $allergiesType = null;
             $this->patientAllergies = array();
             foreach($request->request->get('allergies_type') as $allergiesType){
                 $patientAllergies_register = new PatientAllergies();
+                $patientAllergies_register->setPatient($this->patient->getId());
                 $patientAllergies_register->setAllergy($allergiesType);
 //              $patientAllergies_register->setComments($request->request->get('allergies_comments'));
                 array_push($this->patientAllergies, $patientAllergies_register);
