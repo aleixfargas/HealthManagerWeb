@@ -252,6 +252,8 @@ class PatientsController extends Controller
         $result = 'error';
         $action = "No modification made";
         $changes = false;
+
+        $logger = $this->get('logger');
         
         $all_data_success = $this->build_patient_entities($request);
         if($all_data_success){
@@ -328,17 +330,165 @@ class PatientsController extends Controller
                 }                
                 
                 //========= Patient Telephones Update =======
-                $patientTelephones_to_update = $em->getRepository('AppBundle:PatientTelephones')->find($this->patient->getId());
-                
-                $newPhoneType = $this->patient->getTeleponeType();
-                if($current_patient['telephones']->getTeleponeType() != $newPhoneType){
-                    $patientTelephones_to_update->setTeleponeType($newPhoneType);
-                    $changes = true;
+                if($this->patientTelephones != null){
+                    $patientTelephones_to_update = $em->getRepository('AppBundle:PatientTelephones')->find($this->patientTelephones->getId());
+                    $newPhoneType = $this->patientTelephones->getTeleponeType();
+                    if($current_patient['telephones']['patient_telephones'][0]->getTeleponeType() != $newPhoneType){
+                        $patientTelephones_to_update->setTeleponeType($newPhoneType);
+                        $changes = true;
+                    }
+                    $newPhoneNumber = $this->patientTelephones->getNumber();
+                    if($current_patient['telephones']['patient_telephones'][0]->getNumber() != $newPhoneNumber){
+                        $patientTelephones_to_update->setNumber($newPhoneNumber);
+                        $changes = true;
+                    }
                 }
-                $newPhoneNumber = $this->patient->getNumber();
-                if($current_patient['telephones']->getNumber() != $newPhoneNumber){
-                    $patientTelephones_to_update->setNumber($newPhoneNumber);
-                    $changes = true;
+                
+                //========= Patient Email Update =======
+                if($this->patientEmails != null){
+                    if($this->patientEmails->getId() != null){
+                        $patientEmails_to_update = $em->getRepository('AppBundle:patientEmails')->find($this->patientEmails->getId());
+                    } else {
+                        $patientEmails_to_update = clone($this->patientEmails);
+                        $em->persist($patientEmails_to_update);
+                    }
+                    $newEmailType = $this->patientEmails->getEmailType();
+                    if($current_patient['emails']['patient_emails'][0]->getEmailType() != $newEmailType){
+                        $patientEmails_to_update->setEmailType($newEmailType);
+                        $changes = true;
+                    }
+                    $newEmailAddress = $this->patientEmails->getEmail();
+                    if($current_patient['emails']['patient_emails'][0]->getEmail() != $newEmailAddress){
+                        $patientEmails_to_update->setEmail($newEmailAddress);
+                        $changes = true;
+                    }
+                }
+                
+                //========= Patient Address Update =======
+                if($this->patientAddress != null){
+                    $patientAddress_to_update = $em->getRepository('AppBundle:patientAddress')->find($this->patientAddress->getId());
+                    $newAddressType = $this->patientAddress->getAddressType();
+                    if($current_patient['addresses']['patient_address'][0]->getAddressType() != $newAddressType){
+                        $patientAddress_to_update->setAddressType($newAddressType);
+                        $changes = true;
+                    }
+                    $newAddressName = $this->patientAddress->getAddress();
+                    if($current_patient['addresses']['patient_address'][0]->getAddress() != $newAddressName){
+                        $patientAddress_to_update->setAddress($newAddressName);
+                        $changes = true;
+                    }
+                }
+                
+                //========= Patient Allergies Update =======
+                if($this->patientAllergies != null){
+                    $logger->info("TRACE 0");
+                    $patientAllergy_to_update = array();
+
+                    $i = 0;
+                    $n = 0;
+                    $patientEntities_to_keep = array();
+                    $current_allergies_num = count($current_patient['allergies']);
+                    $new_allergies_num = count($this->patientAllergies);
+                    $logger->info("Start, counting newAllergies = {$new_allergies_num}");
+                    for($n = 0; $n < $new_allergies_num; $n++){
+                        $patientEntityFound = false;
+                        $newEntity = $this->patientAllergies[$n];
+                        $newAllergy = $newEntity->getAllergy();
+                        $logger->info("Searching new Allergy {$newAllergy} in current allergies...");
+                        for($i = 0; (($i < $current_allergies_num) && !$patientEntityFound); $i++){
+                            //check if the new entity is in the current patient entities
+                            $currentEntity = $current_patient['allergies'][$i];
+                            if($currentEntity->getId() == $newAllergy){
+                                //Entity found in currentPatientEntity, so we can keep it
+                                $logger->info("Found! new {$newAllergy} == current {$currentEntity->getId()}");
+                                array_push($patientEntities_to_keep, $currentEntity->getId());
+                                $patientEntityFound = true;
+                            }
+                        }
+
+                        if(!$patientEntityFound){
+                            //0 to prevent when no allergies selected
+                            if($newAllergy != -1){
+                                //Insert new patientEntity with the current Entity
+                                $logger->info("Not Found! Inserting {$newAllergy} to DB...");
+                                array_push($patientEntities_to_keep, $newAllergy);
+
+                                $patientEntity = new PatientAllergies();
+                                $patientEntity->setAllergy($newAllergy);
+                                $patientEntity->setPatient($this->patient->getId());
+                                $em->persist($patientEntity);
+                            }
+
+                            $changes = true;
+                        }
+                    }
+                
+                    $logger->info("Searching current patientAllergies to delete...");                    
+                    foreach($current_patient['allergies'] as $currentEntity){
+                        if(!in_array($currentEntity->getId(), $patientEntities_to_keep)){
+                            //delete $currentPatientEntity
+                            $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAllergies');
+                            $currentPatientEntity = $repository->findOneByAllergy($currentEntity->getId());
+                            $logger->info("Deleting PatientAllergy -> {$currentPatientEntity->getId()}...");                    
+                            $em->remove($currentPatientEntity);
+                        }
+                    }
+                }
+                
+                //========= Patient Operations Update =======
+                if($this->patientOperations != null){
+                    $logger->info("TRACE 0");
+                    $patientOperation_to_update = array();
+
+                    $i = 0;
+                    $n = 0;
+                    $patientEntities_to_keep = array();
+                    $current_operations_num = count($current_patient['operations']);
+                    $new_operations_num = count($this->patientOperations);
+                    $logger->info("Start, counting newOperations = {$new_operations_num}");
+                    for($n = 0; $n < $new_operations_num; $n++){
+                        $patientEntityFound = false;
+                        $newEntity = $this->patientOperations[$n];
+                        $newOperation = $newEntity->getOperation();
+                        $logger->info("Searching new Operation {$newOperation} in current operations...");
+                        for($i = 0; (($i < $current_operations_num) && !$patientEntityFound); $i++){
+                            //check if the new entity is in the current patient entities
+                            $currentEntity = $current_patient['operations'][$i];
+                            if($currentEntity->getId() == $newOperation){
+                                //Entity found in currentPatientEntity, so we can keep it
+                                $logger->info("Found! new {$newOperation} == current {$currentEntity->getId()}");
+                                array_push($patientEntities_to_keep, $currentEntity->getId());
+                                $patientEntityFound = true;
+                            }
+                        }
+
+                        if(!$patientEntityFound){
+                            //0 to prevent when no operations selected
+                            if($newOperation != -1){
+                                //Insert new patientEntity with the current Entity
+                                $logger->info("Not Found! Inserting {$newOperation} to DB...");
+                                array_push($patientEntities_to_keep, $newOperation);
+
+                                $patientEntity = new PatientOperations();
+                                $patientEntity->setOperation($newOperation);
+                                $patientEntity->setPatient($this->patient->getId());
+                                $em->persist($patientEntity);
+                            }
+
+                            $changes = true;
+                        }
+                    }
+
+                    $logger->info("Searching current patientOperations to delete...");                    
+                    foreach($current_patient['operations'] as $currentEntity){
+                        if(!in_array($currentEntity->getId(), $patientEntities_to_keep)){
+                            //delete $currentPatientEntity
+                            $repository = $this->getDoctrine()->getRepository('AppBundle:PatientOperations');
+                            $currentPatientEntity = $repository->findOneByOperation($currentEntity->getId());
+                            $logger->info("Deleting PatientOperation -> {$currentPatientEntity->getId()}...");                    
+                            $em->remove($currentPatientEntity);
+                        }
+                    }
                 }
                 
                 if($changes){
@@ -348,38 +498,10 @@ class PatientsController extends Controller
                 } else {
                     $action = "No changes found!";                    
                 }
-
-//                            $this->patientEmails->setPatient($this->patient->getId());
-//                            $em = $this->getDoctrine()->getManager();
-//                            $em->persist($this->patientEmails);
-//                            $em->flush();
-//                            $this->patientAddress->setPatient($this->patient->getId());
-//                            $em = $this->getDoctrine()->getManager();
-//                            $em->persist($this->patientAddress);
-//                            $em->flush();
-//                            $this->patientTelephones->setPatient($this->patient->getId());
-//                            $em = $this->getDoctrine()->getManager();
-//                            $em->persist($this->patientTelephones);
-//                            $em->flush();
-//                            foreach($this->patientOperations as $one_patientOperations){
-//                                $one_patientOperations->setPatient($this->patient->getId());
-//                                $em = $this->getDoctrine()->getManager();
-//                                $em->persist($one_patientOperations);
-//                                $em->flush();
-//                            }
-//                            foreach($this->patientAllergies as $one_patientAllergies){
-//                                $one_patientAllergies->setPatient($this->patient->getId());
-//                                $em = $this->getDoctrine()->getManager();
-//                                $em->persist($one_patientAllergies);
-//                                $em->flush();
-//                            }
-
             } catch(NotFoundException $e){
                 $action = $e->getMessage();                
             }
         }
-        
-        
         
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
@@ -412,7 +534,7 @@ class PatientsController extends Controller
      * Method to get the patient that match with the id
      * 
      * @param Integer $patient_id Containing patient id
-     * @return array Associative array of enttities, [patient, addresses, allergies, diseases, emails, operations, telephones]
+     * @return array Associative array of entities, [patient, addresses, allergies, diseases, emails, operations, telephones]
      * @throws Exception NotFoundException
      */
     private function get_patient($patient_id){
@@ -887,6 +1009,7 @@ class PatientsController extends Controller
         if($request->request->get('email') != null){
             $this->patient->setEmails(TRUE);
             $this->patientEmails = new PatientEmails();
+            $this->patientEmails->setId($request->request->get('email_id'));
             $this->patientEmails->setEmail($request->request->get('email'));
             $this->patientEmails->setEmailType($request->request->get('email_type'));
         }
@@ -894,6 +1017,7 @@ class PatientsController extends Controller
         if($request->request->get('address') != null){
             $this->patient->setAddresses(TRUE);
             $this->patientAddress = new PatientAddress();
+            $this->patientAddress->setId($request->request->get('address_id'));
             $this->patientAddress->setAddress($request->request->get('address'));
             $this->patientAddress->setAddressType($request->request->get('address_type'));
         }
@@ -901,6 +1025,7 @@ class PatientsController extends Controller
         if($request->request->get('phone') != null){
             $this->patient->setTelephones(TRUE);
             $this->patientTelephones = new PatientTelephones();
+            $this->patientTelephones->setId($request->request->get('phone_id'));
             $this->patientTelephones->setNumber($request->request->get('phone'));
             $this->patientTelephones->setTelephoneType($request->request->get('phone_type'));
         }

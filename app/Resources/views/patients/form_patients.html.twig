@@ -60,7 +60,8 @@
                     {% set telephones_num = 1 %}
                 {% endif %}
 
-                {% for i in range(0, telephones_num-1) %}                            
+                {% for i in range(0, telephones_num-1) %}
+                    {% if telephones_names is defined %} <input name="phone_id" value="{{ telephones_names[i].id }}" hidden > {% endif %}
                     <div class="input-group">
                         <select name="phone_type" class="custom-select">
                             {% for phone_type in all_phone_types %}
@@ -82,6 +83,7 @@
                 {% endif %}
 
                 {% for i in range(0, email_num-1) %}                            
+                    {% if email_names is defined %} <input name="email_id" value="{{ email_names[i].id }}" hidden >{% endif %}
                     <div class="input-group">
                         <select name="email_type" class="custom-select">
                             {% for email_type in all_email_types %}
@@ -103,6 +105,7 @@
                 {% endif %}
 
                 {% for i in range(0, address_num-1) %}                            
+                    {% if address_names is defined %} <input name="address_id" value="{{ address_names[i].id }}" hidden > {% endif %}
                     <div class="input-group">
                         <select name="address_type" class="custom-select">
                             {% for address_type in all_address_types %}
@@ -129,6 +132,7 @@
             <br />
             <div class="input-group">
                 <select multiple name="allergies_type[]">
+                    <option value="-1" {% if patient_data.allergies is empty %} selected {% elseif patient_allergies_id_array|length < 1 %} selected {% endif %}> No allergies </option>
                     {% for allergies_type in all_allergies_types %}
                         <option value="{{ allergies_type.id }}" {% if patient_allergies_id_array is defined and allergies_type.id in patient_allergies_id_array %} selected {% endif %}>{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
                     {%endfor%}
@@ -150,6 +154,7 @@
             <br />
             <div class="input-group">
                 <select multiple name="operations_type[]">
+                    <option value="-1" {% if patient_data.operations is empty %} selected {% elseif patient_operations_id_array|length < 1 %} selected {% endif %}> No operations </option>
                     {% for operations_type in all_operations_types %}
                         <option value="{{ operations_type.id }}" {% if patient_operations_id_array is defined and operations_type.id in patient_operations_id_array %} selected {% endif %}>{{ operations_type.name }} - {{ operations_type.characteristic }}</option>
                     {%endfor%}

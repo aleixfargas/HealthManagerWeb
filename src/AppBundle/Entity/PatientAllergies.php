@@ -64,6 +64,19 @@ class PatientAllergies
     }
 
     /**
+     * Set id
+     *
+     * @param Integer $id
+     * 
+     * @return PatientAllergies
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return int

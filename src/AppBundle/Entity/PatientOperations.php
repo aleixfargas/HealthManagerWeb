@@ -63,6 +63,19 @@ class PatientOperations
     }
 
     /**
+     * Set id
+     *
+     * @param Integer $id
+     * 
+     * @return patientoperations
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return int

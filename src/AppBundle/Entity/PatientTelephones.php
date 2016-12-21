@@ -50,6 +50,20 @@ class PatientTelephones
     private $number;
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return PatientTelephones
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return int

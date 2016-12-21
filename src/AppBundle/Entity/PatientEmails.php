@@ -51,6 +51,20 @@ class PatientEmails
 
     
     /**
+     * Set id
+     *
+     * @param Integer $id
+     * 
+     * @return PatientEmails
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+    
+    /**
      * Get id
      *
      * @return int
