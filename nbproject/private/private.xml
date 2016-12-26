@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/web/assets/patients/js/edit_patients.js</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/web/assets/patients/js/patients.js</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/app/Resources/views/patients/show_patients.html.twig</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/app/Resources/views/patients/form_patients.html.twig</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/src/AppBundle/Entity/PatientOperations.php</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/web/assets/patients/js/form_patients.js</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/src/AppBundle/Entity/PatientDiseases.php</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/src/AppBundle/Controller/PatientsController.php</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/web/assets/patients/css/patients.css</file>
-            <file>file:/Users/aleix/Sites/HealthManagerWeb/src/AppBundle/Entity/PatientAllergies.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

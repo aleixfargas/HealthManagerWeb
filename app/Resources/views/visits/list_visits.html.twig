@@ -1,0 +1,98 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <div class="typo-grid">
+        <div class="typo-1">
+            <div class="grid_3 grid_4">
+                <!--patients_toolbar-->
+                <div class="mail-toolbar clearfix">
+                    <div class="float-left">
+                        <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                            <!--AddNew User-->
+                            <div class="btn-group">
+{#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
+                                <a href="{{ url('patients-new') }}" class="btn btn-default"><i class="fa fa-user-plus text-color-green"></i> Add New Visit</a>
+                            </div>
+                            <!--/AddNew User-->
+                        </div>
+                    </div>
+                    
+                    {% if visits_list|length > 0 %}
+                    <div class="float-right">
+                        <!--Labels-->
+                        <div class="btn-group">
+                            <!--/Labels-->
+                            <div class="btn-group dropdown">
+                                <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i>
+                                    <i class="fa fa-chevron-down icon_8"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </a>
+                                <ul class="dropdown-menu float-right">
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-download icon_9"></i>
+                                            Download
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="delete_patients" class="font-red" title="">
+                                            <i class="fa fa-times" icon_9=""></i>
+                                            Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}                    
+                </div>
+                <!--/patients_toolbar-->
+
+                <!--patients_gallery-->
+                <table id="visits-table" class="table">
+                    {% if visits_list|length > 0  %}
+                        <thead>
+                            <tr class="check_patient hidden">
+                                <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                    <p id="check_all_patients"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                </th>
+{#                                <th></th>#}
+                                <th>
+                                    <div class="btn-group-sm pull-right">
+                                        <button id="delete_patients_btn" class="btn btn-danger">Delete</button>
+                                        <button id="cancel_delete_patients_btn" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for visit in visits_list %}
+                                <tr url="{{ url('visits-show', {'visit_id': visits.id}) }}" class="table-row visit">
+                                    <td class="bs-checkbox check_visit hidden">
+                                        <input name="btSelectItem" type="checkbox">
+                                    </td>
+                                    <td class="table-text">
+                                        <h6>{{ visit.patient }} {{ visits.surname }}</h6>
+                                        <p>LoremIpsum asdjsad asddsaas saddas asddsaasdds</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <tbody>
+                            <tr class="table-row">
+                                <td class="table-text">
+                                    <center>No visits found</center>
+                                </td>
+                            </tr>
+                        </tbody>
+                    {% endif %}
+                </table>
+                <!--/patients_gallery-->
+                {% include 'common/paginator.html.twig' %}
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
