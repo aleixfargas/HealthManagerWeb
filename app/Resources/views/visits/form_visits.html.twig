@@ -1,0 +1,85 @@
+{% block form_visits %}
+    
+    {% if visit is defined %}
+        {% set visit_id = visit.id %}
+        {% set visit_patient = visit.patient %}
+{#        {% set visit_patient_name = visit_patient_name %}#}
+        {% set visit_visitDate = visit.visitDate %}
+        {% set visit_reservationDate = visit.reservationDate %}
+        {% set visit_reason = visit.reason %}
+        {% set visit_comments = visit.comments %}
+    {% else %}
+        {% set visit_id = "" %}
+        {% set visit_patient = "" %}
+        {% set visit_patient_name = "" %}
+        {% set visit_visitDate = "" %}
+        {% set visit_reservationDate = "" %}
+        {% set visit_reason = "" %}
+        {% set visit_comments = "" %}
+    {% endif %}
+    
+    <div class="grid_3 grid_4">
+        <div class="col-md-12">
+            {% if edit is defined %}
+                <input name="visit_id" value="{{ visit_id }}" hidden>
+            {% endif %}
+            <div class="form-group">
+                <label for="patient_select">Patient</label>
+                <select class="form-control" id="patient_select" name="patient">
+                    {% if edit is not defined %}
+                        <option value="0"> - </option>
+                    {% endif %}
+                    {% for patient in all_patients %}
+                        <option value="{{ patient.id }}" {% if patient.id == visit_id %} selected {% endif %}>{{ patient.name }} {{ patient.surname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="visit_date_input">Visit Date</label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" id="visit_date_input" name="visit_date" {% if visit_visitDate is not empty %} value="{{ visit_visitDate|date("Y/m/d H:i:s", "Europe/Madrid") }}" {% endif %}/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            {% if edit is defined %}
+            <div class="form-group">
+                <label for="reservation_date_input">Reservation Date</label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" id="reservation_date_input" name="reservation_date" value="{{ visit_reservationDate|date("Y/m/d H:i:s", "Europe/Madrid") }}" disabled/>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="grid_3 grid_4">
+        <div class="col-md-12 profile-text">
+            <h3>Visit Reason</h3>
+            <br />
+            <div class="input-group">
+                <textarea class="form-control" rows="5" name="reason" {% if visit_reason is not empty %} value="{{ visit_reason }}" {% endif %}></textarea>
+            </div>
+        </div>  
+        <div class="clearfix"> </div>
+    </div>
+    <div class="grid_3 grid_4">
+        <div class="col-md-12 profile-text">
+            <h3>Visit Comments</h3>
+            <br />
+            <div class="input-group">
+                <textarea class="form-control" rows="5" name="comments" {% if visit_comments is not empty %} value="{{ visit_comments }}" {% endif %}></textarea>
+            </div>
+        </div>  
+        <div class="clearfix"> </div>
+    </div>              
+{% endblock %}
+
+{% block form_visits_stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/form_visits.css', 'visits') }}" />
+{% endblock %}
+
+{% block form_visits_javascripts %}
+    <script type="text/javascript" src="{{ asset('js/form_visits.js', 'visits') }}"></script>
+{% endblock %}

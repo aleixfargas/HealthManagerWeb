@@ -1,0 +1,106 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <div class="typo-grid">
+        <div class="typo-1">
+            <div class="grid_3 grid_4">
+                <div class="mail-toolbar clearfix">
+                    <div class="float-left">
+                        <h2>Visit <p>{{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}</p></h2>
+                    </div>
+                    <!--visit_toolbar-->
+                    <div class="float-right">
+                        <div class="btn-group">
+                            <div class="btn-group dropdown">
+                                <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i>
+                                    <i class="fa fa-chevron-down icon_8"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </a>
+                                <ul class="dropdown-menu float-right">
+                                    <li>
+                                        <a href="{{ url('visits-edit', {'visit_id': visit.id})  }}" title="">
+                                            <i class="fa fa-pencil-square-o icon_9"></i>
+                                            Edit
+                                        </a>
+                                    </li>
+                                    {#<li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-calendar icon_9"></i>
+                                            Schedule
+                                        </a>
+                                    </li>#}
+                                    <li>
+                                        <a href="#" title="">
+                                            <i class="fa fa-download icon_9"></i>
+                                            Export
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="delete_visits_btn" class="font-red" title="">
+                                            <i class="fa fa-times" icon_9=""></i>
+                                            Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/visit_toolbar-->
+                </div>
+                <div class="col-md-12">
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">Patient</h4>
+                        <p><a href="{{ url('patients-show', {'patient_id':visit.patient}) }}" class="list-group-item-text">{{ visit_patient_name }}</a></p>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">Visit Date</h4>
+                        {#<p class="list-group-item-text">{{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}</p>#}
+                        <p class="list-group-item-text">{{ visit.visitDate|time_diff }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">Reservation Date</h4>
+                        <p class="list-group-item-text">
+                            {{ visit.reservationDate|time_diff }}
+                        </p>
+                    </li>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            {% if visit.reason is not empty %}
+            <div class="grid_3 grid_4">
+                <div class="col-md-12">
+                    <li class="list-group-item">                
+                        <h4 class="list-group-item-heading">Visit Reason</h4>
+                        <p>{{ visit.reason }}</p>
+                    </li>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            {% endif %}
+            {% if visit.comments is not empty %}
+            <div class="grid_3 grid_4">
+                <div class="col-md-12">
+                    <li class="list-group-item">                
+                        <h4 class="list-group-item-heading">Visit Comments</h4>
+                        <p>{{ visit.comments }}</p>
+                    </li>
+                </div>                
+                <div class="clearfix"> </div>
+            </div>                
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/show_visits.css', 'visits') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/visits.js', 'visits') }}"></script>
+    <script>
+        visits_selected.push({{ visit.id }});
+    </script>
+    <script type="text/javascript" src="{{ asset('js/show_visits.js', 'visits') }}"></script>
+{% endblock %}

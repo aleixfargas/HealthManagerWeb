@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    form_patient_datepicker();
+    form_visits_datepicker();
 });
 
-function form_patient_datepicker(){
+function form_visits_datepicker(){
     $('#datetimepicker1').datetimepicker({
 //        pickTime: false,
         viewMode: 'years',

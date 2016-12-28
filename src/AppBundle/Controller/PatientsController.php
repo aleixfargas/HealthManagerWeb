@@ -80,9 +80,10 @@ class PatientsController extends Controller
                 'diseases_types' => $diseases,
                 'operations_types' => $operations,
                 'allergies_types' => $allergies,
+                'patients_list' => $patients_list,
                 'pages' => $pages,
                 'current_page' => $page,
-                'patients_list' => $patients_list,
+                'url_paginator' => 'patients-list',
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>'#', 'name'=>$this->getTranslatedSectionName()]

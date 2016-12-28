@@ -6,7 +6,14 @@
                 <a href="{{ path('homepage') }}">{{ 'base.global_section_home'|trans({}, 'base') }}</a>
                 {% for section in sections -%}
                     <i class="fa fa-angle-right"></i>
-                    <a href="{{ section.url }}"><span> {{ section.name }} </span></a>
+                    <a href="{{ section.url }}">
+                        <span> 
+                            {% if section.name.timestamp is defined %}
+                                {{ section.name|date("d/m/Y H:i:s", "Europe/Madrid") }} 
+                            {% else %}
+                                {{ section.name }} 
+                            {% endif %}
+                        </span></a>
                 {%- endfor %}
             </h2>
         </div>

@@ -32,17 +32,17 @@
         <div class="text-center">
             <ul class="pagination">
                 {% if pages > total_showed_pages %}
-                    <li><a href="{{ url('patients-list', {'page': 1}) }}">«</a></li>
+                    <li><a href="{{ url(url_paginator, {'page': 1}) }}">«</a></li>
                 {% endif %}
 
                 {% for page in start_page..last_page %}
                     <li {% if page == current_page %} class="active" {% endif %}>
-                        <a href="{{ url('patients-list', {'page': page}) }}">{{ page }}</a>
+                        <a href="{{ url(url_paginator, {'page': page}) }}">{{ page }}</a>
                     </li>
                 {% endfor %}
 
                 {% if pages > total_showed_pages %}
-                    <li><a href="{{ url('patients-list', {'page': pages}) }}">»</a></li>
+                    <li><a href="{{ url(url_paginator, {'page': pages}) }}">»</a></li>
                 {% endif %}
             </ul>
         </div>

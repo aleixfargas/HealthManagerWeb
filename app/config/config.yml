@@ -42,6 +42,8 @@ framework:
                 base_path: assets/profile/
             patients:
                 base_path: assets/patients/
+            visits:
+                base_path: assets/visits/
 
 # Twig Configuration
 twig:

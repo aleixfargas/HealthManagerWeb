@@ -95,6 +95,26 @@ class Visits
      */
     private $invoice;
     
+    public function __construct(){
+        $format = 'Y-m-d H:i:s';
+        $date = \DateTime::createFromFormat($format, date($format));
+        $this->setReservationDate($date);
+    }
+    
+    /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return Visits
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    
     /**
      * Get id
      *
@@ -104,7 +124,7 @@ class Visits
     {
         return $this->id;
     }
-
+    
     /**
      * Set patient
      *
@@ -234,7 +254,7 @@ class Visits
      */
     public function setVisitDate($visitDate)
     {
-        $this->askedDate = $askedDate;
+        $this->visitDate = $visitDate;
 
         return $this;
     }
@@ -256,7 +276,7 @@ class Visits
      *
      * @return Visits
      */
-    public function setReservationDate($askedDate)
+    public function setReservationDate($reservationDate)
     {
         $this->reservationDate = $reservationDate;
 
