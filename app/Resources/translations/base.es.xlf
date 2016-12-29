@@ -30,6 +30,10 @@
                 <source>base.global_section_patients</source>
                 <target>Pacientes</target>
             </trans-unit>
+            <trans-unit id="global_section_allergies">
+                <source>base.global_section_allergies</source>
+                <target>Alergias</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

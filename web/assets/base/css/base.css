@@ -16,6 +16,10 @@ a:hover {
     color: green;
 }
 
+.text-color-red{
+    color: red;
+}
+
 @media(max-width:404px){
     .navbar-left-right{
         width: 100%;
