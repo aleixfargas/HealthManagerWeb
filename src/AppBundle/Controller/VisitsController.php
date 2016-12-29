@@ -238,6 +238,38 @@ class VisitsController extends Controller{
         return new Response($response);
     }
     
+    /**
+     * @Route("/visits/fetch/allVisitDates/", name="visits-fetch-allVisitDates")
+     */
+    public function fetch_allVisitDatesAction(){
+        $result = 'error';
+        $action = 'No visits found';
+        
+        $format = 'Y-m-d H:i:s';
+        $date = \DateTime::createFromFormat($format, date($format));
+        
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            "SELECT v
+            FROM AppBundle:Visits v
+            WHERE v.visitDate > CURRENT_TIMESTAMP()
+            ORDER BY v.visitDate ASC"
+        );
+                
+        $visits = $query->getResult();
+        
+        if($visits){
+            $result = 'success';
+            $action = array();
+            foreach ($visits as $visit){
+                array_push($action, $visit->getVisitDate()->format('Y-m-d H:i:s'));
+            }
+        }
+        
+        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        return new Response($response);
+    }
+    
     //================ PRIVATE METHODS ==================
     
     private function build_visit_entity($request){

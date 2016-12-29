@@ -71,17 +71,19 @@
                                     <td class="bs-checkbox check_visit hidden">
                                         <input name="btSelectItem" type="checkbox">
                                     </td>
-                                    <td class="table-text">
+                                    <td class="table-text col-md-3">
                                         {{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}
                                     </td>
                                     <td class="table-text">
-                                        <a>{{ visits_patients_name[i] }}</a>
+                                        <div class="float-left">
+                                            <a>{{ visits_patients_name[i] }}</a>
+                                        </div>
                                     </td>
                                     <td class="table-text">
                                         {{ visit.reason }}
                                     </td>
                                 </tr>
-                            {% set i = i + 1 %}
+                                {% set i = i + 1 %}
                             {% endfor %}
                         </tbody>
                     {% else %}

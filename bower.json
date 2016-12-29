@@ -1,0 +1,16 @@
+{
+  "name": "HealthManagerWeb",
+  "homepage": "https://github.com/aleixfargas/HealthManagerWeb",
+  "authors": [
+    "Aleix <afargas92@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
+    "bootstrap": "^3.3.6",
+    "sweetalert2": "^5.3.8"
+  }
+}
