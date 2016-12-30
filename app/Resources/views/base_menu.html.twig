@@ -121,11 +121,8 @@
                             </span>
 {#                            <img src="{{ asset('assets/data/uploads/profile/testuser_small.png') }}">#}
                         </a>
-                        <!-- <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">User<i class="caret"></i></span></a> -->
                         <ul class="dropdown-menu " role="menu">
                             <li><a href="{{ url('fos_user_profile_show') }}"><i class="glyphicon glyphicon-home"></i>Profile</a></li>
-                            {#<li><a href="/inbox"><i class="fa fa-envelope"></i>Inbox</a></li>
-                            <li><a href="/inbox"><i class="fa fa-clipboard"></i>Tasks</a></li>#}
                             <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i>Log out</a></li>
                         </ul>
                     </li>
@@ -138,24 +135,19 @@
                         <li>
                             <a href="{{ url('homepage') }}" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">{{ 'base.global_section_dashboard'|trans({}, 'base') }}</span> </a>
                         </li>
+                        {#<li>
+                            <a href="{{ url('calendar-month') }}" class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_calendar'|trans({}, 'base') }}</span></a>
+                        </li>#}
                         <li>
                             <a href="{{ url('visits-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_visits'|trans({}, 'base') }}</span></a>
                         </li>
                         <li>
                             <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-users nav_icon "></i><span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span></a></li>
-{#                            
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-user nav_icon"></i> <span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-paperclip nav_icon "></i><span class="nav-label">List</span></a></li>
-                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-heartbeat nav_icon"></i>Allergies</a></li>
-                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-ambulance nav_icon"></i>Diseases</a></li>
-                                <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-hospital-o nav_icon"></i>Operations</a></li>
-                            </ul>
-#}
                         </li>
                         <li><a href="{{ url('allergies-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-heartbeat nav_icon"></i>{{ 'base.global_section_allergies'|trans({}, 'base') }}</a></li>
                         {#<li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-stethoscope nav_icon"></i>Diseases</a></li>#}
                         <li><a href="{{ url('operations-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-ambulance nav_icon"></i>{{ 'base.global_section_operations'|trans({}, 'base') }}</a></li>
+{# Acconting section
                         <li>
                             <a href="#" class=" hvr-bounce-to-right"><i class="glyphicon glyphicon-piggy-bank nav_icon"></i> <span class="nav-label">Accounting</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -164,6 +156,8 @@
                                 <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i>Stock</a></li>
                             </ul>
                         </li>
+#}
+{# Settings Section
                         <li>
                             <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -171,49 +165,7 @@
                                 <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Statistics</a></li>
                             </ul>
                         </li>
-                        <!-- 
-                        <li>
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i> <span class="nav-label">Menu Levels</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="graphs.html" class=" hvr-bounce-to-right"> <i class="fa fa-area-chart nav_icon"></i>Graphs</a></li>
-
-                                <li><a href="maps.html" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>Maps</a></li>
-
-                                <li><a href="typography.html" class=" hvr-bounce-to-right"><i class="fa fa-file-text-o nav_icon"></i>Typography</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="inbox.html" class=" hvr-bounce-to-right"><i class="fa fa-inbox nav_icon"></i> <span class="nav-label">Inbox</span> </a>
-                        </li>
-                        <li>
-                            <a href="gallery.html" class=" hvr-bounce-to-right"><i class="fa fa-picture-o nav_icon"></i> <span class="nav-label">Gallery</span> </a>
-                        </li>
-                        <li>
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span class="nav-label">Pages</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="404.html" class=" hvr-bounce-to-right"> <i class="fa fa-info-circle nav_icon"></i>Error 404</a></li>
-                                <li><a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i>FAQ</a></li>
-                                <li><a href="blank.html" class=" hvr-bounce-to-right"><i class="fa fa-file-o nav_icon"></i>Blank</a></li>
-                           </ul>
-                        </li>
-                        <li>
-                            <a href="layout.html" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i> <span class="nav-label">Grid Layouts</span> </a>
-                        </li>
-                        <li>
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-list nav_icon"></i> <span class="nav-label">Forms</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="forms.html" class=" hvr-bounce-to-right"><i class="fa fa-align-left nav_icon"></i>Basic forms</a></li>
-                                <li><a href="validation.html" class=" hvr-bounce-to-right"><i class="fa fa-check-square-o nav_icon"></i>Validation</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="signin.html" class=" hvr-bounce-to-right"><i class="fa fa-sign-in nav_icon"></i>Signin</a></li>
-                                <li><a href="signup.html" class=" hvr-bounce-to-right"><i class="fa fa-sign-in nav_icon"></i>Singup</a></li>
-                            </ul>
-                        </li>
-                        -->
+#}
                     </ul>
                 </div>
             </div>

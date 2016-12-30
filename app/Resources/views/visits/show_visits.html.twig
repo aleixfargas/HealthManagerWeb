@@ -61,7 +61,11 @@
                     <li class="list-group-item">
                         <h4 class="list-group-item-heading">Reservation Date</h4>
                         <p class="list-group-item-text">
-                            {{ visit.reservationDate|time_diff }}
+                            {% if visit.reservationDate|time_diff is empty %}
+                                just now                                
+                            {% else %}
+                                {{ visit.reservationDate|time_diff }}
+                            {% endif %}
                         </p>
                     </li>
                 </div>

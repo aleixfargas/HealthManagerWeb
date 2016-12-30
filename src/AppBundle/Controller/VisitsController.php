@@ -16,7 +16,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class VisitsController extends Controller{
     private $section_name = 'base.global_section_visits';
-    private $maxResults = 6;
+    private $maxResults = 14;
 
     private $error = false;
     private $error_message = '';
@@ -252,9 +252,9 @@ class VisitsController extends Controller{
         $query = $em->createQuery(
             "SELECT v
             FROM AppBundle:Visits v
-            WHERE v.visitDate > CURRENT_TIMESTAMP()
+            WHERE v.visitDate > :today
             ORDER BY v.visitDate ASC"
-        );
+        )->setParameter('today', $date->format('Y-m-d 00:00:00'));
                 
         $visits = $query->getResult();
         
