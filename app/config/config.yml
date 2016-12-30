@@ -46,6 +46,8 @@ framework:
                 base_path: assets/visits/
             allergies:
                 base_path: assets/allergies/
+            operations:
+                base_path: assets/operations/
 
 # Twig Configuration
 twig:

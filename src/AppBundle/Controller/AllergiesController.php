@@ -130,7 +130,7 @@ class AllergiesController extends Controller{
         $allergy = $allergies_repository->find($allergy_id);
         
         if($allergy){
-            $patient_name = $this->get_visit_patient_name($allergy->getPatient());
+//            $patient_name = $this->get_visit_patient_name($allergy->getPatient());
             $result = $allergy;
         } 
         

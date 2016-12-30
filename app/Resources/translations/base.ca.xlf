@@ -34,6 +34,10 @@
                 <source>base.global_section_allergies</source>
                 <target>Al·lergies</target>
             </trans-unit>
+            <trans-unit id="global_section_operations">
+                <source>base.global_section_operations</source>
+                <target>Operacions</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

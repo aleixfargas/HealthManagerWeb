@@ -1,0 +1,20 @@
+.table-img > img {
+    height: 60px;
+    width: 60px;
+}
+
+tr.table-row:hover{
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #d9edf7;
+}
+
+tr.selected:hover{
+    background-color: #d9edf1!important;
+}
+
+.datepicker div table tbody tr td span {
+    color: #333!important;
+}
