@@ -21,7 +21,7 @@ class AllergiesController extends Controller{
     private $error = false;
     private $error_message = '';
     
-    private $alergies = null;
+    private $allergy = null;
     
     private $logger = null;
 
@@ -52,28 +52,43 @@ class AllergiesController extends Controller{
         );
     }
     
+    /**
+     * @Route("/allergies/save/", name="allergies-save")
+    */
+    public function saveNewAllergiesAction(Request $request){        
+        $em = $this->getDoctrine()->getManager();
+        $this->build_allergy_entity($request);
+        
+        $em->persist($this->allergy);
+        $em->flush();
+        $result = 'success';
+        $action = $this->generateUrl('allergies-list');
+        
+        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        return new Response($response);
+    }
     
     /**
-     * @Route("/allergies/new/", name="allergies-new")
-    */
-    public function newAllergiesAction(Request $request){        
-        list($total_allergies, $allergies_list) = $this->get_all_allergies($page);
-        $pages = ((int)($total_allergies/$this->maxResults))+(($total_allergies%$this->maxResults)==0? 0 : 1);
+     * @Route("/allergies/remove", name="allergies-remove")
+     */
+    public function removeAllergyAction(Request $request){
+        $allergies_array = $request->request->get('allergies_array');
+        $result = 'error';
         
-        return $this->render(
-            'allergies/list_allergies.html.twig', array(
-                'error' => $this->error,
-                'error_message' => $this->error_message,
-                'allergies_list' => $allergies_list,
-                'pages' => $pages,
-                'current_page' => $page,
-                'url_paginator' => 'visits-list',
-                'is_section' =>true,
-                'sections' => [
-                    ['url'=>$this->generateUrl('allergies-list'), 'name'=>$this->getTranslatedSectionName()]
-                ],
-            )
-        );
+        foreach ($allergies_array as $allergy_id){
+            try {
+                $this->delete_allergy($allergy_id);
+                $result = 'success';
+                $action = $this->generateUrl('allergies-list');
+            } catch (NotFoundHttpException $e){
+                $logger->error($e->getMessage());
+                $result = 'error';
+                $action = "Could not remove allergy with id $allergy_id, try again later!";
+            }
+        }
+
+        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        return new Response($response);
     }
     
     //================ PRIVATE METHODS ==================
@@ -92,6 +107,19 @@ class AllergiesController extends Controller{
         $paginator = new Paginator($query);
 
         return [$paginator->count(), $paginator->getIterator()];
+    }
+    
+    private function build_allergy_entity($request){
+        $this->allergy = new Allergies();
+        if($request->request->get('allergy_id') != null){
+            $this->allergy->setId($request->request->get('allergy_id'));            
+        }
+        if($request->request->get('allergy_name') != null){
+            $this->allergy->setName($request->request->get('allergy_name'));            
+        }
+        if($request->request->get('allergy_characteristics') != null){
+            $this->allergy->setCharacteristics($request->request->get('allergy_characteristics'));            
+        }
     }
     
     private function get_allergy($allergy_id){

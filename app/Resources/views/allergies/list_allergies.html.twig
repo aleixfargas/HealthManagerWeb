@@ -1,7 +1,7 @@
 {% extends 'base_menu.html.twig' %}
 
 {% block content_main %}
-    <form id="add-new-allergy-form" url="{{ url('allergies-new') }}" type="post">
+    <form id="add-new-allergy-form" url="{{ url('allergies-save') }}" type="post">
         <div class="typo-grid">
             <div class="typo-1">
                 <div class="grid_3 grid_4">
@@ -95,14 +95,6 @@
                                         <input class="form-control" type="text" name="allergy_characteristics" placeholder="New Allergy Characteristics" required />
                                     </td>
                                 </tr>
-                                {#<tr class="add-new-allergy hidden">
-                                    <td colspan="2">
-                                        <div class="btn-group float-right">
-                                            <button class="btn btn-success" type="submit">Add New</button>
-                                            <button class="btn btn-default">Cancel</button>
-                                        </div>
-                                    </td>
-                                </tr>#}
                             </tbody>
                         {% else %}
                             <tbody>

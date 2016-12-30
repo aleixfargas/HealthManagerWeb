@@ -35,6 +35,19 @@ class Allergies
      */
     private $characteristics;
 
+    /**
+     * Set id
+     *
+     * @param string $id
+     *
+     * @return Allergies
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

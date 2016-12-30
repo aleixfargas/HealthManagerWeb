@@ -3,12 +3,16 @@ var allergies_selected = [];
 $(document).ready(function () {
     show_allergies_checkbox();
     show_addNew_allergies_form();
+    //call here the submit because the form never is hidde
+    add_addNew_form_submit_listener();
 });
 
 //=================== DELETE FUNCTIONS ===================
 function show_allergies_checkbox(){
     $('#delete_allergies').click(function(){
-        $('.check_allergy').removeClass('hidden');
+        remove_checkbox_show();
+        addNew_form_hide();
+        
         rm_click_listener('.allergy > :not(.bs-checkbox input)');
         add_checkbox_listener();
         add_all_checkbox_listener();
@@ -110,35 +114,54 @@ function add_removeVisit_btn_listener(){
 function add_cancel_removeVisit_btn_listener(){
     $('#cancel_delete_allergies_btn').click(function(e){
         e.preventDefault();
-        rm_click_listener('#allergies-table .allergy');
-        rm_click_listener('#check_all_allergies');
-        rm_click_listener('#delete_allergies_btn');
-        
-        check_uncheck_all_allergies(false);
-        
-        $('.check_allergy').addClass('hidden');
+        remove_checkbox_hide();
     });
+}
+
+function remove_checkbox_show(){
+    $('.check_allergy').removeClass('hidden');        
+}
+
+function remove_checkbox_hide(){
+    rm_click_listener('#allergies-table .allergy');
+    rm_click_listener('#check_all_allergies');
+    rm_click_listener('#delete_allergies_btn');
+
+    check_uncheck_all_allergies(false);
+
+    $('.check_allergy').addClass('hidden');    
 }
 //=================== END DELETE FUNCTIONS ===================
 
 //=================== ADD NEW FUNCTIONS ===================
 function show_addNew_allergies_form(){
     $('#show_addNew_form').click(function(){
-        addNew_form_toogle_hidden_classes();
-        add_addNew_form_submit_listener();
+        addNew_form_show();
+        remove_checkbox_hide();
         add_addNew_form_cancel_listener();
     });
 }
 
-function addNew_form_toogle_hidden_classes(){
-    $('.add_new_allergy_buttons').toggleClass('hidden');
-    $('.add-new-allergy').toggleClass('hidden');
-    $('#show_addNew_form').toggleClass('hidden');
-    $('#delete_allergies').toggleClass('hidden');
+function addNew_form_hide(){
+    rm_click_listener('#add-new-allergy-form');
+    rm_click_listener('#add-new-allergy-form-cancel');
+        
+    $('.add_new_allergy_buttons').addClass('hidden');
+    $('.add-new-allergy').addClass('hidden');
+//    $('#show_addNew_form').addClass('hidden');
+//    $('#delete_allergies').addClass('hidden');
+}
+
+function addNew_form_show(){
+    $('.add_new_allergy_buttons').removeClass('hidden');
+    $('.add-new-allergy').removeClass('hidden');
+//    $('#show_addNew_form').removeClass('hidden');
+//    $('#delete_allergies').removeClass('hidden');
 }
 
 function add_addNew_form_submit_listener(){
     $('#add-new-allergy-form').submit(function(e){
+        alert(0);
         e.preventDefault();
         var formSerialize = $(this).serialize();
         $.post($(this).attr('url'), formSerialize, function(response){
@@ -159,11 +182,9 @@ function add_addNew_form_submit_listener(){
 function add_addNew_form_cancel_listener(){
     $('#add-new-allergy-form-cancel').click(function(e){
         e.preventDefault();
-        rm_click_listener('#add-new-allergy-form');
-        rm_click_listener('#show_addNew_form');
-        rm_click_listener('#add-new-allergy-form-cancel');
         
-        addNew_form_toogle_hidden_classes();
-        show_addNew_allergies_form();
+        addNew_form_hide();
+//        show_addNew_allergies_form();
     });
 }
+//=================== END ADD NEW FUNCTIONS ===================
