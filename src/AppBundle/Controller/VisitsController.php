@@ -286,7 +286,9 @@ class VisitsController extends Controller{
             $this->visit->setVisitDate($date);
         }
         if($request->request->get('reservation_date') != null){
-            $this->visit->setReservationDate($request->request->get('reservation_date'));            
+            $date = $request->request->get('reservation_date');
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $date);
+            $this->visit->setReservationDate($date);
         }        
         $this->visit->setReason($request->request->get('reason'));
         $this->visit->setComments($request->request->get('comments'));
