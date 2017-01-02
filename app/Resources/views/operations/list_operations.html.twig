@@ -48,30 +48,30 @@
 
                     <!--operations_gallery-->
                     <table id="operations-table" class="table">
-                        {% if operations_list|length > 0  %}
-                            <thead>
-                                <tr class="check_operation hidden">
-                                    <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                        <p id="check_all_operations"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
-                                    </th>
-                                    <th>
-                                        <div class="btn-group-sm pull-right">
-                                            <button id="delete_operations_btn" class="btn btn-danger">Delete</button>
-                                            <button id="cancel_delete_operations_btn" class="btn btn-default">Cancel</button>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr class="add_new_operation_buttons hidden">
-                                    <th></th>
-                                    <th>
-                                        <div class="btn-group-sm pull-right">
-                                            <button class="btn btn-success" type="submit">Add New</button>
-                                            <button id="add-new-operation-form-cancel" class="btn btn-default">Cancel</button>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <thead>
+                            <tr class="check_operation hidden">
+                                <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                    <p id="check_all_operations"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                </th>
+                                <th>
+                                    <div class="btn-group-sm pull-right">
+                                        <button id="delete_operations_btn" class="btn btn-danger">Delete</button>
+                                        <button id="cancel_delete_operations_btn" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr class="add_new_operation_buttons hidden">
+                                <th></th>
+                                <th>
+                                    <div class="btn-group-sm pull-right">
+                                        <button class="btn btn-success" type="submit">Add New</button>
+                                        <button id="add-new-operation-form-cancel" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if operations_list|length > 0  %}
                                 {% for operation in operations_list %}
                                     <tr class="table-row operation" data-index="{{ operation.id }}">
                                         <td class="bs-checkbox check_operation hidden">
@@ -87,24 +87,22 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                                <tr class="table-row add-new-operation hidden">
-                                    <td class="table-text col-md-3">
-                                        <input class="form-control" type="text" name="operation_name" placeholder="New Operation Name" required />
-                                    </td>
-                                    <td class="table-text">
-                                        <input class="form-control" type="text" name="operation_characteristics" placeholder="New Operation Characteristics" required />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        {% else %}
-                            <tbody>
+                            {% else %}
                                 <tr class="table-row">
-                                    <td class="table-text">
+                                    <td class="table-text" colspan="2">
                                         <center>No operation found</center>
                                     </td>
                                 </tr>
-                            </tbody>
-                        {% endif %}
+                            {% endif %}
+                            <tr class="table-row add-new-operation hidden">
+                                <td class="table-text col-md-3">
+                                    <input class="form-control" type="text" name="operation_name" placeholder="New Operation Name" required />
+                                </td>
+                                <td class="table-text">
+                                    <input class="form-control" type="text" name="operation_characteristics" placeholder="New Operation Characteristics" required />
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                     <!--/operations_gallery-->
                     {% include 'common/paginator.html.twig' %}

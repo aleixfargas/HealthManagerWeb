@@ -48,30 +48,30 @@
 
                     <!--allergies_gallery-->
                     <table id="allergies-table" class="table">
-                        {% if allergies_list|length > 0  %}
-                            <thead>
-                                <tr class="check_allergy hidden">
-                                    <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                        <p id="check_all_allergies"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
-                                    </th>
-                                    <th>
-                                        <div class="btn-group-sm pull-right">
-                                            <button id="delete_allergies_btn" class="btn btn-danger">Delete</button>
-                                            <button id="cancel_delete_allergies_btn" class="btn btn-default">Cancel</button>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr class="add_new_allergy_buttons hidden">
-                                    <th></th>
-                                    <th>
-                                        <div class="btn-group-sm pull-right">
-                                            <button class="btn btn-success" type="submit">Add New</button>
-                                            <button id="add-new-allergy-form-cancel" class="btn btn-default">Cancel</button>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <thead>
+                            <tr class="check_allergy hidden">
+                                <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                    <p id="check_all_allergies"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                </th>
+                                <th>
+                                    <div class="btn-group-sm pull-right">
+                                        <button id="delete_allergies_btn" class="btn btn-danger">Delete</button>
+                                        <button id="cancel_delete_allergies_btn" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr class="add_new_allergy_buttons hidden">
+                                <th></th>
+                                <th>
+                                    <div class="btn-group-sm pull-right">
+                                        <button class="btn btn-success" type="submit">Add New</button>
+                                        <button id="add-new-allergy-form-cancel" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if allergies_list|length > 0  %}
                                 {% for allergy in allergies_list %}
                                     <tr class="table-row allergy" data-index="{{ allergy.id }}">
                                         <td class="bs-checkbox check_allergy hidden">
@@ -87,24 +87,22 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                                <tr class="table-row add-new-allergy hidden">
-                                    <td class="table-text col-md-3">
-                                        <input class="form-control" type="text" name="allergy_name" placeholder="New Allergy Name" required />
-                                    </td>
-                                    <td class="table-text">
-                                        <input class="form-control" type="text" name="allergy_characteristics" placeholder="New Allergy Characteristics" required />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        {% else %}
-                            <tbody>
+                            {% else %}
                                 <tr class="table-row">
-                                    <td class="table-text">
+                                    <td class="table-text" colspan="2">
                                         <center>No allergy found</center>
                                     </td>
                                 </tr>
-                            </tbody>
-                        {% endif %}
+                            {% endif %}
+                            <tr class="table-row add-new-allergy hidden">
+                                <td class="table-text col-md-3">
+                                    <input class="form-control" type="text" name="allergy_name" placeholder="New Allergy Name" required />
+                                </td>
+                                <td class="table-text">
+                                    <input class="form-control" type="text" name="allergy_characteristics" placeholder="New Allergy Characteristics" required />
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                     <!--/allergies_gallery-->
                     {% include 'common/paginator.html.twig' %}
