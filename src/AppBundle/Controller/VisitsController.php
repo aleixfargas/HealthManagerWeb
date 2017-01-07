@@ -103,13 +103,14 @@ class VisitsController extends Controller{
      */
     public function removeVisitAction(Request $request){
         $visits_array = $request->request->get('visits_array');
+        $current_day = $request->request->get('current_day');
         $result = 'error';
         
         foreach ($visits_array as $visit_id){
             try {
                 $this->delete_visit($visit_id);
                 $result = 'success';
-                $action = $this->generateUrl('visits-list');
+                $action = $this->generateUrl('visits-list', array('day'=>$current_day));
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
                 $result = 'error';

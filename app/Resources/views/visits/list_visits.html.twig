@@ -49,6 +49,7 @@
                     <div class="float-left">
 {#                        <h3>{{ list_date|date("r", "Europe/Madrid") }}</h3>#}
                         <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                        <input id="current_day" value="{{ list_date }}" hidden />
                         <p>Total {{ visits_list|length }} visits</p>
                     </div>
                     <div class="float-right">

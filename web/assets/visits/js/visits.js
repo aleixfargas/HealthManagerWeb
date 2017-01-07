@@ -73,6 +73,8 @@ function add_all_checkbox_listener(){
 }
 
 function add_removeVisit_btn_listener(){
+    var current_day = $('#current_day').val();
+    alert(current_day);
     $('#delete_visits_btn').click(function(e){
         e.preventDefault();
 //        console.log(visits_selected);
@@ -86,11 +88,11 @@ function add_removeVisit_btn_listener(){
 //                cancelButtonColor: '#d33',
                 confirmButtonText: 'Delete'
             }).then(function() {
-                $.post('/visits/remove', {"visits_array":visits_selected}, function(response){
+                $.post('/visits/remove', {"visits_array":visits_selected, "current_day":current_day}, function(response){
                     if(response.status == 'success'){
                         swal(
                             'Deleted!',
-                            'The visits has been deleted.',
+                            'The visits has been deleted. ' + response.action,
                             'success'
                         );
                         setTimeout(function() {
