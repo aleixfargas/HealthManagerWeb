@@ -109,7 +109,7 @@ function add_removeVisit_btn_listener(){
                     if(response.status == 'success'){
                         swal(
                             'Deleted!',
-                            'The visits has been deleted. ' + response.action,
+                            'The visits has been deleted.',
                             'success'
                         );
                         setTimeout(function() {

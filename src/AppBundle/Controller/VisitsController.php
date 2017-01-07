@@ -167,7 +167,8 @@ class VisitsController extends Controller{
                 'visit' => $visit,
                 'visit_patient_name' => $visit_patient,
                 'error' => $this->error,
-                'error_message' => $this->error_message,                'is_section' =>true,
+                'error_message' => $this->error_message,                
+                'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('visits-list'), 'name'=>$this->getTranslatedSectionName()],
                     ['url'=>'#', 'name'=>$visit->getVisitDate()],

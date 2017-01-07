@@ -476,7 +476,7 @@ i.fa.fa-globe {
 }
 .dropdown-menu {
     min-width: 160px;
-    left:-2em;
+    /*left:-2em;*/
 }
 .menu1{
     top:172%;
@@ -2789,7 +2789,7 @@ tr.table-row {
         padding:0em;
     }
     .dropdown-menu {
-        left: -7em;
+        /*left: -7em;*/
     }
     .menu1 {
         left: -12.5em;

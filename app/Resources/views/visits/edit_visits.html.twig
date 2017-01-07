@@ -6,9 +6,6 @@
             <div class="typo-1">
                 <div class="grid_3 grid_4">
                     <div class="mail-toolbar">
-                        <div class="float-left">
-                            <h2>Visit Form</h2>
-                        </div>
                         <div class="float-right">
                             <div class="btn-group">
                                 <button type="submit" class="btn btn-success">Edit</button>
@@ -17,7 +14,11 @@
                                 <a href="{{ url('visits-show', {'visit_id': visit.id}) }}" type="button" class="btn btn-default">Cancel</a>
                             </div>
                         </div>
+                        <div class="float-left">
+                            <h2>Visit Form</h2>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 {% set edit = true %}
                 {% include 'visits/form_visits.html.twig' %}

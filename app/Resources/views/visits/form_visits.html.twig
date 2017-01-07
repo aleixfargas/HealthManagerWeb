@@ -25,10 +25,10 @@
             {% endif %}
             <div class="form-group">
                 <label for="patient_select">Patient</label>
-                <select class="form-control" id="patient_select" name="patient">
-                    <option value="0"> - </option>
+                <select class="form-control selectpicker show-tick" data-live-search="true" id="patient_select" name="patient">
+                    <option value="0" data-tokens="">No patient yet</option>
                     {% for patient in all_patients %}
-                        <option value="{{ patient.id }}" {% if patient.id == visit_patient %} selected {% endif %}>{{ patient.name }} {{ patient.surname }}</option>
+                        <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }}" {% if patient.id == visit_patient %} selected {% endif %}>{{ patient.name }} {{ patient.surname }}</option>
                     {% endfor %}
                 </select>
             </div>

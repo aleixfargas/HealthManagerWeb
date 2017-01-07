@@ -92,13 +92,22 @@
 
                 {% for i in range(0, telephones_num-1) %}
                     {% if telephones_names is defined %} <input name="phone_id" value="{{ telephones_names[i].id }}" hidden > {% endif %}
-                    <div class="input-group">
-                        <select name="phone_type" class="custom-select">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select name="phone_type" class="form-control selectpicker show-tick">
+                                {% for phone_type in all_phone_types %}
+                                    <option value="{{ phone_type.id }}" {% if telephones_types is defined and phone_type.id == telephones_types[i].id %} selected {% endif %}>{{ phone_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        {#<select name="phone_type" class="custom-select">
                             {% for phone_type in all_phone_types %}
                                 <option value="{{ phone_type.id }}" {% if telephones_types is defined and phone_type.id == telephones_types[i].id %} selected {% endif %}>{{ phone_type.name }}</option>
                             {%endfor%}
-                        </select>
-                        <input type="number" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
+                        </select>#}
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
+                        </div>
                     </div>
                 {% endfor%}                            
             </div>
@@ -114,13 +123,17 @@
 
                 {% for i in range(0, email_num-1) %}                            
                     {% if email_names is defined %} <input name="email_id" value="{{ email_names[i].id }}" hidden >{% endif %}
-                    <div class="input-group">
-                        <select name="email_type" class="custom-select">
-                            {% for email_type in all_email_types %}
-                                <option value="{{ email_type.id }}" {% if email_types is defined and email_type.id == email_types[i].id %} selected {% endif %}>{{ email_type.name }}</option>
-                            {%endfor%}
-                        </select>
-                        <input type="email" name="email" {% if email_names is defined %} value="{{ email_names[i].email }}" {% endif %}>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select name="email_type" class="form-control selectpicker show-tick">
+                                {% for email_type in all_email_types %}
+                                    <option value="{{ email_type.id }}" {% if email_types is defined and email_type.id == email_types[i].id %} selected {% endif %}>{{ email_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" {% if email_names is defined %} value="{{ email_names[i].email }}" {% endif %}>
+                        </div>
                     </div>
                 {% endfor%}                            
             </div>
@@ -136,13 +149,17 @@
 
                 {% for i in range(0, address_num-1) %}                            
                     {% if address_names is defined %} <input name="address_id" value="{{ address_names[i].id }}" hidden > {% endif %}
-                    <div class="input-group">
-                        <select name="address_type" class="custom-select">
-                            {% for address_type in all_address_types %}
-                                <option value="{{ address_type.id }}" {% if address_types is defined and address_type.id == address_types[i].id %} selected {% endif %}>{{ address_type.name }}</option>
-                            {%endfor%}
-                        </select>
-                        <input type="text" name="address" {% if address_names is defined %} value="{{ address_names[i].address }}" {% endif %}>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select name="address_type" class="form-control selectpicker show-tick">
+                                {% for address_type in all_address_types %}
+                                    <option value="{{ address_type.id }}" {% if address_types is defined and address_type.id == address_types[i].id %} selected {% endif %}>{{ address_type.name }}</option>
+                                {%endfor%}
+                            </select>
+                            </div>
+                        <div class="form-group">
+                            <input type="text"class="form-control" name="address" {% if address_names is defined %} value="{{ address_names[i].address }}" {% endif %}>
+                        </div>
                     </div>
                 {% endfor%}                            
             </div>
@@ -172,7 +189,7 @@
             <h3>Allergies</h3>
             <br />
             <div class="input-group">
-                <select multiple name="allergies_type[]">
+                <select class="selectpicker" name="allergies_type[]" multiple>
                     <option value="-1" {% if allergies_patient is empty %} selected {% elseif patient_allergies_id_array|length < 1 %} selected {% endif %}> No allergies </option>
                     {% for allergies_type in all_allergies_types %}
                         <option value="{{ allergies_type.id }}" {% if patient_allergies_id_array is defined and allergies_type.id in patient_allergies_id_array %} selected {% endif %}>{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
@@ -194,7 +211,7 @@
             <h3>Operations</h3>
             <br />
             <div class="input-group">
-                <select multiple name="operations_type[]">
+                <select class="selectpicker" name="operations_type[]" multiple>
                     <option value="-1" {% if operations_patient is empty %} selected {% elseif patient_operations_id_array|length < 1 %} selected {% endif %}> No operations </option>
                     {% for operations_type in all_operations_types %}
                         <option value="{{ operations_type.id }}" {% if patient_operations_id_array is defined and operations_type.id in patient_operations_id_array %} selected {% endif %}>{{ operations_type.name }} - {{ operations_type.characteristic }}</option>

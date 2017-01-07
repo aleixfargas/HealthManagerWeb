@@ -20,8 +20,31 @@ a:hover {
     color: red;
 }
 
+.my-dropdown-right{
+    left: -7em!important;
+}
+
+.my-dropdown-notifications-right{
+    left: -15em!important;
+}
+
+.my-table tr {
+    height: 68px!important;
+}
+
+@media (max-width: 600px){
+    .my-dropdown-right{
+        left: -6em!important;
+    }
+}
+
+/*Mobile devices vertical*/
 @media(max-width:404px){
     .navbar-left-right{
         width: 100%;
+    }
+    
+    .my-dropdown-right{
+        left: -7em!important;
     }
 }

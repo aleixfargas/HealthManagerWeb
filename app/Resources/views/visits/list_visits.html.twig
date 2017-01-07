@@ -26,7 +26,7 @@
                                     <i class="fa fa-chevron-down icon_8"></i>
                                     <div class="ripple-wrapper"></div>
                                 </a>
-                                <ul class="dropdown-menu float-right">
+                                <ul class="dropdown-menu my-dropdown-right float-right">
                                     <li>
                                         <a href="#" title="">
                                             <i class="fa fa-download icon_9"></i>
@@ -69,7 +69,7 @@
                 <input id="current_day" value="{{ list_date }}" hidden />
                 <p>Total {{ visits_list|length }} visits</p>
                 
-                <table id="visits-table" class="table">
+                <table id="visits-table" class="my-table table">
                     {% if visits_list|length > 0  %}
                         <thead>
                             <tr class="check_visit hidden">
