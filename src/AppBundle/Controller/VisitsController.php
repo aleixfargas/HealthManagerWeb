@@ -30,13 +30,13 @@ class VisitsController extends Controller{
     }
     
     /**
-     * @Route("/visits/list/{page}", name="visits-list")
+     * @Route("/visits/list/{day}", name="visits-list")
     */
-    public function listVisitsAction($page = 1){
+    public function listVisitsAction($day = false){
+        if($day === false) $day = date("Y-m-d");
+
         $patients_names = array();
-        
-        list($total_visits, $visits_list) = $this->get_all_visits($page);
-        $pages = ((int)($total_visits/$this->maxResults))+(($total_visits%$this->maxResults)==0? 0 : 1);
+        $visits_list = $this->get_day_visits($day);
         
         foreach($visits_list as $visit){
             array_push($patients_names, $this->get_visit_patient_name($visit->getPatient()));
@@ -48,9 +48,7 @@ class VisitsController extends Controller{
                 'error_message' => $this->error_message,
                 'visits_list' => $visits_list,
                 'visits_patients_name' => $patients_names,
-                'pages' => $pages,
-                'current_page' => $page,
-                'url_paginator' => 'visits-list',
+                'list_date' => $day,
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('visits-list'), 'name'=>$this->getTranslatedSectionName()]
@@ -310,6 +308,27 @@ class VisitsController extends Controller{
         $paginator = new Paginator($query);
 
         return [$paginator->count(), $paginator->getIterator()];
+    }
+    
+    private function get_day_visits($day){
+        $format = 'Y-m-d';
+        $logger = $this->get('logger');
+        $logger->info($day);
+        $date = \DateTime::createFromFormat($format, $day);
+        
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            "SELECT v
+            FROM AppBundle:Visits v
+            WHERE v.visitDate > :from_day
+            AND v.visitDate < :to_day
+            ORDER BY v.visitDate ASC"
+        )->setParameter('from_day', $date->format('Y-m-d 00:00:00'))
+        ->setParameter('to_day', $date->format('Y-m-d 23:59:59'));
+                
+        $visits = $query->getResult();
+        
+        return $visits;
     }
     
     private function get_visit($visit_id){

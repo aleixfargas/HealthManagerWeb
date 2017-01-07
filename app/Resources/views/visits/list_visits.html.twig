@@ -19,7 +19,6 @@
                     
                     {% if visits_list|length > 0 %}
                     <div class="float-right">
-                        <a class="btn btn-default">Today</a>
                         <div class="btn-group">
                             <div class="btn-group dropdown">
                                 <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
@@ -45,6 +44,18 @@
                         </div>
                     </div>
                     {% endif %}                    
+                </div>
+                <div class="mail-toolbar clearfix">
+                    <div class="float-left">
+{#                        <h3>{{ list_date|date("r", "Europe/Madrid") }}</h3>#}
+                        <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                        <p>Total {{ visits_list|length }} visits</p>
+                    </div>
+                    <div class="float-right">
+                        <a href="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></a>
+                        <a href="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">Today</a>
+                        <a href="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
                 <!--/visits_toolbar-->
 
@@ -97,7 +108,7 @@
                     {% endif %}
                 </table>
                 <!--/visits_gallery-->
-                {% include 'common/paginator.html.twig' %}
+{#                {% include 'common/paginator.html.twig' %}#}
                 <div class="clearfix"> </div>
             </div>
         </div>
