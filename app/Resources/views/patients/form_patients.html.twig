@@ -66,7 +66,7 @@
                     <label for="birthday_input">Birthday</label>
 {#                        <input type="datetime" class="form-control" id="birthday_input" name="birthday">#}
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" name="birthday" {% if birthday_patient is not empty %} value="{{ birthday_patient|date("Y/m/d", "Europe/Madrid") }}" {% endif %}/>
+                        <input type='text' class="form-control" name="birthday" {% if birthday_patient is not empty %} value="{{ birthday_patient|date("Y/m/d", "Europe/Madrid") }}" {% endif %} readonly/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>

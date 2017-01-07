@@ -9,3 +9,7 @@ function array_pop(array, removeItem){
 function rm_click_listener(object){
     $(object).unbind('click');
 }
+
+function get_locale(){
+    return $("#base_locale").val();
+}

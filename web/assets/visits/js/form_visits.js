@@ -36,11 +36,13 @@ function form_visit_datepicker(){
                 
                 $('#datetimepicker1').datetimepicker({
 //                    debug: true,
+                    locale: moment.locale(get_locale()),
                     date: moment_currentDatetime,
                     format: 'YYYY-MM-DD HH:mm:ss',
                     sideBySide: true,
                     allowInputToggle: true,
 //                    focusOnShow: false,
+                    ignoreReadonly: true,
                     stepping: 30,
                     minDate: moment().set('hours', 0).set('minutes', 0).set('seconds', 0),
                     disabledTimeIntervals: moments_array                        
@@ -48,11 +50,13 @@ function form_visit_datepicker(){
             } 
             else {
                 $('#datetimepicker1').datetimepicker({
+                    locale: moment.locale(get_locale()),
                     date: moment_currentDatetime,
                     format: 'YYYY-MM-DD HH:mm:ss',
                     sideBySide: true,
                     allowInputToggle: true,
 //                    focusOnShow: false,
+                    ignoreReadonly: true,
                     stepping: 30,
                     minDate: moment().set('hours', 0).set('minutes', 0).set('seconds', 0),
                 });

@@ -23,6 +23,7 @@
 
         <!-- Moment Files, necessary for bootstrap-datetimepicker -->
         <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>        
+        <script src="{{ asset('assets/vendor/moment/min/locales.min.js') }}"></script>        
 {#        <script src="{{ asset('assets/vendor/bootstrap/js/transition.js') }}"></script>#}
 {#        <script src="{{ asset('assets/vendor/bootstrap/js/collapse.js') }}"></script>#}
         
@@ -70,6 +71,7 @@
         {% endblock %}
     </head>
     <body>
+        <input id="base_locale" value="{{ app.request.locale }}" hidden/>        
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <!--scrolling js-->

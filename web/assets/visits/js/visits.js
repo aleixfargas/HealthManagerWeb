@@ -2,7 +2,7 @@ var visits_selected = [];
 var current_day = "";
 $(document).ready(function () {
     current_day = $('#current_day').val();
-    
+//    alert(current_day);
     create_datetimepicker_visits();
     add_show_visit_listener();
     show_visits_checkbox();
@@ -12,9 +12,11 @@ $(document).ready(function () {
 function create_datetimepicker_visits(){
     var date_to_go;
     var dp = $('#datetimepicker_visits');
+
     dp.datetimepicker({
+        locale: moment.locale(get_locale()),
         inline: true,
-        date: current_day,
+        date: moment(current_day),
         format: 'YYYY-M-D'
     }).on('dp.change', function(event) {
         if(event.oldDate != null){
