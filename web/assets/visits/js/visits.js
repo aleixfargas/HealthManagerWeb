@@ -1,11 +1,29 @@
 var visits_selected = [];
-
+var current_day = "";
 $(document).ready(function () {
+    current_day = $('#current_day').val();
+    
+    create_datetimepicker_visits();
     add_show_visit_listener();
     show_visits_checkbox();
 });
 
 //=================== LIST FUNCTIONS ===================
+function create_datetimepicker_visits(){
+    var date_to_go;
+    var dp = $('#datetimepicker_visits');
+    dp.datetimepicker({
+        inline: true,
+        date: current_day,
+        format: 'YYYY-M-D'
+    }).on('dp.change', function(event) {
+        if(event.oldDate != null){
+            date_to_go = event.date.format('YYYY-M-D');
+            window.location.href = "/visits/list/" + date_to_go;
+        }
+    });
+}
+
 function add_show_visit_listener(){
     $('.visit > :not(.bs-checkbox)').click(function(){
         var url = $(this).parent('tr').attr('url');
@@ -73,8 +91,7 @@ function add_all_checkbox_listener(){
 }
 
 function add_removeVisit_btn_listener(){
-    var current_day = $('#current_day').val();
-    alert(current_day);
+    
     $('#delete_visits_btn').click(function(e){
         e.preventDefault();
 //        console.log(visits_selected);
