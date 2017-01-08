@@ -129,6 +129,14 @@ class Patients
      */
     private $notes;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $user;
 
     public function __construct() {
         $format = 'Y-m-d H:i:s';
@@ -517,5 +525,27 @@ class Patients
     public function getNotes()
     {
         return $this->notes;
+    }
+        
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -201,8 +201,8 @@ class VisitsController extends Controller{
             $changes = true;
         }
         $newDuration = $this->visit->getDuration();
-        if($visit_to_update->getDuration() != $newPhysiotherapist){
-            $visit_to_update->setDuration($newPhysiotherapist);
+        if($visit_to_update->getDuration() != $newDuration){
+            $visit_to_update->setDuration($newDuration);
             $changes = true;
         }
         $newReason = $this->visit->getReason();
@@ -256,9 +256,11 @@ class VisitsController extends Controller{
                 FROM AppBundle:Visits v
                 WHERE v.visitDate > :start_today
                 AND v.visitDate < :end_today
+                AND v.user < :user_id
                 ORDER BY v.visitDate ASC"
             )->setParameter('start_today', $date->format('Y-m-d 00:00:00'))
-            ->setParameter('end_today', $date->format('Y-m-d 23:59:59'));
+            ->setParameter('end_today', $date->format('Y-m-d 23:59:59'))
+            ->setParameter('user_id', $this->get_logged_User_id());
 
             $visits = $query->getResult();
 
@@ -278,7 +280,7 @@ class VisitsController extends Controller{
     //================ PRIVATE METHODS ==================
     
     private function build_visit_entity($request){
-        $this->visit = new Visits();
+        $this->visit = new Visits($this->get_logged_User_id());
         if($request->request->get('visit_id') != null){
             $this->visit->setId($request->request->get('visit_id'));            
         }
@@ -329,9 +331,11 @@ class VisitsController extends Controller{
             FROM AppBundle:Visits v
             WHERE v.visitDate > :from_day
             AND v.visitDate < :to_day
+            AND v.user = :user_id
             ORDER BY v.visitDate ASC"
         )->setParameter('from_day', $date->format('Y-m-d 00:00:00'))
-        ->setParameter('to_day', $date->format('Y-m-d 23:59:59'));
+        ->setParameter('to_day', $date->format('Y-m-d 23:59:59'))
+        ->setParameter('user_id', $this->get_logged_User_id());
                 
         $visits = $query->getResult();
         
@@ -343,12 +347,14 @@ class VisitsController extends Controller{
         $patient_name = false;
         
         $visits_repository = $this->getDoctrine()->getRepository('AppBundle:Visits');
-        $visit = $visits_repository->find($visit_id);
+        $visit = $visits_repository->findOneBy(
+            array('id'=>$visit_id, 'user'=>$this->get_logged_User_id())
+        );
         
         if($visit){
             $patient_name = $this->get_visit_patient_name($visit->getPatient());
             $result = [$visit, $patient_name];
-        } 
+        }
         
         return $result;
     }
@@ -386,6 +392,11 @@ class VisitsController extends Controller{
 
         $em->remove($visit);
         $em->flush();
+    }
+    
+    private function get_logged_User_id(){
+        $user = $this->getUser();
+        return $user->getId();        
     }
     
     private function get_all_visits_patients(){

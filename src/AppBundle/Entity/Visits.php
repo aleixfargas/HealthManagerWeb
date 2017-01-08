@@ -94,11 +94,21 @@ class Visits
      * @ORM\JoinColumn(name="invoice", referencedColumnName="id")
      */
     private $invoice;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $user;
     
-    public function __construct(){
+    public function __construct($user){
         $format = 'Y-m-d H:i:s';
         $date = \DateTime::createFromFormat($format, date($format));
         $this->setReservationDate($date);
+        $this->setUser($user);
     }
     
     /**
@@ -339,5 +349,27 @@ class Visits
     public function getInvoice()
     {
         return $this->invoice;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

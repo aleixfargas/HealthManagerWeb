@@ -48,7 +48,15 @@ class WaitingList
      * @ORM\Column(name="askedDate", type="datetime")
      */
     private $askedDate;
-
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $user;
 
     /**
      * Get id
@@ -130,5 +138,27 @@ class WaitingList
     public function getAskedDate()
     {
         return $this->askedDate;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

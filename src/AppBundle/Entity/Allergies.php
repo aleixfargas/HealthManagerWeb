@@ -36,6 +36,15 @@ class Allergies
     private $characteristics;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $user;
+    
+    /**
      * Set id
      *
      * @param string $id
@@ -105,5 +114,27 @@ class Allergies
     public function getCharacteristics()
     {
         return $this->characteristics;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

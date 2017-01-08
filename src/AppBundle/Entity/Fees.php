@@ -65,7 +65,15 @@ class Fees
      * @ORM\Column(name="default", type="boolean")
      */
     private $default;
-    
+        
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     */
+    private $user;
     
     /**
      * Get id
@@ -219,5 +227,27 @@ class Fees
     public function getDefault()
     {
         return $this->default;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+   
+    /**
+     * Get user
+     *
+     * @return user
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
