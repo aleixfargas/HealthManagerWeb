@@ -605,8 +605,11 @@ class PatientsController extends Controller
         $query = $em->createQuery(
             'SELECT p
             FROM AppBundle:Patients p
+            WHERE p.user = :user_id
             ORDER BY p.name ASC'
-        )->setFirstResult($offset)->setMaxResults($limit);
+        )->setParameter('user_id', $this->get_logged_User_id())
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
         $paginator = new Paginator($query);
         
@@ -629,7 +632,9 @@ class PatientsController extends Controller
         $telephones = $this->get_patient_telephones($patient_id);
         
         $patients_repository = $this->getDoctrine()->getRepository('AppBundle:Patients');
-        $patient = $patients_repository->find($patient_id);
+        $patient = $patients_repository->findOneBy(
+            array('id'=>$patient_id, 'user'=>$this->get_logged_User_id())
+        );
 
         if (!$patient) {
             throw $this->createNotFoundException(
@@ -854,7 +859,9 @@ class PatientsController extends Controller
         $this->delete_patient_telephones($patient_id);
         
         $em = $this->getDoctrine()->getManager();
-        $patient = $em->getRepository('AppBundle:Patients')->find($patient_id);
+        $patient = $em->getRepository('AppBundle:Patients')->findOneBy(
+            array('id'=>$patient_id, 'user'=>$this->get_logged_User_id())
+        );
 
         if (!$patient) {
             throw $this->createNotFoundException(
@@ -1074,7 +1081,7 @@ class PatientsController extends Controller
     private function build_patient_entities($request){
         $result = true;
         
-        $this->patient = new Patients();
+        $this->patient = new Patients($this->get_logged_User_id());
         if($request->request->get('id') != null){
             $this->patient->setId($request->request->get('id'));            
         }
@@ -1187,6 +1194,7 @@ class PatientsController extends Controller
 //    }
     
     /**
+     * @deprecated since version 0.1
      * Method to get a patient form
      * 
      * @param Integer $patient Containing a patient Entity
@@ -1202,7 +1210,7 @@ class PatientsController extends Controller
         
         $addressTypes = new AddressTypes();
         $patientAddress = new PatientAddress();
-        $patient = new Patients();
+        $patient = new Patients($this->get_logged_User_id());
         
         $addressTypesType_subForm = $this->createForm(AddressTypesType::class, $addressTypes,
             array(
@@ -1224,5 +1232,10 @@ class PatientsController extends Controller
         );
         
         return $patients_form;
+    }
+    
+    private function get_logged_User_id(){
+        $user = $this->getUser();
+        return $user->getId();        
     }
 }

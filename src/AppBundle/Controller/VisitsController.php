@@ -405,8 +405,10 @@ class VisitsController extends Controller{
         $query = $em->createQuery(
             'SELECT p
             FROM AppBundle:Patients p
+            WHERE p.user = :user_id
             ORDER BY p.name ASC'
-        );
+        )->setParameter('user_id', $this->get_logged_User_id());
+
                 
         $patients = $query->getResult();
         
