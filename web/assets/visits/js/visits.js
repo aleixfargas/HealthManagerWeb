@@ -54,14 +54,17 @@ function next_previous_day_listeners(){
 }
 
 function go_today(){
+//    $('#go_today').addClass('active');
     window.location.href = $('#go_today').attr('url');
 }
 
 function go_previous_day(){
+    $('#go_previous').addClass('active');
     window.location.href = $('#go_previous').attr('url');    
 }
 
 function go_next_day(){
+    $('#go_next').addClass('active');
     window.location.href = $('#go_next').attr('url');
 }
 
