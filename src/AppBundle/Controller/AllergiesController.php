@@ -101,8 +101,11 @@ class AllergiesController extends Controller{
         $query = $em->createQuery(
             'SELECT a
             FROM AppBundle:Allergies a
+            WHERE a.user = :user_id
             ORDER BY a.name ASC'
-        )->setFirstResult($offset)->setMaxResults($limit);
+        )->setParameter('user_id', $this->get_logged_User_id())
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
         $paginator = new Paginator($query);
 
@@ -110,7 +113,7 @@ class AllergiesController extends Controller{
     }
     
     private function build_allergy_entity($request){
-        $this->allergy = new Allergies();
+        $this->allergy = new Allergies($this->get_logged_User_id());
         if($request->request->get('allergy_id') != null){
             $this->allergy->setId($request->request->get('allergy_id'));            
         }
@@ -127,7 +130,9 @@ class AllergiesController extends Controller{
         $patient_name = false;
         
         $allergies_repository = $this->getDoctrine()->getRepository('AppBundle:Allergies');
-        $allergy = $allergies_repository->find($allergy_id);
+        $allergy = $allergies_repository->findOneBy(
+            array('id'=>$allergy_id, 'user'=>$this->get_logged_User_id())
+        );
         
         if($allergy){
 //            $patient_name = $this->get_visit_patient_name($allergy->getPatient());
@@ -146,7 +151,9 @@ class AllergiesController extends Controller{
      */
     private function delete_allergy($allergy_id){
         $em = $this->getDoctrine()->getManager();
-        $allergy = $em->getRepository('AppBundle:Allergies')->find($allergy_id);
+        $allergy = $em->getRepository('AppBundle:Allergies')->findOneBy(
+            array('id'=>$allergy_id, 'user'=>$this->get_logged_User_id())
+        );
 
         if (!$allergy) {
             throw $this->createNotFoundException(
@@ -156,5 +163,10 @@ class AllergiesController extends Controller{
 
         $em->remove($allergy);
         $em->flush();
+    }
+    
+    private function get_logged_User_id(){
+        $user = $this->getUser();
+        return $user->getId();        
     }
 }

@@ -44,6 +44,11 @@ class Allergies
      */
     private $user;
     
+    
+    public function __construct($user) {
+        $this->setUser($user);
+    }
+    
     /**
      * Set id
      *

@@ -101,8 +101,11 @@ class OperationsController extends Controller{
         $query = $em->createQuery(
             'SELECT a
             FROM AppBundle:Operations a
+            WHERE a.user = :user_id
             ORDER BY a.name ASC'
-        )->setFirstResult($offset)->setMaxResults($limit);
+        )->setParameter('user_id', $this->get_logged_User_id())
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
         $paginator = new Paginator($query);
 
@@ -110,7 +113,7 @@ class OperationsController extends Controller{
     }
     
     private function build_operation_entity($request){
-        $this->operation = new Operations();
+        $this->operation = new Operations($this->get_logged_User_id());
         if($request->request->get('operation_id') != null){
             $this->operation->setId($request->request->get('operation_id'));            
         }
@@ -127,7 +130,9 @@ class OperationsController extends Controller{
         $patient_name = false;
         
         $operations_repository = $this->getDoctrine()->getRepository('AppBundle:Operations');
-        $operation = $operations_repository->find($operation_id);
+        $operation = $operations_repository->findOneBy(
+            array('id'=>$operation_id, 'user'=>$this->get_logged_User_id())
+        );
         
         if($operation){
 //            $patient_name = $this->get_visit_patient_name($operation->getPatient());
@@ -146,7 +151,9 @@ class OperationsController extends Controller{
      */
     private function delete_operation($operation_id){
         $em = $this->getDoctrine()->getManager();
-        $operation = $em->getRepository('AppBundle:Operations')->find($operation_id);
+        $operation = $em->getRepository('AppBundle:Operations')->findOneBy(
+            array('id'=>$operation_id, 'user'=>$this->get_logged_User_id())
+        );
 
         if (!$operation) {
             throw $this->createNotFoundException(
@@ -156,5 +163,10 @@ class OperationsController extends Controller{
 
         $em->remove($operation);
         $em->flush();
+    }
+    
+    private function get_logged_User_id(){
+        $user = $this->getUser();
+        return $user->getId();        
     }
 }

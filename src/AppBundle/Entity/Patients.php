@@ -138,13 +138,13 @@ class Patients
      */
     private $user;
 
+    
     public function __construct($user) {
         $format = 'Y-m-d H:i:s';
         $date = \DateTime::createFromFormat($format, date($format));
         $this->setRegisterDate($date);
         $this->setUser($user);
     }
-
 
     /**
      * Get id

@@ -44,6 +44,11 @@ class Operations
      */
     private $user;
 
+    
+    public function __construct($user) {
+        $this->setUser($user);
+    }
+    
     /**
      * Get id
      *
