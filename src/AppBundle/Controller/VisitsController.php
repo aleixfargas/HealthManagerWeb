@@ -241,28 +241,33 @@ class VisitsController extends Controller{
     /**
      * @Route("/visits/fetch/allVisitDates/", name="visits-fetch-allVisitDates")
      */
-    public function fetch_allVisitDatesAction(){
+    public function fetch_allVisitDatesAction(Request $request){
         $result = 'error';
         $action = 'No visits found';
-        
-        $format = 'Y-m-d H:i:s';
-        $date = \DateTime::createFromFormat($format, date($format));
-        
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            "SELECT v
-            FROM AppBundle:Visits v
-            WHERE v.visitDate > :today
-            ORDER BY v.visitDate ASC"
-        )->setParameter('today', $date->format('Y-m-d 00:00:00'));
-                
-        $visits = $query->getResult();
-        
-        if($visits){
-            $result = 'success';
-            $action = array();
-            foreach ($visits as $visit){
-                array_push($action, $visit->getVisitDate()->format('Y-m-d H:i:s'));
+
+        $date = $request->request->get('dateTime');
+        if($date != "" && $date !== FALSE && $date != null){
+            $format = 'Y-m-d H:i:s';
+            $date = \DateTime::createFromFormat($format, $date);
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                "SELECT v
+                FROM AppBundle:Visits v
+                WHERE v.visitDate > :start_today
+                AND v.visitDate < :end_today
+                ORDER BY v.visitDate ASC"
+            )->setParameter('start_today', $date->format('Y-m-d 00:00:00'))
+            ->setParameter('end_today', $date->format('Y-m-d 23:59:59'));
+
+            $visits = $query->getResult();
+
+            if($visits){
+                $result = 'success';
+                $action = array();
+                foreach ($visits as $visit){
+                    array_push($action, $visit->getVisitDate()->format('Y-m-d H:i:s'));
+                }
             }
         }
         
