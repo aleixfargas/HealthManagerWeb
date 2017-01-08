@@ -65,7 +65,7 @@
                 <div class="float-left">
                 <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
                 <input id="current_day" value="{{ list_date }}" hidden />
-                <p>Total {{ visits_list|length }} visits</p>
+                <p>{{ visits_list|length }} visits</p>
                 </div>
                 <table id="visits-table" class="my-table table">
                     {% if visits_list|length > 0  %}
