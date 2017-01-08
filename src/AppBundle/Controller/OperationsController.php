@@ -43,7 +43,7 @@ class OperationsController extends Controller{
                 'operations_list' => $operations_list,
                 'pages' => $pages,
                 'current_page' => $page,
-                'url_paginator' => 'visits-list',
+                'url_paginator' => 'operations-list',
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('operations-list'), 'name'=>$this->getTranslatedSectionName()]

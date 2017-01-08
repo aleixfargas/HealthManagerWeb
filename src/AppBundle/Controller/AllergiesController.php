@@ -43,7 +43,7 @@ class AllergiesController extends Controller{
                 'allergies_list' => $allergies_list,
                 'pages' => $pages,
                 'current_page' => $page,
-                'url_paginator' => 'visits-list',
+                'url_paginator' => 'allergies-list',
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('allergies-list'), 'name'=>$this->getTranslatedSectionName()]
