@@ -35,6 +35,9 @@
             <div class="form-group">
                 <label for="visit_date_input">Visit Date</label>
                 <div class='input-group date' id='datetimepicker1'>
+                    {% if visit_visitDate is not empty %}
+                        <input type='text' id="visit_hour_date" value="{{ visit_visitDate|date("Y-m-d H:i:s", "Europe/Madrid") }}" hidden/>
+                    {% endif %}                     
                     <input type='text' class="form-control" id="visit_date_input" name="visit_date" {% if visit_visitDate is not empty %} value="{{ visit_visitDate|date("Y-m-d H:i:s", "Europe/Madrid") }}" {% endif %} readonly required/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
