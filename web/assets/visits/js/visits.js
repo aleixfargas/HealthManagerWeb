@@ -4,6 +4,7 @@ $(document).ready(function () {
     current_day = $('#current_day').val();
 //    alert(current_day);
     create_datetimepicker_visits();
+    next_previous_day_listeners();
     add_show_visit_listener();
     show_visits_checkbox();
 });
@@ -24,6 +25,44 @@ function create_datetimepicker_visits(){
             window.location.href = "/visits/list/" + date_to_go;
         }
     });
+}
+
+function next_previous_day_listeners(){
+    $('#go_previous').click(function(){
+        go_previous_day();
+    });
+    $('#go_today').click(function(){
+        go_today();
+    });
+    $('#go_next').click(function(){
+        go_next_day();        
+    });
+    
+    $(document).keydown(function(e) {
+        switch(e.which) {
+            case 37: // left
+                go_previous_day();        
+                break;
+
+            case 39: // right
+                go_next_day();                
+                break;
+
+            default: return; // exit this handler for other keys
+        }
+    });
+}
+
+function go_today(){
+    window.location.href = $('#go_today').attr('url');
+}
+
+function go_previous_day(){
+    window.location.href = $('#go_previous').attr('url');    
+}
+
+function go_next_day(){
+    window.location.href = $('#go_next').attr('url');
 }
 
 function add_show_visit_listener(){
