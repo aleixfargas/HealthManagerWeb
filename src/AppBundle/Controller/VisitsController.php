@@ -256,7 +256,7 @@ class VisitsController extends Controller{
                 FROM AppBundle:Visits v
                 WHERE v.visitDate > :start_today
                 AND v.visitDate < :end_today
-                AND v.user < :user_id
+                AND v.user = :user_id
                 ORDER BY v.visitDate ASC"
             )->setParameter('start_today', $date->format('Y-m-d 00:00:00'))
             ->setParameter('end_today', $date->format('Y-m-d 23:59:59'))
