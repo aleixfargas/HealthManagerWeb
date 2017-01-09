@@ -174,8 +174,10 @@
             <div class="content-main container-fluid">
                 {% include 'common/banner.html.twig' %}
                 {% include 'common/error.html.twig' %}
-                {% block content_main %}{% endblock %}
-
+                
+                <div class="blank">
+                    {% block content_main %}{% endblock %}
+                </div>
                 <div class="copy">
                     <p> &copy; 2016 HealthManager {{ version }}. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
                 </div>

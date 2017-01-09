@@ -32,6 +32,10 @@ a:hover {
     height: 68px!important;
 }
 
+.blank {
+    padding: 0em !important;
+}
+
 @media (max-width: 600px){
     .my-dropdown-right{
         left: -6em!important;
