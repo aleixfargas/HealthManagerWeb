@@ -36,6 +36,11 @@ a:hover {
     padding: 0em !important;
 }
 
+.copy {
+    margin-left: -1em;
+    margin-right: -1em;
+}
+
 @media (max-width: 600px){
     .my-dropdown-right{
         left: -6em!important;
