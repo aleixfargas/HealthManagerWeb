@@ -52,7 +52,13 @@
                 <div class="col-md-12">
                     <li class="list-group-item">
                         <h4 class="list-group-item-heading">Patient</h4>
-                        <p><a href="{{ url('patients-show', {'patient_id':visit.patient}) }}" class="list-group-item-text">{{ visit_patient_name }}</a></p>
+                        <p>
+                            {% if visit.patient != 0 %}
+                                <a href="{{ url('patients-show', {'patient_id':visit.patient}) }}" class="list-group-item-text">{{ visit_patient_name }}</a>
+                            {% else %} 
+                                {{ visit_patient_name }}
+                            {% endif %} 
+                        </p>
                     </li>
                     <li class="list-group-item">
                         <h4 class="list-group-item-heading">Visit Date</h4>
