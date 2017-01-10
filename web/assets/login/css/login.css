@@ -2,6 +2,10 @@
     /*border: none!important;*/
 }
 
+.my-login-user-icon{
+    width: 10px!important;
+}
+
 .login-selector{
     width: 88%;
 }
