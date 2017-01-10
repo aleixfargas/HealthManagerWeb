@@ -2,6 +2,16 @@ a:hover {
     cursor: pointer;
 }
 
+.navbar-brand{
+    background-color: #d9534f!important; 
+    border-color: #d43f3a!important; 
+}
+
+.navbar-brand:hover{
+    background-color: #c9302c!important; 
+    border-color: #ac2925!important;
+}
+
 .cursor-pointer:hover {
     cursor: pointer;
 }

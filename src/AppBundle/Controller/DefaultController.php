@@ -24,7 +24,7 @@ class DefaultController extends Controller
             'default/index.html.twig', array(
                 'is_section' =>true,
                 'sections' => [
-                    ['url'=>$this->generateUrl('homepage'), 'name'=>$this->getTranslatedSectionName()]
+//                    ['url'=>$this->generateUrl('homepage'), 'name'=>$this->getTranslatedSectionName()]
                 ]
             )
         );
