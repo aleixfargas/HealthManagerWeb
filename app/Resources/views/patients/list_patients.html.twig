@@ -115,11 +115,9 @@
                     {% endif %}
                 </table>
                 <!--/patients_gallery-->
-                {% include 'common/paginator.html.twig' %}
-{#
-                <div class="modal fade" id="patient_addnew_modal" role="dialog">
-                    {% include 'patients/add_patients.html.twig' %}
-                </div>#}
+                {% if paginator is defined %}
+                    {% include 'common/paginator.html.twig' %}
+                {% endif %}
             </div>
         </div>
     </div>

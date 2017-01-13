@@ -81,6 +81,8 @@ class PatientsController extends Controller
                 'operations_types' => $operations,
                 'allergies_types' => $allergies,
                 'patients_list' => $patients_list,
+                'has_search' => true,
+                'search_url' => $this->generateUrl('patients-search'),
                 'pages' => $pages,
                 'current_page' => $page,
                 'url_paginator' => 'patients-list',
@@ -90,8 +92,41 @@ class PatientsController extends Controller
                 ]
             )
         );
-    }
+    } 
     
+    /**
+     * @Route("/patients/search/{page}", name="patients-search")
+     */
+    public function searchPatientAction($page=1, Request $request)
+    {
+        $result = false;
+        $search = $request->query->get('search');
+        if($search != null){
+//            $page = ($request->query->get('page')!=null)? $request->query->get('page') : 1;
+            $patients_list = $this->get_all_patients_ByName($search, $page);
+
+            $result = $this->render(
+                'patients/list_patients.html.twig', array(
+                    'error' => $this->error,
+                    'error_message' => $this->error_message,
+                    'patients_list' => $patients_list,
+                    'has_search' => true,
+                    'search_previous' => $search,
+                    'search_url' => $this->generateUrl('patients-search'),
+                    'is_section' =>true,
+                    'sections' => [
+                        ['url'=>  $this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
+                        ['url'=>'#', 'name'=>$this->get('translator')->trans('base.global_search', array(), 'base') . ": '{$search}'"]
+                    ]
+                )
+            );
+        }
+        else {
+            $result = $this->redirectToRoute('patients-list');
+        }
+        
+        return $result;
+    }
     
     /**
      * @Route("/patients/new", name="patients-new")
@@ -614,6 +649,34 @@ class PatientsController extends Controller
         $paginator = new Paginator($query);
         
         return [$paginator->count(), $paginator->getIterator()];
+    }
+    
+    /**
+     * Method to get all the patients by name
+     * @param String $name containing all or a part of the name to search for.
+     * @return array Containing all patients
+     * @throws Exception NotFoundException
+     */
+    private function get_all_patients_ByName($search, $page){
+        $limit = $this->maxResults;
+        $offset = $this->maxResults * ($page-1);
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p
+            FROM AppBundle:Patients p
+            WHERE p.name LIKE :search 
+            OR p.surname LIKE :search
+            AND p.user = :user_id
+            ORDER BY p.name ASC'
+        )->setParameter('user_id', $this->get_logged_User_id())
+        ->setParameter('search', "%" . $search . "%")
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
+
+        $patients_founded = $query->getResult();
+        
+        return $patients_founded;
     }
     
     /**
