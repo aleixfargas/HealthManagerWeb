@@ -55,7 +55,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        version: "v0.4.3"
+        version: "v0.5"
 
 # Doctrine Configuration
 doctrine:
