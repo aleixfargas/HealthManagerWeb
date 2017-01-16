@@ -95,15 +95,14 @@ class PatientsController extends Controller
     } 
     
     /**
-     * @Route("/patients/search/{page}", name="patients-search")
+     * @Route("/patients/search", name="patients-search")
      */
-    public function searchPatientAction($page=1, Request $request)
+    public function searchPatientAction(Request $request)
     {
         $result = false;
         $search = $request->query->get('search');
         if($search != null){
-//            $page = ($request->query->get('page')!=null)? $request->query->get('page') : 1;
-            $patients_list = $this->get_all_patients_ByName($search, $page);
+            $patients_list = $this->get_all_patients_ByName($search);
 
             $result = $this->render(
                 'patients/list_patients.html.twig', array(
@@ -234,6 +233,7 @@ class PatientsController extends Controller
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
                 $logger->error($e->getMessage());
+                $action = 'This patient already exist';
             }
         } else {
             //not valid
@@ -653,14 +653,11 @@ class PatientsController extends Controller
     
     /**
      * Method to get all the patients by name
-     * @param String $name containing all or a part of the name to search for.
-     * @return array Containing all patients
+     * @param String $search containing all or a part of the name to search for.
+     * @return array Containing all patients that contains $search
      * @throws Exception NotFoundException
      */
-    private function get_all_patients_ByName($search, $page){
-        $limit = $this->maxResults;
-        $offset = $this->maxResults * ($page-1);
-
+    private function get_all_patients_ByName($search){
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
             'SELECT p
@@ -670,9 +667,7 @@ class PatientsController extends Controller
             AND p.user = :user_id
             ORDER BY p.name ASC'
         )->setParameter('user_id', $this->get_logged_User_id())
-        ->setParameter('search', "%" . $search . "%")
-        ->setFirstResult($offset)
-        ->setMaxResults($limit);
+        ->setParameter('search', "%" . $search . "%");
 
         $patients_founded = $query->getResult();
         

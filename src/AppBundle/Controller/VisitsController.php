@@ -14,6 +14,8 @@ use AppBundle\Entity\Visits;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 class VisitsController extends Controller{
     private $section_name = 'base.global_section_visits';
     private $maxResults = 14;
@@ -83,16 +85,21 @@ class VisitsController extends Controller{
      */
     public function saveNewVisitAction(Request $request){
 //        $this->logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
+        $result = 'error';
+        $action = 'Unknown error';
 
         $this->build_visit_entity($request);
-//        $patient_to_update = $em->getRepository('AppBundle:Visits')->find($this->patient->getId());
-        $em->persist($this->visit);
-        
-        $em->flush();
-        $result = 'success';
-        $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
-        
+        try{
+            $em = $this->getDoctrine()->getManager();
+    //        $patient_to_update = $em->getRepository('AppBundle:Visits')->find($this->patient->getId());
+            $em->persist($this->visit);
+
+            $em->flush();
+            $result = 'success';
+            $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
+        } catch (UniqueConstraintViolationException $e){
+            $action = "Please choose another hour, {$this->visit->getvisitDate()->format('Y-m-d H:i:s')} is reserved yet";
+        }
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
     }

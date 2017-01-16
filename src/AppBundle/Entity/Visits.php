@@ -4,14 +4,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use ORM\OneToMany;
 use ORM\JoinColumn;
 
 /**
  * Visits
  *
- * @ORM\Table(name="visits")
+ * @ORM\Table(name="visits",uniqueConstraints={@ORM\UniqueConstraint(name="visit", columns={"visitDate", "user"})}))
  * @ORM\Entity(repositoryClass="AppBundle\Repository\VisitsRepository")
+ * @UniqueEntity(
+ *      fields="visitDate"
+ * )
  */
 class Visits
 {
@@ -66,7 +71,7 @@ class Visits
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="visitDate", type="datetime")
+     * @ORM\Column(name="visitDate", type="datetime", unique=true)
      */
     private $visitDate;
     

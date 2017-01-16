@@ -9,9 +9,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Patients
  *
- * @ORM\Table(name="patients")
+ * @ORM\Table(name="patients",uniqueConstraints={@ORM\UniqueConstraint(name="patient", columns={"name", "surname", "user"})}))
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PatientsRepository")
- * @UniqueEntity("dni", message="Dni already exists!")
+ * @UniqueEntity(
+ *      fields="dni",
+ *      ignoreNull=true
+ * )
  */
 class Patients
 {
