@@ -65,9 +65,9 @@ class PatientsController extends Controller
         
         $pages = ((int)($total_patients/$this->maxResults))+(($total_patients%$this->maxResults)==0? 0 : 1);
         
-        $logger->info('Total patients = ' . $total_patients);
-        $logger->info('Pages = ' . $pages);
-        $logger->info('Current page = ' . $page);
+//        $logger->info('Total patients = ' . $total_patients);
+//        $logger->info('Pages = ' . $pages);
+//        $logger->info('Current page = ' . $page);
         
         return $this->render(
             'patients/list_patients.html.twig', array(
@@ -499,7 +499,6 @@ class PatientsController extends Controller
                 
                 //========= Patient Allergies Update =======
                 if($this->patientAllergies != null){
-                    $logger->info("TRACE 0");
                     $patientAllergy_to_update = array();
 
                     $i = 0;
@@ -507,18 +506,18 @@ class PatientsController extends Controller
                     $patientEntities_to_keep = array();
                     $current_allergies_num = count($current_patient['allergies']);
                     $new_allergies_num = count($this->patientAllergies);
-                    $logger->info("Start, counting newAllergies = {$new_allergies_num}");
+//                    $logger->info("Start, counting newAllergies = {$new_allergies_num}");
                     for($n = 0; $n < $new_allergies_num; $n++){
                         $patientEntityFound = false;
                         $newEntity = $this->patientAllergies[$n];
                         $newAllergy = $newEntity->getAllergy();
-                        $logger->info("Searching new Allergy {$newAllergy} in current allergies...");
+//                        $logger->info("Searching new Allergy {$newAllergy} in current allergies...");
                         for($i = 0; (($i < $current_allergies_num) && !$patientEntityFound); $i++){
                             //check if the new entity is in the current patient entities
                             $currentEntity = $current_patient['allergies'][$i];
                             if($currentEntity->getId() == $newAllergy){
                                 //Entity found in currentPatientEntity, so we can keep it
-                                $logger->info("Found! new {$newAllergy} == current {$currentEntity->getId()}");
+//                                $logger->info("Found! new {$newAllergy} == current {$currentEntity->getId()}");
                                 array_push($patientEntities_to_keep, $currentEntity->getId());
                                 $patientEntityFound = true;
                             }
@@ -528,7 +527,7 @@ class PatientsController extends Controller
                             //0 to prevent when no allergies selected
                             if($newAllergy != -1){
                                 //Insert new patientEntity with the current Entity
-                                $logger->info("Not Found! Inserting {$newAllergy} to DB...");
+//                                $logger->info("Not Found! Inserting {$newAllergy} to DB...");
                                 array_push($patientEntities_to_keep, $newAllergy);
 
                                 $patientEntity = new PatientAllergies();
@@ -541,13 +540,13 @@ class PatientsController extends Controller
                         }
                     }
                 
-                    $logger->info("Searching current patientAllergies to delete...");                    
+//                    $logger->info("Searching current patientAllergies to delete...");                    
                     foreach($current_patient['allergies'] as $currentEntity){
                         if(!in_array($currentEntity->getId(), $patientEntities_to_keep)){
                             //delete $currentPatientEntity
                             $repository = $this->getDoctrine()->getRepository('AppBundle:PatientAllergies');
                             $currentPatientEntity = $repository->findOneByAllergy($currentEntity->getId());
-                            $logger->info("Deleting PatientAllergy -> {$currentPatientEntity->getId()}...");                    
+//                            $logger->info("Deleting PatientAllergy -> {$currentPatientEntity->getId()}...");                    
                             $em->remove($currentPatientEntity);
                         }
                     }
@@ -555,7 +554,6 @@ class PatientsController extends Controller
                 
                 //========= Patient Operations Update =======
                 if($this->patientOperations != null){
-                    $logger->info("TRACE 0");
                     $patientOperation_to_update = array();
 
                     $i = 0;
@@ -563,18 +561,18 @@ class PatientsController extends Controller
                     $patientEntities_to_keep = array();
                     $current_operations_num = count($current_patient['operations']);
                     $new_operations_num = count($this->patientOperations);
-                    $logger->info("Start, counting newOperations = {$new_operations_num}");
+//                    $logger->info("Start, counting newOperations = {$new_operations_num}");
                     for($n = 0; $n < $new_operations_num; $n++){
                         $patientEntityFound = false;
                         $newEntity = $this->patientOperations[$n];
                         $newOperation = $newEntity->getOperation();
-                        $logger->info("Searching new Operation {$newOperation} in current operations...");
+//                        $logger->info("Searching new Operation {$newOperation} in current operations...");
                         for($i = 0; (($i < $current_operations_num) && !$patientEntityFound); $i++){
                             //check if the new entity is in the current patient entities
                             $currentEntity = $current_patient['operations'][$i];
                             if($currentEntity->getId() == $newOperation){
                                 //Entity found in currentPatientEntity, so we can keep it
-                                $logger->info("Found! new {$newOperation} == current {$currentEntity->getId()}");
+//                                $logger->info("Found! new {$newOperation} == current {$currentEntity->getId()}");
                                 array_push($patientEntities_to_keep, $currentEntity->getId());
                                 $patientEntityFound = true;
                             }
@@ -584,7 +582,7 @@ class PatientsController extends Controller
                             //0 to prevent when no operations selected
                             if($newOperation != -1){
                                 //Insert new patientEntity with the current Entity
-                                $logger->info("Not Found! Inserting {$newOperation} to DB...");
+//                                $logger->info("Not Found! Inserting {$newOperation} to DB...");
                                 array_push($patientEntities_to_keep, $newOperation);
 
                                 $patientEntity = new PatientOperations();
@@ -597,13 +595,13 @@ class PatientsController extends Controller
                         }
                     }
 
-                    $logger->info("Searching current patientOperations to delete...");                    
+//                    $logger->info("Searching current patientOperations to delete...");                    
                     foreach($current_patient['operations'] as $currentEntity){
                         if(!in_array($currentEntity->getId(), $patientEntities_to_keep)){
                             //delete $currentPatientEntity
                             $repository = $this->getDoctrine()->getRepository('AppBundle:PatientOperations');
                             $currentPatientEntity = $repository->findOneByOperation($currentEntity->getId());
-                            $logger->info("Deleting PatientOperation -> {$currentPatientEntity->getId()}...");                    
+//                            $logger->info("Deleting PatientOperation -> {$currentPatientEntity->getId()}...");                    
                             $em->remove($currentPatientEntity);
                         }
                     }

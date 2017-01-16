@@ -74,16 +74,17 @@ class AllergiesController extends Controller{
     public function removeAllergyAction(Request $request){
         $allergies_array = $request->request->get('allergies_array');
         $result = 'error';
+        $action = "One or various patients have this allergy. If you really want to delete it, first remove it from all the patients!";
         
         foreach ($allergies_array as $allergy_id){
             try {
-                $this->delete_allergy($allergy_id);
-                $result = 'success';
-                $action = $this->generateUrl('allergies-list');
+                if($this->delete_allergy($allergy_id)){
+                    $result = 'success';
+                    $action = $this->generateUrl('allergies-list');
+                }
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
-                $result = 'error';
-                $action = "Could not remove allergy with id $allergy_id, try again later!";
+                $action = "Could not remove allergy with id {$allergy_id}, try again later!";
             }
         }
 
@@ -146,23 +147,32 @@ class AllergiesController extends Controller{
      * Methods to remove an allergy
      * 
      * @param Integer $allergy_id Containing visit id
-     * @return void
-     * @throws Exception NotFoundException
+     * @return Boolean True if success, false if any patient set with this allergy
+     * @throws Exception NotFoundException If no Allergy found
      */
     private function delete_allergy($allergy_id){
+        $result = false;
+        
         $em = $this->getDoctrine()->getManager();
-        $allergy = $em->getRepository('AppBundle:Allergies')->findOneBy(
-            array('id'=>$allergy_id, 'user'=>$this->get_logged_User_id())
+        $patients_with_allergies = $em->getRepository('AppBundle:PatientAllergies')->findBy(
+            array('allergy'=>$allergy_id)
         );
-
-        if (!$allergy) {
-            throw $this->createNotFoundException(
-                'No visit found for id ' . $allergy_id
+        if(count($patients_with_allergies) === 0){
+            $allergy = $em->getRepository('AppBundle:Allergies')->findOneBy(
+                array('id'=>$allergy_id, 'user'=>$this->get_logged_User_id())
             );
-        }
 
-        $em->remove($allergy);
-        $em->flush();
+            if (!$allergy) {
+                throw $this->createNotFoundException(
+                    'No visit found for id ' . $allergy_id
+                );
+            }
+
+            $em->remove($allergy);
+            $em->flush();
+        }
+        
+        return $result;
     }
     
     private function get_logged_User_id(){
