@@ -83,6 +83,7 @@ class PatientsController extends Controller
                 'patients_list' => $patients_list,
                 'has_search' => true,
                 'search_url' => $this->generateUrl('patients-search'),
+                'paginator' => true,
                 'pages' => $pages,
                 'current_page' => $page,
                 'url_paginator' => 'patients-list',
