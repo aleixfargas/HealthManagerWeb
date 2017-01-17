@@ -58,16 +58,18 @@
                 <!--/visits_toolbar-->
 
                 <!--visits_gallery-->
-                <div class="float-right">
-                    {# Day-to-day picker #}
-                    <button id="go_previous" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></button>
-                    <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">Today</button>
-                    <button id="go_next" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></button>
-                </div>
-                <div class="float-left">
-                <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
-                <input id="current_day" value="{{ list_date }}" hidden />
-                <p>{{ visits_list|length }} visits</p>
+                <div class="head-table-visits">
+                    <div class="float-right">
+                        {# Day-to-day picker #}
+                        <button id="go_previous" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></button>
+                        <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">Today</button>
+                        <button id="go_next" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                    <div class="float-left">
+                        <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                        <input id="current_day" value="{{ list_date }}" hidden />
+                        <p>{{ visits_list|length }} visits</p>
+                    </div>
                 </div>
                 <table id="visits-table" class="my-table table">
                     {% if visits_list|length > 0  %}
@@ -92,7 +94,7 @@
                                         <input name="btSelectItem" type="checkbox">
                                     </td>
                                     <td class="table-text col-md-3">
-                                        {{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}
+                                        {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
                                     </td>
                                     <td class="table-text">
                                         <div class="float-left">
