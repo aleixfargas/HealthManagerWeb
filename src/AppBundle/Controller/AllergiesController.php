@@ -55,7 +55,7 @@ class AllergiesController extends Controller{
     /**
      * @Route("/allergies/save/", name="allergies-save")
     */
-    public function saveNewAllergiesAction(Request $request){        
+    public function saveNewAllergiesAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $this->build_allergy_entity($request);
         

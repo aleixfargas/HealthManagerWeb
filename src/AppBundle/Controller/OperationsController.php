@@ -74,12 +74,14 @@ class OperationsController extends Controller{
     public function removeOperationAction(Request $request){
         $operations_array = $request->request->get('operations_array');
         $result = 'error';
+        $action = "One or various patients have this operation. If you really want to delete it, first remove it from all the patients!";
         
         foreach ($operations_array as $operation_id){
             try {
-                $this->delete_operation($operation_id);
-                $result = 'success';
-                $action = $this->generateUrl('operations-list');
+                if($this->delete_operation($operation_id)){
+                    $result = 'success';
+                    $action = $this->generateUrl('operations-list');
+                }
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
                 $result = 'error';
@@ -146,23 +148,32 @@ class OperationsController extends Controller{
      * Methods to remove an operation
      * 
      * @param Integer $operation_id Containing operation id
-     * @return void
+     * @return Boolean True if success, false if any patient set with this allergy
      * @throws Exception NotFoundException
      */
     private function delete_operation($operation_id){
+        $result = false;
+
         $em = $this->getDoctrine()->getManager();
-        $operation = $em->getRepository('AppBundle:Operations')->findOneBy(
-            array('id'=>$operation_id, 'user'=>$this->get_logged_User_id())
+        $patients_with_operations = $em->getRepository('AppBundle:PatientOperations')->findBy(
+            array('operation'=>$operation_id)
         );
-
-        if (!$operation) {
-            throw $this->createNotFoundException(
-                'No visit found for id ' . $operation_id
+        if(count($patients_with_operations) === 0){
+            $operation = $em->getRepository('AppBundle:Operations')->findOneBy(
+                array('id'=>$operation_id, 'user'=>$this->get_logged_User_id())
             );
-        }
 
-        $em->remove($operation);
-        $em->flush();
+            if (!$operation) {
+                throw $this->createNotFoundException(
+                    'No visit found for id ' . $operation_id
+                );
+            }
+
+            $em->remove($operation);
+            $em->flush();
+        }
+        
+        return $result;
     }
     
     private function get_logged_User_id(){
