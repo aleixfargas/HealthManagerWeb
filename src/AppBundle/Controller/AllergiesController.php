@@ -170,6 +170,7 @@ class AllergiesController extends Controller{
 
             $em->remove($allergy);
             $em->flush();
+            $result = true;
         }
         
         return $result;

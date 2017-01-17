@@ -171,6 +171,7 @@ class OperationsController extends Controller{
 
             $em->remove($operation);
             $em->flush();
+            $result = true;
         }
         
         return $result;
