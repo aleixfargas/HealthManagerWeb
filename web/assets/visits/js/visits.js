@@ -12,16 +12,18 @@ $(document).ready(function () {
 //=================== LIST FUNCTIONS ===================
 function create_datetimepicker_visits(){
     var date_to_go;
+    var current_date_moment = moment(current_day);
     var dp = $('#datetimepicker_visits');
 
     dp.datetimepicker({
         locale: moment.locale(get_locale()),
         inline: true,
-        date: moment(current_day),
+        date: current_date_moment,
+        defaultDate: current_date_moment,
         format: 'YYYY-M-D'
     }).on('dp.change', function(event) {
         if(event.oldDate != null){
-            date_to_go = event.date.format('YYYY-M-D');
+            date_to_go = event.date.format('YYYY-MM-DD');
             window.location.href = "/visits/list/" + date_to_go;
         }
     });
