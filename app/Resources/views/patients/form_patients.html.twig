@@ -189,8 +189,8 @@
             <h3>Allergies</h3>
             <br />
             <div class="input-group">
-                <select class="selectpicker" name="allergies_type[]" multiple>
-                    <option value="-1" {% if allergies_patient is empty %} selected {% elseif patient_allergies_id_array|length < 1 %} selected {% endif %}> No allergies </option>
+                <select class="selectpicker" name="allergies_type[]" multiple data-actions-box="true" data-noneSelectedText="No allergies" {% if all_allergies_types is empty %} disabled {% endif %}>
+{#                    <option value="-1" {% if allergies_patient is empty %} selected {% elseif patient_allergies_id_array|length < 1 %} selected {% endif %}> No allergies </option> #}
                     {% for allergies_type in all_allergies_types %}
                         <option value="{{ allergies_type.id }}" {% if patient_allergies_id_array is defined and allergies_type.id in patient_allergies_id_array %} selected {% endif %}>{{ allergies_type.name }} - {{ allergies_type.characteristic }}</option>
                     {%endfor%}
@@ -211,8 +211,8 @@
             <h3>Operations</h3>
             <br />
             <div class="input-group">
-                <select class="selectpicker" name="operations_type[]" multiple>
-                    <option value="-1" {% if operations_patient is empty %} selected {% elseif patient_operations_id_array|length < 1 %} selected {% endif %}> No operations </option>
+                <select class="selectpicker" name="operations_type[]" multiple data-actions-box="true" data-noneSelectedText="No patients" {% if all_operations_types is empty %} disabled {% endif %}>
+{#                    <option value="-1" {% if operations_patient is empty %} selected {% elseif patient_operations_id_array|length < 1 %} selected {% endif %}> No operations </option>#}
                     {% for operations_type in all_operations_types %}
                         <option value="{{ operations_type.id }}" {% if patient_operations_id_array is defined and operations_type.id in patient_operations_id_array %} selected {% endif %}>{{ operations_type.name }} - {{ operations_type.characteristic }}</option>
                     {%endfor%}
