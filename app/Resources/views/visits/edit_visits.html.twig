@@ -8,14 +8,14 @@
                     <div class="mail-toolbar">
                         <div class="float-right">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-success">Edit</button>
+                                <button type="submit" class="btn btn-success">{{ 'base.section_edit_button'|trans({}, 'base') }}</button>
                             </div>
                             <div class="btn-group">
-                                <a href="{{ url('visits-show', {'visit_id': visit.id}) }}" type="button" class="btn btn-default">Cancel</a>
+                                <a href="{{ url('visits-show', {'visit_id': visit.id}) }}" type="button" class="btn btn-default">{{ 'base.section_cancel_button'|trans({}, 'base') }}</a>
                             </div>
                         </div>
                         <div class="float-left">
-                            <h2>Visit Form</h2>
+                            <h2>{{ 'visits.section_visit_edit_form'|trans({}, 'visits') }}</h2>
                         </div>
                     </div>
                     <div class="clearfix"></div>

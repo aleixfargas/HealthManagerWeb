@@ -35,7 +35,7 @@
                                     <li>
                                         <a href="{{ url('patients-edit', {'patient_id': patient_data.patient.id})  }}" title="">
                                             <i class="fa fa-pencil-square-o icon_9"></i>
-                                            Edit
+                                            {{ 'base.section_edit_button'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                     {#
@@ -55,7 +55,7 @@
                                     <li>
                                         <a id="delete_patients_btn" class="font-red" title="">
                                             <i class="fa fa-times" icon_9=""></i>
-                                            Delete
+                                            {{ 'base.global_delete'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -75,7 +75,7 @@
                         <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="">
                     </div>
                     <div class="col-md-9 profile-text">
-                        <h3>Basic Information</h3>
+                        <h3>{{ 'patients.section_basic_information'|trans({}, 'patients') }}</h3>
                         <br />
                         <ul class="list-group">
                            {# <li class="list-group-item">
@@ -84,19 +84,19 @@
                             </li>#}
                             {% if patient_data.patient.job is not empty %}            
                                 <li class="list-group-item">
-                                    <h4 class="list-group-item-heading">Job</h4>
+                                    <h4 class="list-group-item-heading">{{ 'patients.section_input_job'|trans({}, 'patients') }}</h4>
                                     <p class="list-group-item-text">{{ patient_data.patient.job }}</p>
                                 </li>
                             {% endif %}
                             {% if patient_data.patient.age is not empty and patient_data.patient.age > 0 %}            
                                 <li class="list-group-item">
-                                    <h4 class="list-group-item-heading">Age</h4>
+                                    <h4 class="list-group-item-heading">{{ 'patients.section_input_age'|trans({}, 'patients') }}</h4>
                                     <p class="list-group-item-text">{{ patient_data.patient.age }}</p>
                                 </li>
                             {% endif %}
                             {% if patient_data.patient.birthday is not empty %}            
                                 <li class="list-group-item">
-                                    <h4 class="list-group-item-heading">Birthday</h4>
+                                    <h4 class="list-group-item-heading">{{ 'patients.section_input_birthday'|trans({}, 'patients') }}</h4>
                                     <p class="list-group-item-text">{{ patient_data.patient.birthday|date("d/m/Y", "Europe/Madrid") }}</p>
                                 </li>
                             {% endif %}
@@ -109,12 +109,12 @@
             {% if patient_data.emails is not empty or patient_data.addresses is not empty or patient_data.telephones is not empty %}            
             <div class="grid_3 grid_4">
                 <div class="col-md-12 profile-text">
-                    <h3>Contact</h3>
+                    <h3>{{ 'patients.section_contact'|trans({}, 'patients') }}</h3>
                     <br />
                     {% if patient_data.telephones is not empty %}
                         <div class="col-md-4 col-sm-12">                        
                             <li class="list-group-item">
-                                <h4 class="list-group-item-heading">Telephone</h4>
+                                <h4 class="list-group-item-heading">{{ 'patients.section_input_phone'|trans({}, 'patients') }}</h4>
                                 {% set telephones_types = patient_data.telephones.types %}
                                 {% set telephones_names = patient_data.telephones.patient_telephones %}
                                 {% set telephones_num = patient_data.telephones.types|length %}
@@ -129,7 +129,7 @@
                     {% if patient_data.emails is not empty %}            
                         <div class="col-md-4 col-sm-12">
                             <li class="list-group-item">
-                                <h4 class="list-group-item-heading">Email</h4>
+                                <h4 class="list-group-item-heading">{{ 'patients.section_input_email'|trans({}, 'patients') }}</h4>
                                 {% set email_types = patient_data.emails.types %}
                                 {% set email_names = patient_data.emails.patient_emails %}
                                 {% set email_num = patient_data.emails.types|length %}
@@ -144,7 +144,7 @@
                     {% if patient_data.addresses is not empty %}
                         <div class="col-md-4 col-sm-12">
                             <li class="list-group-item">
-                                <h4 class="list-group-item-heading">Address</h4>
+                                <h4 class="list-group-item-heading">{{ 'patients.section_input_address'|trans({}, 'patients') }}</h4>
                                 {% set address_types = patient_data.addresses.types %}
                                 {% set address_names = patient_data.addresses.patient_address %}
                                 {% set address_num = patient_data.addresses.types|length %}
@@ -165,7 +165,7 @@
             {% if patient_data.patient.notes is not empty %}
             <div class="grid_3 grid_4">
                 <div class="col-md-12 profile-text">
-                    <h3>Notes</h3>
+                    <h3>{{ 'patients.section_input_notes'|trans({}, 'patients') }}</h3>
                     <br />
                     {{ patient_data.patient.notes }}
                 </div>                
@@ -176,7 +176,7 @@
             {% if patient_data.allergies is not empty %}
             <div class="grid_3 grid_4">
                 <div class="col-md-12 profile-text">
-                    <h3>Allergies</h3>
+                    <h3>{{ 'patients.section_input_allergies'|trans({}, 'patients') }}</h3>
                     <br />
                     <ul class="list-group">
                         {% for allergy in patient_data.allergies %}
@@ -194,7 +194,7 @@
             {% if patient_data.operations is not empty %}
             <div class="grid_3 grid_4">
                 <div class="col-md-12 profile-text">
-                    <h3>Operations</h3>
+                    <h3>{{ 'patients.section_input_operations'|trans({}, 'patients') }}</h3>
                     <br />
                     <ul class="list-group">
                     {% for operation in patient_data.operations %}

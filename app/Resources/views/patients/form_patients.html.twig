@@ -36,13 +36,13 @@
             <div class="col-md-12">
                 <div class="col-md-6 col-xs-6">
                     <div class="input-group">
-                        <label for="name_input">Name</label>
+                        <label for="name_input">{{ 'patients.section_input_name'|trans({}, 'patients') }}</label>
                         <input type="text" class="form-control" id="name_input" name="name" value="{{ name_patient }}" required>
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-6">
                     <div class="input-group">
-                        <label for="surname_input">Surname</label>
+                        <label for="surname_input">{{ 'patients.section_input_surname'|trans({}, 'patients') }}</label>
                         <input type="text" class="form-control" id="surname_input" name="surname" value="{{ surname_patient }}" required>                                    
                     </div>
                 </div>
@@ -52,18 +52,18 @@
                 <img src="{{ asset('assets/data/img/avatar.jpg') }}" alt="">
             </div>
             <div class="col-md-9 profile-text">
-                <h3>Basic Information</h3>
+                <h3>{{ 'patients.section_basic_information'|trans({}, 'patients') }}</h3>
                 <br />
                 <div class="form-group">
-                    <label for="job_input">Job</label>
+                    <label for="job_input">{{ 'patients.section_input_job'|trans({}, 'patients') }}</label>
                     <input type="text" class="form-control" id="job_input" name="job" value="{{ job_patient }}">
                 </div>
                 <div class="form-group">
-                    <label for="age_input">Age</label>
+                    <label for="age_input">{{ 'patients.section_input_age'|trans({}, 'patients') }}</label>
                     <input type="text" class="form-control" id="age_input" name="age" {% if age_patient is not empty and age_patient > 0 %} value="{{ age_patient }}" {% endif %}>
                 </div>
                 <div class="form-group">
-                    <label for="birthday_input">Birthday</label>
+                    <label for="birthday_input">{{ 'patients.section_input_birthday'|trans({}, 'patients') }}</label>
 {#                        <input type="datetime" class="form-control" id="birthday_input" name="birthday">#}
                     <div class='input-group date' id='datetimepicker1'>
                         <input type='text' class="form-control" name="birthday" {% if birthday_patient is not empty %} value="{{ birthday_patient|date("Y/m/d", "Europe/Madrid") }}" {% endif %} readonly/>
@@ -78,10 +78,10 @@
     </div>
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Contact</h3>
+            <h3>{{ 'patients.section_contact'|trans({}, 'patients') }}</h3>
             <br />
             <div class="form-group">
-                <label>Phone</label>
+                <label>{{ 'patients.section_input_phone'|trans({}, 'patients') }}</label>
                 {% if telephones_patient is not empty %}
                     {% set telephones_types = telephones_patient.types %}
                     {% set telephones_names = telephones_patient.patient_telephones %}
@@ -100,11 +100,6 @@
                                 {%endfor%}
                             </select>
                         </div>
-                        {#<select name="phone_type" class="custom-select">
-                            {% for phone_type in all_phone_types %}
-                                <option value="{{ phone_type.id }}" {% if telephones_types is defined and phone_type.id == telephones_types[i].id %} selected {% endif %}>{{ phone_type.name }}</option>
-                            {%endfor%}
-                        </select>#}
                         <div class="form-group">
                             <input class="form-control" type="number" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
                         </div>
@@ -112,7 +107,7 @@
                 {% endfor%}                            
             </div>
             <div class="form-group">
-                <label>Email</label>
+                <label>{{ 'patients.section_input_email'|trans({}, 'patients') }}</label>
                 {% if emails_patient is not empty %}
                     {% set email_types = emails_patient.types %}
                     {% set email_names = emails_patient.patient_emails %}
@@ -138,7 +133,7 @@
                 {% endfor%}                            
             </div>
             <div class="form-group">
-                <label>Address</label>
+                <label>{{ 'patients.section_input_address'|trans({}, 'patients') }}</label>
                 {% if addresses_patient is not empty %}
                     {% set address_types = addresses_patient.types %}
                     {% set address_names = addresses_patient.patient_address %}
@@ -169,7 +164,7 @@
 
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Notes</h3>
+            <h3>{{ 'patients.section_input_notes'|trans({}, 'patients') }}</h3>
             <br />
             <div class="input-group">
                 <textarea class="form-control" rows="5" name="notes" {% if notes_patient is not empty %} value="{{ notes_patient }}" {% endif %}></textarea>
@@ -186,7 +181,7 @@
     {% endif %}
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Allergies</h3>
+            <h3>{{ 'patients.section_input_allergies'|trans({}, 'patients') }}</h3>
             <br />
             <div class="input-group">
                 <select class="selectpicker" name="allergies_type[]" multiple data-actions-box="true" data-noneSelectedText="No allergies" {% if all_allergies_types is empty %} disabled {% endif %}>
@@ -208,7 +203,7 @@
     {% endif %}
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Operations</h3>
+            <h3>{{ 'patients.section_input_operations'|trans({}, 'patients') }}</h3>
             <br />
             <div class="input-group">
                 <select class="selectpicker" name="operations_type[]" multiple data-actions-box="true" data-noneSelectedText="No patients" {% if all_operations_types is empty %} disabled {% endif %}>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="section_add_new">
+                <source>patients.section_add_new</source>
+                <target>Add New Patient</target>
+            </trans-unit>
+            <trans-unit id="section_no_visits">
+                <source>patients.section_no_patients</source>
+                <target>No patients found</target>
+            </trans-unit>
+            <trans-unit id="section_patients_add_form">
+                <source>patients.section_patients_add_form</source>
+                <target>Add new patient</target>
+            </trans-unit>
+            <trans-unit id="section_patient_edit_form">
+                <source>patients.section_patient_edit_form</source>
+                <target>Edit patient</target>
+            </trans-unit>
+            <trans-unit id="section_input_name">
+                <source>patients.section_input_name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="section_input_surname">
+                <source>patients.section_input_surname</source>
+                <target>Surname</target>
+            </trans-unit>
+            <trans-unit id="section_basic_information">
+                <source>patients.section_basic_information</source>
+                <target>Basic Information</target>
+            </trans-unit>
+            <trans-unit id="section_input_job">
+                <source>patients.section_input_job</source>
+                <target>Job</target>
+            </trans-unit>
+            <trans-unit id="section_input_age">
+                <source>patients.section_input_age</source>
+                <target>Age</target>
+            </trans-unit>
+            <trans-unit id="section_input_birthday">
+                <source>patients.section_input_birthday</source>
+                <target>Birthday</target>
+            </trans-unit>
+            <trans-unit id="section_contact">
+                <source>patients.section_contact</source>
+                <target>Contact Information</target>
+            </trans-unit>
+            <trans-unit id="section_input_phone">
+                <source>patients.section_input_phone</source>
+                <target>Phone number</target>
+            </trans-unit>
+            <trans-unit id="section_input_email">
+                <source>patients.section_input_email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="section_input_address">
+                <source>patients.section_input_address</source>
+                <target>Address</target>
+            </trans-unit>
+            <trans-unit id="section_input_notes">
+                <source>patients.section_input_notes</source>
+                <target>Notes</target>
+            </trans-unit>
+            <trans-unit id="section_input_allergies">
+                <source>patients.section_input_allergies</source>
+                <target>Allergies</target>
+            </trans-unit>
+            <trans-unit id="section_input_operations">
+                <source>patients.section_input_operations</source>
+                <target>Operations</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -14,6 +14,14 @@
                 <source>base.global_section_home</source>
                 <target>Índex</target>
             </trans-unit>
+            <trans-unit id="global_section_profile">
+                <source>base.global_section_profile</source>
+                <target>Area personal</target>
+            </trans-unit>
+            <trans-unit id="global_logout">
+                <source>base.global_logout</source>
+                <target>Surt</target>
+            </trans-unit>
             <trans-unit id="global_section_dashboard">
                 <source>base.global_section_dashboard</source>
                 <target>Tauler d'instruments</target>
@@ -37,6 +45,30 @@
             <trans-unit id="global_section_operations">
                 <source>base.global_section_operations</source>
                 <target>Operacions</target>
+            </trans-unit>
+            <trans-unit id="global_add_new">
+                <source>base.global_add_new</source>
+                <target>Guarda</target>
+            </trans-unit>
+            <trans-unit id="section_cancel_button">
+                <source>base.section_cancel_button</source>
+                <target>Cancelar</target>
+            </trans-unit>
+            <trans-unit id="section_add_new_button">
+                <source>base.section_add_new_button</source>
+                <target>Afegeix</target>
+            </trans-unit>
+            <trans-unit id="section_edit_button">
+                <source>base.section_edit_button</source>
+                <target>Editar</target>
+            </trans-unit>
+            <trans-unit id="global_delete">
+                <source>base.global_delete</source>
+                <target>Esborrar</target>
+            </trans-unit>
+            <trans-unit id="global_check_uncheck_all">
+                <source>base.global_check_uncheck_all</source>
+                <target>Seleccionar/Deseleccionar Tots</target>
             </trans-unit>
         </body>
     </file>

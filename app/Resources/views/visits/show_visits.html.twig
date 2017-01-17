@@ -6,7 +6,7 @@
             <div class="grid_3 grid_4">
                 <div class="mail-toolbar clearfix">
                     <div class="float-left">
-                        <h2>Visit <p>{{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}</p></h2>
+                        <h2>{{ 'visits.section_visit_single'|trans({}, 'visits') }} <p>{{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}</p></h2>
                     </div>
                     <!--visit_toolbar-->
                     <div class="float-right">
@@ -21,7 +21,7 @@
                                     <li>
                                         <a href="{{ url('visits-edit', {'visit_id': visit.id})  }}" title="">
                                             <i class="fa fa-pencil-square-o icon_9"></i>
-                                            Edit
+                                            {{ 'base.section_edit_button'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                     {#<li>
@@ -40,7 +40,7 @@
                                     <li>
                                         <a id="delete_visits_btn" class="font-red" title="">
                                             <i class="fa fa-times" icon_9=""></i>
-                                            Delete
+                                            {{ 'base.global_delete'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-md-12">
                     <li class="list-group-item">
-                        <h4 class="list-group-item-heading">Patient</h4>
+                        <h4 class="list-group-item-heading">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</h4>
                         <p>
                             {% if visit.patient != 0 %}
                                 <a href="{{ url('patients-show', {'patient_id':visit.patient}) }}" class="list-group-item-text">{{ visit_patient_name }}</a>
@@ -61,12 +61,12 @@
                         </p>
                     </li>
                     <li class="list-group-item">
-                        <h4 class="list-group-item-heading">Visit Date</h4>
+                        <h4 class="list-group-item-heading">{{ 'visits.section_input_visit_date'|trans({}, 'visits') }}</h4>
                         {#<p class="list-group-item-text">{{ visit.visitDate|date("d/m/Y H:i:s", "Europe/Madrid") }}</p>#}
                         <p class="list-group-item-text">{{ visit.visitDate|time_diff }}</p>
                     </li>
                     <li class="list-group-item">
-                        <h4 class="list-group-item-heading">Reservation Date</h4>
+                        <h4 class="list-group-item-heading">{{ 'visits.section_input_reservation_date'|trans({}, 'visits') }}</h4>
                         <p class="list-group-item-text">
                             {% if visit.reservationDate|time_diff is empty %}
                                 just now                                
@@ -82,7 +82,7 @@
             <div class="grid_3 grid_4">
                 <div class="col-md-12">
                     <li class="list-group-item">                
-                        <h4 class="list-group-item-heading">Visit Reason</h4>
+                        <h4 class="list-group-item-heading">{{ 'visits.section_input_visit_reason'|trans({}, 'visits') }}</h4>
                         <p>{{ visit.reason }}</p>
                     </li>
                 </div>
@@ -93,7 +93,7 @@
             <div class="grid_3 grid_4">
                 <div class="col-md-12">
                     <li class="list-group-item">                
-                        <h4 class="list-group-item-heading">Visit Comments</h4>
+                        <h4 class="list-group-item-heading">{{ 'visits.section_input_visit_comments'|trans({}, 'visits') }}</h4>
                         <p>{{ visit.comments }}</p>
                     </li>
                 </div>                

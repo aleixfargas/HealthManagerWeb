@@ -11,7 +11,7 @@
                             <!--AddNew Visit-->
                             <div class="btn-group">
 {#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
-                                <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> Add New Visit</a>
+                                <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
                             </div>
                             <!--/AddNew Visit-->
                         </div>
@@ -38,7 +38,7 @@
                                     <li>
                                         <a id="delete_visits" class="font-red" title="">
                                             <i class="fa fa-times" icon_9=""></i>
-                                            Delete
+                                            {{ 'base.global_delete'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -62,13 +62,13 @@
                     <div class="float-right">
                         {# Day-to-day picker #}
                         <button id="go_previous" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></button>
-                        <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">Today</button>
+                        <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">{{ 'visits.section_today'|trans({}, 'visits') }}</button>
                         <button id="go_next" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></button>
                     </div>
                     <div class="float-left">
                         <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
                         <input id="current_day" value="{{ list_date }}" hidden />
-                        <p>{{ visits_list|length }} visits</p>
+                        <p>{{ visits_list|length }} {{ 'base.global_section_visits'|trans({}, 'base') }}</p>
                     </div>
                 </div>
                 <table id="visits-table" class="my-table table">
@@ -76,12 +76,12 @@
                         <thead>
                             <tr class="check_visit hidden">
                                 <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                    <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                    <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
                                 </th>
                                 <th>
                                     <div class="btn-group-sm pull-right">
-                                        <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">Delete</span></button>
-                                        <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Cancel</span></button>
+                                        <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                        <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
                                     </div>
                                 </th>
                             </tr>
@@ -112,7 +112,7 @@
                         <tbody>
                             <tr class="table-row">
                                 <td class="table-text">
-                                    <center>No visit found</center>
+                                    <center>{{ 'visits.section_no_visits'|trans({}, 'visits') }}</center>
                                 </td>
                             </tr>
                         </tbody>

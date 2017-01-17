@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="ca" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="section_add_new">
+                <source>operations.section_add_new</source>
+                <target>Afegeix una operació</target>
+            </trans-unit>
+            <trans-unit id="section_no_operations">
+                <source>operations.section_no_operations</source>
+                <target>No s'han trobat operacions</target>
+            </trans-unit>
+            <trans-unit id="input_placeholder_new_name">
+                <source>operations.input_placeholder_new_name</source>
+                <target>Nom de la nova operació</target>
+            </trans-unit>
+            <trans-unit id="input_placeholder_new_characteristic">
+                <source>operations.input_placeholder_new_characteristic</source>
+                <target>Caracteristica de la nova operació</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -12,7 +12,7 @@
                                 <!--AddNew Operation-->
                                 <div class="btn-group">
     {#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#operation_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
-                                    <a id="show_addNew_form" class="btn btn-default"><i class="fa fa-ambulance text-color-green"></i> Add New Operation</a>
+                                    <a id="show_addNew_form" class="btn btn-default"><i class="fa fa-ambulance text-color-green"></i> {{ 'operations.section_add_new'|trans({}, 'operations') }}</a>
                                 </div>
                                 <!--/AddNew Operation-->
                             </div>
@@ -22,7 +22,7 @@
                         <div class="float-right">
                             <a id="delete_operations" class="btn btn-default" title="">
                                 <i class="fa fa-times text-color-red" icon_9=""></i>
-                                Delete
+                                {{ 'base.global_delete'|trans({}, 'base') }}
                             </a>
                             {#<div class="btn-group">
                                 <div class="btn-group dropdown">
@@ -51,12 +51,12 @@
                         <thead>
                             <tr class="check_operation hidden">
                                 <th colspan="2" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                    <p id="check_all_operations"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                    <p id="check_all_operations"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
                                 </th>
                                 <th>
                                     <div class="btn-group-sm pull-right">
-                                        <button id="delete_operations_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">Delete</span></button>
-                                        <button id="cancel_delete_operations_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Cancel</span></button>
+                                        <button id="delete_operations_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                        <button id="cancel_delete_operations_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
                                     </div>
                                 </th>
                             </tr>
@@ -64,8 +64,8 @@
                                 <th></th>
                                 <th>
                                     <div class="btn-group-sm pull-right">
-                                        <button class="btn btn-success" type="submit">Add New</button>
-                                        <button id="add-new-operation-form-cancel" class="btn btn-default">Cancel</button>
+                                        <button class="btn btn-success" type="submit">{{ 'base.section_add_new_button'|trans({}, 'base') }}</button>
+                                        <button id="add-new-operation-form-cancel" class="btn btn-default">{{ 'base.section_cancel_button'|trans({}, 'base') }}</button>
                                     </div>
                                 </th>
                             </tr>
@@ -90,16 +90,16 @@
                             {% else %}
                                 <tr class="table-row">
                                     <td class="table-text" colspan="2">
-                                        <center>No operation found</center>
+                                        <center>{{ 'operations.section_no_operations'|trans({}, 'operations') }}</center>
                                     </td>
                                 </tr>
                             {% endif %}
                             <tr class="table-row add-new-operation hidden">
                                 <td class="table-text col-md-3">
-                                    <input class="form-control" type="text" name="operation_name" placeholder="New Operation Name" required />
+                                    <input class="form-control" type="text" name="operation_name" placeholder="{{ 'operations.input_placeholder_new_name'|trans({}, 'operations') }}" required />
                                 </td>
                                 <td class="table-text">
-                                    <input class="form-control" type="text" name="operation_characteristics" placeholder="New Operation Characteristics" required />
+                                    <input class="form-control" type="text" name="operation_characteristics" placeholder="{{ 'operations.input_placeholder_new_characteristic'|trans({}, 'operations') }}" required />
                                 </td>
                             </tr>
                         </tbody>

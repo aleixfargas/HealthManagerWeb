@@ -29,7 +29,7 @@
                             <!--AddNew User-->
                             <div class="btn-group">
 {#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#patient_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
-                                <a href="{{ url('patients-new') }}" class="btn btn-default"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</a>
+                                <a href="{{ url('patients-new') }}" class="btn btn-default"><i class="fa fa-user-plus text-color-green"></i> {{ 'patients.section_add_new'|trans({}, 'patients') }}</a>
                             </div>
                             <!--/AddNew User-->
                         </div>
@@ -56,7 +56,7 @@
                                     <li>
                                         <a id="delete_patients" class="font-red" title="">
                                             <i class="fa fa-times" icon_9=""></i>
-                                            Delete
+                                            {{ 'base.global_delete'|trans({}, 'base') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -73,12 +73,12 @@
                         <thead>
                             <tr class="check_patient hidden">
                                 <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                    <p id="check_all_patients"><input name="btSelectAll" type="checkbox"> Check/Uncheck All</p>
+                                    <p id="check_all_patients"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
                                 </th>
                                 <th>
                                     <div class="btn-group-sm pull-right">
-                                        <button id="delete_patients_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">Delete</span></button>
-                                        <button id="cancel_delete_patients_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Cancel</span></button>
+                                        <button id="delete_patients_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                        <button id="cancel_delete_patients_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
                                     </div>
                                 </th>
                             </tr>
@@ -94,7 +94,6 @@
                                     </td>
                                     <td class="table-text">
                                         <h6>{{ patient.name }} {{ patient.surname }}</h6>
-{#                                        <p>LoremIpsum asdjsad asddsaas saddas asddsaasdds</p>#}
                                     </td>
                                     <td>
                                         <div class="pull-right">
@@ -108,7 +107,7 @@
                         <tbody>
                             <tr class="table-row">
                                 <td class="table-text">
-                                    <center>No patients found</center>
+                                    <center>{{ 'patients.section_no_patients'|trans({}, 'patients') }}</center>
                                 </td>
                             </tr>
                         </tbody>

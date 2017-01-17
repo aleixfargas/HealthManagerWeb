@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="ca" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="section_add_new">
+                <source>patients.section_add_new</source>
+                <target>Afegeix un pacient</target>
+            </trans-unit>
+            <trans-unit id="section_no_patients">
+                <source>patients.section_no_patients</source>
+                <target>No s'han trobat pacients</target>
+            </trans-unit>
+            <trans-unit id="section_patients_add_form">
+                <source>patients.section_patients_add_form</source>
+                <target>Afegeix un nou pacient</target>
+            </trans-unit>
+            <trans-unit id="section_patient_edit_form">
+                <source>patients.section_patient_edit_form</source>
+                <target>Edició de pacients</target>
+            </trans-unit>
+            <trans-unit id="section_input_name">
+                <source>patients.section_input_name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="section_input_surname">
+                <source>patients.section_input_surname</source>
+                <target>Cognoms</target>
+            </trans-unit>
+            <trans-unit id="section_basic_information">
+                <source>patients.section_basic_information</source>
+                <target>Informació bàsica</target>
+            </trans-unit>
+            <trans-unit id="section_input_job">
+                <source>patients.section_input_job</source>
+                <target>Ocupació</target>
+            </trans-unit>
+            <trans-unit id="section_input_age">
+                <source>patients.section_input_age</source>
+                <target>Edat</target>
+            </trans-unit>
+            <trans-unit id="section_input_birthday">
+                <source>patients.section_input_birthday</source>
+                <target>Aniversari</target>
+            </trans-unit>
+            <trans-unit id="section_contact">
+                <source>patients.section_contact</source>
+                <target>Dades de Contacte</target>
+            </trans-unit>
+            <trans-unit id="section_input_phone">
+                <source>patients.section_input_phone</source>
+                <target>Número de telèfon</target>
+            </trans-unit>
+            <trans-unit id="section_input_email">
+                <source>patients.section_input_email</source>
+                <target>Adreça electrònica</target>
+            </trans-unit>
+            <trans-unit id="section_input_address">
+                <source>patients.section_input_address</source>
+                <target>Adreça</target>
+            </trans-unit>
+            <trans-unit id="section_input_notes">
+                <source>patients.section_input_notes</source>
+                <target>Notes</target>
+            </trans-unit>
+            <trans-unit id="section_input_allergies">
+                <source>patients.section_input_allergies</source>
+                <target>Al·lèrgies</target>
+            </trans-unit>
+            <trans-unit id="section_input_operations">
+                <source>patients.section_input_operations</source>
+                <target>Operacions</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

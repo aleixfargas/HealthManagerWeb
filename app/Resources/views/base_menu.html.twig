@@ -126,8 +126,8 @@
 {#                            <img src="{{ asset('assets/data/uploads/profile/testuser_small.png') }}">#}
                         </a>
                         <ul class="dropdown-menu my-dropdown-right" role="menu">
-                            <li><a href="{{ url('fos_user_profile_show') }}"><i class="glyphicon glyphicon-home"></i>Profile</a></li>
-                            <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i>Log out</a></li>
+                            <li><a href="{{ url('fos_user_profile_show') }}"><i class="glyphicon glyphicon-home"></i>{{ 'base.global_section_profile'|trans({}, 'base') }}</a></li>
+                            <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i>{{ 'base.global_logout'|trans({}, 'base') }}</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="ca" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="section_add_new">
+                <source>visits.section_add_new</source>
+                <target>Add New Visit</target>
+            </trans-unit>
+            <trans-unit id="section_today">
+                <source>visits.section_today</source>
+                <target>Today</target>
+            </trans-unit>
+            <trans-unit id="section_no_visits">
+                <source>visits.section_no_visits</source>
+                <target>No visit found</target>
+            </trans-unit>
+            <trans-unit id="section_visit_single">
+                <source>visits.section_visit_single</source>
+                <target>Visit</target>
+            </trans-unit>
+            <trans-unit id="section_visit_add_form">
+                <source>visits.section_visit_add_form</source>
+                <target>Add new visit</target>
+            </trans-unit>
+            <trans-unit id="section_visit_edit_form">
+                <source>visits.section_visit_edit_form</source>
+                <target>Edit this visit</target>
+            </trans-unit>
+            <trans-unit id="section_input_patient">
+                <source>visits.section_input_patient</source>
+                <target>Patient</target>
+            </trans-unit>
+            <trans-unit id="section_unknow_patient">
+                <source>visits.section_unknow_patient</source>
+                <target>Unknown patient</target>
+            </trans-unit>
+            <trans-unit id="section_input_visit_date">
+                <source>visits.section_input_visit_date</source>
+                <target>Visit Time</target>
+            </trans-unit>
+            <trans-unit id="section_input_reservation_date">
+                <source>visits.section_input_reservation_date</source>
+                <target>Reservation Date</target>
+            </trans-unit>
+            <trans-unit id="section_input_visit_reason">
+                <source>visits.section_input_visit_reason</source>
+                <target>Visit reason</target>
+            </trans-unit>
+            <trans-unit id="section_input_visit_comments">
+                <source>visits.section_input_visit_comments</source>
+                <target>Visit comments</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

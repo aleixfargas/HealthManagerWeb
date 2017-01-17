@@ -24,16 +24,16 @@
                 <input name="visit_id" value="{{ visit_id }}" hidden>
             {% endif %}
             <div class="form-group">
-                <label for="patient_select">Patient</label>
+                <label for="patient_select">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
                 <select class="form-control selectpicker show-tick" data-live-search="true" id="patient_select" name="patient">
-                    <option value="0" data-tokens="">No patient yet</option>
+                    <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
                     {% for patient in all_patients %}
                         <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }}" {% if patient.id == visit_patient %} selected {% endif %}>{{ patient.name }} {{ patient.surname }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
-                <label for="visit_date_input">Visit Date</label>
+                <label for="visit_date_input">{{ 'visits.section_input_visit_date'|trans({}, 'visits') }}</label>
                 <div class='input-group date' id='datetimepicker1'>
                     {% if visit_visitDate is not empty %}
                         <input type='text' id="visit_hour_date" value="{{ visit_visitDate|date("Y-m-d H:i:s", "Europe/Madrid") }}" hidden/>
@@ -46,7 +46,7 @@
             </div>
             {% if edit is defined %}
             <div class="form-group">
-                <label for="reservation_date_input">Reservation Date</label>
+                <label for="reservation_date_input">{{ 'visits.section_input_reservation_date'|trans({}, 'visits') }}</label>
                 <div class='input-group date' id='datetimepicker1'>
                     <input type='text' class="form-control" id="reservation_date_input" name="reservation_date" value="{{ visit_reservationDate|date("Y-m-d H:i:s", "Europe/Madrid") }}" readonly/>
                 </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Visit Reason</h3>
+            <h3>{{ 'visits.section_input_visit_reason'|trans({}, 'visits') }}</h3>
             <br />
             <div class="input-group">
                 <textarea class="form-control" rows="5" name="reason" {% if visit_reason is not empty %} value="{{ visit_reason }}" {% endif %}></textarea>
@@ -67,7 +67,7 @@
     </div>
     <div class="grid_3 grid_4">
         <div class="col-md-12 profile-text">
-            <h3>Visit Comments</h3>
+            <h3>{{ 'visits.section_input_visit_comments'|trans({}, 'visits') }}</h3>
             <br />
             <div class="input-group">
                 <textarea class="form-control" rows="5" name="comments" {% if visit_comments is not empty %} value="{{ visit_comments }}" {% endif %}></textarea>
