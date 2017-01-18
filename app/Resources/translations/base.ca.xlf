@@ -78,6 +78,14 @@
                 <source>base.global_unknown_error</source>
                 <target>Error indefinit</target>
             </trans-unit>
+            <trans-unit id="bootstrap_selector_select_all">
+                <source>base.bootstrap_selector_select_all</source>
+                <target>Seleccionar Tots</target>
+            </trans-unit>
+            <trans-unit id="bootstrap_selector_deselect_all">
+                <source>base.bootstrap_selector_deselect_all</source>
+                <target>Deseleccionar Tots</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -206,7 +206,7 @@
             <h3>{{ 'patients.section_input_operations'|trans({}, 'patients') }}</h3>
             <br />
             <div class="input-group">
-                <select class="selectpicker" name="operations_type[]" multiple data-actions-box="true" data-noneSelectedText="No patients" {% if all_operations_types is empty %} disabled {% endif %}>
+                <select class="selectpicker" name="operations_type[]" multiple data-actions-box="true" data-noneSelectedText="No operations" data-deselectAllText="{{ 'base.bootstrap_selector_deselect_all'|trans({}, 'base') }}" data-selectAllText="{{ 'base.bootstrap_selector_select_all'|trans({}, 'base') }}" {% if all_operations_types is empty %} disabled {% endif %}>
 {#                    <option value="-1" {% if operations_patient is empty %} selected {% elseif patient_operations_id_array|length < 1 %} selected {% endif %}> No operations </option>#}
                     {% for operations_type in all_operations_types %}
                         <option value="{{ operations_type.id }}" {% if patient_operations_id_array is defined and operations_type.id in patient_operations_id_array %} selected {% endif %}>{{ operations_type.name }} - {{ operations_type.characteristic }}</option>

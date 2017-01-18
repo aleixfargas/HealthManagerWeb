@@ -78,6 +78,14 @@
                 <source>base.global_unknown_error</source>
                 <target>Unknown error</target>
             </trans-unit>
+            <trans-unit id="bootstrap_selector_select_all">
+                <source>base.bootstrap_selector_select_all</source>
+                <target>Select All</target>
+            </trans-unit>
+            <trans-unit id="bootstrap_selector_deselect_all">
+                <source>base.bootstrap_selector_deselect_all</source>
+                <target>Unselect All</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
