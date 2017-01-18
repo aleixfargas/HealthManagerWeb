@@ -10,6 +10,10 @@
                 <source>patients.section_no_patients</source>
                 <target>No s'han trobat pacients</target>
             </trans-unit>
+            <trans-unit id="section_no_patient">
+                <source>patients.section_no_patient</source>
+                <target>No s'ha trobat el pacient</target>
+            </trans-unit>
             <trans-unit id="section_patients_add_form">
                 <source>patients.section_patients_add_form</source>
                 <target>Afegeix un nou pacient</target>
@@ -69,6 +73,14 @@
             <trans-unit id="section_input_operations">
                 <source>patients.section_input_operations</source>
                 <target>Operacions</target>
+            </trans-unit>
+            <trans-unit id="section_patients_already_exist">
+                <source>patients.section_patients_already_exist</source>
+                <target>Aquest pacient ja existeix!</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>patients.section_could_not_remove</source>
+                <target>No s'ha pogut esborrar el pacient, intenta-ho més tard.</target>
             </trans-unit>
         </body>
     </file>

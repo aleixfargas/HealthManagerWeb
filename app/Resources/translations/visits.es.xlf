@@ -50,6 +50,14 @@
                 <source>visits.section_input_visit_comments</source>
                 <target>Resolucion de la visita</target>
             </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>visits.section_could_not_remove</source>
+                <target>No se ha podido eliminar la visita, pruébalo mas tarde</target>
+            </trans-unit>
+            <trans-unit id="global_choose_another_hour">
+                <source>visits.global_choose_another_hour</source>
+                <target>Por favor, elije otra hora. La hora seleccionada ya esta reservada.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

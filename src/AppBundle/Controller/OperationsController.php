@@ -24,9 +24,14 @@ class OperationsController extends Controller{
     private $operation = null;
     
     private $logger = null;
-
+    
+    
+    private function translateId($domain, $id){
+        return $this->get('translator')->trans($id, array(), $domain);
+    }
+    
     private function getTranslatedSectionName(){
-        return $this->get('translator')->trans($this->section_name, array(), 'base');
+        return $this->translateId('base', $this->section_name);
     }
     
     /**
@@ -74,7 +79,7 @@ class OperationsController extends Controller{
     public function removeOperationAction(Request $request){
         $operations_array = $request->request->get('operations_array');
         $result = 'error';
-        $action = "One or various patients have this operation. If you really want to delete it, first remove it from all the patients!";
+        $action = $this->translateId('operations', 'operations.section_multiple_assigns_error');
         
         foreach ($operations_array as $operation_id){
             try {
@@ -85,7 +90,7 @@ class OperationsController extends Controller{
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
                 $result = 'error';
-                $action = "Could not remove operation with id $operation_id, try again later!";
+                $action = $this->translateId('operations', 'operations.section_could_not_remove_error');
             }
         }
 
@@ -165,7 +170,7 @@ class OperationsController extends Controller{
 
             if (!$operation) {
                 throw $this->createNotFoundException(
-                    'No visit found for id ' . $operation_id
+                    $this->translateId('operations', 'operations.section_no_operation_found') . ': ' . $operation_id
                 );
             }
 

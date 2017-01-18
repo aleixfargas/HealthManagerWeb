@@ -27,8 +27,12 @@ class VisitsController extends Controller{
     
     private $logger = null;
 
+    private function translateId($domain, $id){
+        return $this->get('translator')->trans($id, array(), $domain);
+    }
+
     private function getTranslatedSectionName(){
-        return $this->get('translator')->trans($this->section_name, array(), 'base');
+        return $this->translateId('base', $this->section_name);
     }
     
     /**
@@ -74,7 +78,7 @@ class VisitsController extends Controller{
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('visits-list'), 'name'=>$this->getTranslatedSectionName()],
-                    ['url'=>'#', 'name'=>"Add new visit Form"]
+                    ['url'=>'#', 'name'=>$this->translateId('visits', 'visits.section_visit_add_form')]
                 ]
             )
         );
@@ -86,7 +90,7 @@ class VisitsController extends Controller{
     public function saveNewVisitAction(Request $request){
 //        $this->logger = $this->get('logger');
         $result = 'error';
-        $action = 'Unknown error';
+        $action = $this->translateId('base', 'base.global_unknown_error');
 
         $this->build_visit_entity($request);
         try{
@@ -98,7 +102,7 @@ class VisitsController extends Controller{
             $result = 'success';
             $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
         } catch (UniqueConstraintViolationException $e){
-            $action = "Please choose another hour, {$this->visit->getvisitDate()->format('Y-m-d H:i:s')} is reserved yet";
+            $action = $this->translateId('visits', 'visits.global_choose_another_hour');
         }
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
@@ -121,7 +125,7 @@ class VisitsController extends Controller{
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
                 $result = 'error';
-                $action = "Could not remove visit with id $visit_id, try again later!";
+                $action = $this->translateId('visits', 'visits.section_could_not_remove');
             }
         }
 
@@ -189,7 +193,7 @@ class VisitsController extends Controller{
      */
     public function saveEditVisitAction(Request $request){
         $result = 'error';
-        $action = "No modification made";
+        $action = $this->translateId('base', 'base.global_no_changes_found');
         $changes = false;
 
         $em = $this->getDoctrine()->getManager();
@@ -237,8 +241,6 @@ class VisitsController extends Controller{
             $em->flush();
             $result = 'success';
             $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
-        } else {
-            $action = "No changes found!";
         }
         
         $response = json_encode(array('status'=>$result, 'action'=>$action));
@@ -250,7 +252,7 @@ class VisitsController extends Controller{
      */
     public function fetch_allVisitDatesAction(Request $request){
         $result = 'error';
-        $action = 'No visits found';
+        $action = $this->translateId('visits', 'visits.section_no_visits');
 
         $date = $request->request->get('dateTime');
         if($date != "" && $date !== FALSE && $date != null){
@@ -372,7 +374,7 @@ class VisitsController extends Controller{
         $patient = $patients_repository->find($patient_id);
 
         if (!$patient) {
-            $patient_name = 'No patient yet';
+            $patient_name = $this->translateId('visits', 'visits.section_unknow_patient');
         } else {
             $patient_name = $patient->getName() . " " . $patient->getSurname();
         }
@@ -393,7 +395,7 @@ class VisitsController extends Controller{
 
         if (!$visit) {
             throw $this->createNotFoundException(
-                'No visit found for id ' . $visit_id
+                $this->translateId('visits', 'visits.section_no_visits') . ': ' . $visit_id
             );
         }
 

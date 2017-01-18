@@ -70,6 +70,14 @@
                 <source>base.global_check_uncheck_all</source>
                 <target>Check/Uncheck All</target>
             </trans-unit>
+            <trans-unit id="global_no_results_found">
+                <source>base.global_no_results_found</source>
+                <target>No changes found!</target>
+            </trans-unit>
+            <trans-unit id="global_unknown_error">
+                <source>base.global_unknown_error</source>
+                <target>Unknown error</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

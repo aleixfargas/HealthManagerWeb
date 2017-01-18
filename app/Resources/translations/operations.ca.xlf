@@ -18,6 +18,14 @@
                 <source>operations.input_placeholder_new_characteristic</source>
                 <target>Caracteristica de la nova operació</target>
             </trans-unit>
+            <trans-unit id="section_multiple_assigns_error">
+                <source>operations.section_multiple_assigns_error</source>
+                <target>Un o varis pacients tenen assignada aquesta operació. Si realment vols esborrar-la, primer assegura't d'eliminar-la de tots els pacients.</target>
+            </trans-unit>
+            <trans-unit id="section_no_operation_found">
+                <source>operations.section_no_operation_found</source>
+                <target>No s'ha trobat l'al·lèrgia</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

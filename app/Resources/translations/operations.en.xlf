@@ -18,6 +18,18 @@
                 <source>operations.input_placeholder_new_characteristic</source>
                 <target>New operation characteristics</target>
             </trans-unit>
+            <trans-unit id="section_multiple_assigns_error">
+                <source>operations.section_multiple_assigns_error</source>
+                <target>One or various patients have this operation. If you really want to delete it, first remove it from all the patients.</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove_error">
+                <source>operations.section_could_not_remove_error</source>
+                <target>Could not remove operation, try again later!</target>
+            </trans-unit>
+            <trans-unit id="section_no_operation_found">
+                <source>operations.section_no_operation_found</source>
+                <target>No operation found</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

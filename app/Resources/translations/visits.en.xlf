@@ -50,6 +50,14 @@
                 <source>visits.section_input_visit_comments</source>
                 <target>Visit comments</target>
             </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>visits.section_could_not_remove</source>
+                <target>Could not remove visit, try again later.</target>
+            </trans-unit>
+            <trans-unit id="global_choose_another_hour">
+                <source>visits.global_choose_another_hour</source>
+                <target>Please choose another hour. The selected hour is reserved yet.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

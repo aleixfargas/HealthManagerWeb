@@ -42,9 +42,13 @@ class PatientsController extends Controller
     private $error = false;
     private $error_message = '';
 
+    private function translateId($domain, $id){
+        return $this->get('translator')->trans($id, array(), $domain);
+    }
+
     private function getTranslatedSectionName()
     {
-        return $this->get('translator')->trans($this->section_name, array(), 'base');
+        return $this->translateId('base', $this->section_name);
     }
     
     /**
@@ -169,7 +173,7 @@ class PatientsController extends Controller
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
-                    ['url'=>'#','name'=>"Add new Patient Form"]
+                    ['url'=>'#','name'=>$this->translateId('patients', 'patients.section_patients_add_form')]
                 ]
             )
         );
@@ -182,7 +186,7 @@ class PatientsController extends Controller
         $logger = $this->get('logger');
 
         $result = 'error';
-        $action = 'Unknown error';
+        $action = $this->translateId('base', 'base.global_unknown_error');
         $data_correctly_formated = true;
 
         $this->build_patient_entities($request);
@@ -234,7 +238,7 @@ class PatientsController extends Controller
                 $result = 'success';
             } catch (UniqueConstraintViolationException $e){
                 $logger->error($e->getMessage());
-                $action = 'This patient already exist';
+                $action = $this->translateId('patients', 'patients.section_patients_already_exist');
             }
         } else {
             //not valid
@@ -268,7 +272,7 @@ class PatientsController extends Controller
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
                 $result = 'error';
-                $action = "Could not remove patient with id $patient_id, try again later!";
+                $action = $this->translateId('patients', 'patients.section_could_not_remove');
             }
         }
 
@@ -335,7 +339,7 @@ class PatientsController extends Controller
      */
     public function saveEditPatientAction(Request $request){
         $result = 'error';
-        $action = "No modification made";
+        $action = $this->translateId('base', 'base.global_no_changes_found');
         $changes = false;
 
         $logger = $this->get('logger');
@@ -613,8 +617,6 @@ class PatientsController extends Controller
                     $em->flush();
                     $result = 'success';
                     $action = $this->generateUrl('patients-show', ['patient_id'=>$this->patient->getId()]);
-                } else {
-                    $action = "No changes found!";                    
                 }
             } catch(NotFoundException $e){
                 $action = $e->getMessage();                
@@ -696,7 +698,7 @@ class PatientsController extends Controller
 
         if (!$patient) {
             throw $this->createNotFoundException(
-                'No patient found'
+                $this->translateId('patients', 'patients.section_no_patient')
             );
         }
         
@@ -923,7 +925,7 @@ class PatientsController extends Controller
 
         if (!$patient) {
             throw $this->createNotFoundException(
-                'No patient found for id ' . $patient_id
+                $this->translateId('patients', 'patients.section_no_patient')
             );
         }
 

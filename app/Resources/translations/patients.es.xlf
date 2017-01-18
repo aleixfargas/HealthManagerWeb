@@ -6,9 +6,13 @@
                 <source>patients.section_add_new</source>
                 <target>Añade un paciente</target>
             </trans-unit>
-            <trans-unit id="section_no_visits">
+            <trans-unit id="section_no_patients">
                 <source>patients.section_no_patients</source>
                 <target>No se han encontrado pacientes</target>
+            </trans-unit>
+            <trans-unit id="section_no_patient">
+                <source>patients.section_no_patients</source>
+                <target>No se ha encontrado este paciente</target>
             </trans-unit>
             <trans-unit id="section_patients_add_form">
                 <source>patients.section_patients_add_form</source>
@@ -69,6 +73,18 @@
             <trans-unit id="section_input_operations">
                 <source>patients.section_input_operations</source>
                 <target>Operaciones</target>
+            </trans-unit>
+            <trans-unit id="section_patients_already_exist">
+                <source>patients.section_patients_already_exist</source>
+                <target>Este paciente ya existe!</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>patients.section_could_not_remove</source>
+                <target>No se ha podido eliminar el paciente, pruébalo mas tarde</target>
+            </trans-unit>
+            <trans-unit id="section_no_allergy_found">
+                <source>allergies.section_no_allergy_found</source>
+                <target>No se ha encontrado la alergia</target>
             </trans-unit>
         </body>
     </file>

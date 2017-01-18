@@ -18,6 +18,18 @@
                 <source>operations.input_placeholder_new_characteristic</source>
                 <target>Caracteristica de la nueva operacion</target>
             </trans-unit>
+            <trans-unit id="section_multiple_assigns_error">
+                <source>operations.section_multiple_assigns_error</source>
+                <target>Uno o varios pacientes tienen esta operacion. Si realmente quieres eliminarla, primero assegurate de eliminarla de todos los pacientes.</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove_error">
+                <source>operations.section_could_not_remove_error</source>
+                <target>No se puede eliminar la alergia, intentalo mas tarde!</target>
+            </trans-unit>
+            <trans-unit id="section_no_allergy_found">
+                <source>operations.section_no_allergy_found</source>
+                <target>No se ha encontrado esta operacion</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

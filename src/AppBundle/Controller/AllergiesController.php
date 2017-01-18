@@ -25,8 +25,13 @@ class AllergiesController extends Controller{
     
     private $logger = null;
 
+    
+    private function translateId($domain, $id){
+        return $this->get('translator')->trans($id, array(), $domain);
+    }
+
     private function getTranslatedSectionName(){
-        return $this->get('translator')->trans($this->section_name, array(), 'base');
+        return $this->translateId('base', $this->section_name);
     }
     
     /**
@@ -74,7 +79,7 @@ class AllergiesController extends Controller{
     public function removeAllergyAction(Request $request){
         $allergies_array = $request->request->get('allergies_array');
         $result = 'error';
-        $action = "One or various patients have this allergy. If you really want to delete it, first remove it from all the patients!";
+        $action = $this->translateId('allergies', 'allergies.section_multiple_assigns_error');
         
         foreach ($allergies_array as $allergy_id){
             try {
@@ -84,7 +89,7 @@ class AllergiesController extends Controller{
                 }
             } catch (NotFoundHttpException $e){
                 $logger->error($e->getMessage());
-                $action = "Could not remove allergy with id {$allergy_id}, try again later!";
+                $action = $this->translateId('allergies', 'allergies.section_could_not_remove_error');
             }
         }
 
@@ -164,7 +169,7 @@ class AllergiesController extends Controller{
 
             if (!$allergy) {
                 throw $this->createNotFoundException(
-                    'No visit found for id ' . $allergy_id
+                    $this->translateId('allergies', 'allergies.section_no_allergy_found') . ': ' . $allergy_id
                 );
             }
 

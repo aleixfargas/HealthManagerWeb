@@ -40,7 +40,7 @@
             </trans-unit>
             <trans-unit id="global_section_allergies">
                 <source>base.global_section_allergies</source>
-                <target>Al·lergies</target>
+                <target>Al·lèrgies</target>
             </trans-unit>
             <trans-unit id="global_section_operations">
                 <source>base.global_section_operations</source>
@@ -69,6 +69,14 @@
             <trans-unit id="global_check_uncheck_all">
                 <source>base.global_check_uncheck_all</source>
                 <target>Seleccionar/Deseleccionar Tots</target>
+            </trans-unit>
+            <trans-unit id="global_no_changes_found">
+                <source>base.global_no_changes_found</source>
+                <target>No s'ha fet cap modificació!</target>
+            </trans-unit>
+            <trans-unit id="global_unknown_error">
+                <source>base.global_unknown_error</source>
+                <target>Error indefinit</target>
             </trans-unit>
         </body>
     </file>

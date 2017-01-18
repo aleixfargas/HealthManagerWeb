@@ -50,6 +50,14 @@
                 <source>visits.section_input_visit_comments</source>
                 <target>Resolució de la visita</target>
             </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>visits.section_could_not_remove</source>
+                <target>No s'ha pogut esborrar la visita, intenta-ho més tard.</target>
+            </trans-unit>
+            <trans-unit id="global_choose_another_hour">
+                <source>visits.global_choose_another_hour</source>
+                <target>Siusplau, tria una altre hora. L'hora seleccionada ja està ocupada.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

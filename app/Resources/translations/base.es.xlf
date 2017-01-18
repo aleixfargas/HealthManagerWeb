@@ -66,6 +66,15 @@
                 <source>base.global_check_uncheck_all</source>
                 <target>Seleccionar/Deseleccionar Todos</target>
             </trans-unit>
+            <trans-unit id="global_no_results_found">
+                <source>base.global_no_results_found</source>
+                <target>No se han encontrado canvios!</target>
+            </trans-unit>
+            <trans-unit id="global_unknown_error">
+                <source>base.global_unknown_error</source>
+                <target>Error indefinido</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

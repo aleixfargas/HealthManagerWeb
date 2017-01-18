@@ -18,6 +18,18 @@
                 <source>allergies.input_placeholder_new_characteristic</source>
                 <target>New allergy characteristics</target>
             </trans-unit>
+            <trans-unit id="section_multiple_assigns_error">
+                <source>allergies.section_multiple_assigns_error</source>
+                <target>One or various patients have this allergy. If you really want to delete it, first remove it from all the patients.</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove_error">
+                <source>allergies.section_could_not_remove_error</source>
+                <target>Could not remove allergy try again later!</target>
+            </trans-unit>
+            <trans-unit id="section_no_allergy_found">
+                <source>allergies.section_no_allergy_found</source>
+                <target>No allergy found</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

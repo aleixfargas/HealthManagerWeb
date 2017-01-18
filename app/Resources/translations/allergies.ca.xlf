@@ -18,6 +18,18 @@
                 <source>allergies.input_placeholder_new_characteristic</source>
                 <target>Caracteristica de la nova al·lèrgia</target>
             </trans-unit>
+            <trans-unit id="section_multiple_assigns_error">
+                <source>allergies.section_multiple_assigns_error</source>
+                <target>Un o varis pacients tenen assignada aquesta al·lèrgia. Si realment vols esborrar-la, primer assegura't d'eliminar-la de tots els pacients.</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove_error">
+                <source>allergies.section_could_not_remove_error</source>
+                <target>No es pot el·liminar l'al·lèrgia, intenta-ho més tard!</target>
+            </trans-unit>
+            <trans-unit id="section_no_allergy_found">
+                <source>allergies.section_no_allergy_found</source>
+                <target>No s'ha trobat l'al·lèrgia</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -6,9 +6,13 @@
                 <source>patients.section_add_new</source>
                 <target>Add New Patient</target>
             </trans-unit>
-            <trans-unit id="section_no_visits">
+            <trans-unit id="section_no_patients">
                 <source>patients.section_no_patients</source>
                 <target>No patients found</target>
+            </trans-unit>
+            <trans-unit id="section_no_patient">
+                <source>patients.section_no_patient</source>
+                <target>No patient found</target>
             </trans-unit>
             <trans-unit id="section_patients_add_form">
                 <source>patients.section_patients_add_form</source>
@@ -69,6 +73,14 @@
             <trans-unit id="section_input_operations">
                 <source>patients.section_input_operations</source>
                 <target>Operations</target>
+            </trans-unit>
+            <trans-unit id="section_patients_already_exist">
+                <source>patients.section_patients_already_exist</source>
+                <target>This patient already exist!</target>
+            </trans-unit>
+            <trans-unit id="section_could_not_remove">
+                <source>patients.section_could_not_remove</source>
+                <target>Could not remove patient, try again later.</target>
             </trans-unit>
         </body>
     </file>
