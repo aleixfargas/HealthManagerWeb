@@ -1,3 +1,14 @@
 .datepicker div table tbody tr td span {
     color: #333!important;
 }
+
+.my-contact-inputs:first-child > .btn-group > .btn, 
+.my-contact-inputs:first-child > .dropdown-toggle, 
+.my-contact-inputs:last-child > .btn-group:not(:last-child) > .btn, 
+.my-contact-inputs:last-child > .btn:not(:last-child):not(.dropdown-toggle){
+    width: auto!important;
+}
+
+.open{
+    z-index: 9999!important;
+}
