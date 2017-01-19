@@ -1,128 +1,124 @@
 {% extends 'base_menu.html.twig' %}
 
 {% block content_main %}
-    <div class="typo-grid">
-        <div class="typo-1">
-            <div class="grid_3 grid_4">
-                <!--visits_toolbar-->
-                <div class="mail-toolbar clearfix">
-                    <div class="float-left">
-                        <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
-                            <!--AddNew Visit-->
-                            <div class="btn-group">
-{#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
-                                <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
-                            </div>
-                            <!--/AddNew Visit-->
-                        </div>
-                    </div>
-                    
-                    {% if visits_list|length > 0 %}
-                    <div class="float-right">
-                        <div class="btn-group">
-                            <div class="btn-group dropdown">
-                                <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-cog icon_8"></i>
-                                    <i class="fa fa-chevron-down icon_8"></i>
-                                    <div class="ripple-wrapper"></div>
-                                </a>
-                                <ul class="dropdown-menu my-dropdown-right float-right">
-                                    {#
-                                    <li>
-                                        <a href="#" title="">
-                                            <i class="fa fa-download icon_9"></i>
-                                            Download
-                                        </a>
-                                    </li>
-                                    #}
-                                    <li>
-                                        <a id="delete_visits" class="font-red" title="">
-                                            <i class="fa fa-times" icon_9=""></i>
-                                            {{ 'base.global_delete'|trans({}, 'base') }}
-                                        </a>
-                                    </li>
-                                </ul>
+    <div class="content-top">
+        <div class="col-md-4 visits-calendar">
+            <div class="content-top-1 compose less-padding">
+                <!--visits_calendar-->
+                <h2>{{ 'visits.section_visits_calendar'|trans({}, 'visits') }}</h2>
+                <div id="datetimepicker_visits"></div>
+                <div class="clearfix"></div>
+                <!--/visits_calendar-->
+            </div>
+        </div>
+        <div class="col-md-8 visits-dashboard">
+            <div class="content-top-1 compose">
+                <div class="col-md-12">
+                    <!--visits_toolbar-->
+                    <div class="mail-toolbar clearfix">
+                        <div class="float-left">
+                            <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                <!--AddNew Visit-->
+                                <div class="btn-group">
+        {#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
+                                    <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
+                                </div>
+                                <!--/AddNew Visit-->
                             </div>
                         </div>
-                    </div>
-                    {% endif %}                    
-                </div>
-                <div class="mail-toolbar clearfix">
-{#                <div class="col-sm-12 col-md-12">#}
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="col-md-offset-3 col-md-6">
-                            <div id="datetimepicker_visits"></div>
-                        </div>
-                    </div>
-                </div>
-                <!--/visits_toolbar-->
 
-                <!--visits_gallery-->
-                <div class="head-table-visits">
-                    <div class="float-right">
-                        {# Day-to-day picker #}
-                        <button id="go_previous" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></button>
-                        <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">{{ 'visits.section_today'|trans({}, 'visits') }}</button>
-                        <button id="go_next" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></button>
+                        {% if visits_list|length > 0 %}
+                        <div class="float-right">
+                            <div class="btn-group">
+                                <div class="btn-group dropdown">
+                                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-cog icon_8"></i>
+                                        <i class="fa fa-chevron-down icon_8"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </a>
+                                    <ul class="dropdown-menu my-dropdown-right float-right">
+                                        <li>
+                                            <a id="delete_visits" class="font-red" title="">
+                                                <i class="fa fa-times" icon_9=""></i>
+                                                {{ 'base.global_delete'|trans({}, 'base') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}                    
                     </div>
-                    <div class="float-left">
-                        <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
-                        <input id="current_day" value="{{ list_date }}" hidden />
-                        <p>{{ visits_list|length }} {{ 'base.global_section_visits'|trans({}, 'base') }}</p>
+                    <!--/visits_toolbar-->
+
+                    <!--visits_gallery-->
+                    <div class="head-table-visits">
+                        <div class="float-right">
+                            {# Day-to-day picker #}
+                            <button id="go_previous" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i></button>
+                            <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">{{ 'visits.section_today'|trans({}, 'visits') }}</button>
+                            <button id="go_next" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-arrow-circle-right"></i></button>
+                        </div>
+                        <div class="float-left">
+                            <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                            <input id="current_day" value="{{ list_date }}" hidden />
+                            <p>{{ visits_list|length }} {{ 'base.global_section_visits'|trans({}, 'base') }}</p>
+                        </div>
                     </div>
-                </div>
-                <table id="visits-table" class="my-table table">
-                    {% if visits_list|length > 0  %}
-                        <thead>
-                            <tr class="check_visit hidden">
-                                <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                    <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
-                                </th>
-                                <th>
-                                    <div class="btn-group-sm pull-right">
-                                        <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
-                                        <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% set i = 0 %}
-                            {% for visit in visits_list %}
-                                <tr url=" {{ url('visits-show', {'visit_id': visit.id}) }} " class="table-row visit" data-index="{{ visit.id }}" class="table-row patient">
-                                    <td class="bs-checkbox check_visit hidden">
-                                        <input name="btSelectItem" type="checkbox">
-                                    </td>
-                                    <td class="table-text col-md-3">
-                                        {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
-                                    </td>
-                                    <td class="table-text">
-                                        <div class="float-left">
-                                            <a>{{ visits_patients_name[i] }}</a>
+                    <table id="visits-table" class="my-table table">
+                        {% if visits_list|length > 0  %}
+                            <thead>
+                                <tr class="check_visit hidden">
+                                    <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                        <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
+                                    </th>
+                                    <th>
+                                        <div class="btn-group-sm pull-right">
+                                            <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                            <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
                                         </div>
-                                    </td>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% for visit in visits_list %}
+                                    <tr url=" {{ url('visits-show', {'visit_id': visit.id}) }} " class="table-row visit" data-index="{{ visit.id }}" class="table-row patient">
+                                        <td class="bs-checkbox check_visit hidden">
+                                            <input name="btSelectItem" type="checkbox">
+                                        </td>
+                                        <td class="table-text col-md-3">
+                                            {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
+                                        </td>
+                                        <td class="table-text">
+                                            <div class="float-left">
+                                                <a>{{ visits_patients_name[i] }}</a>
+                                            </div>
+                                        </td>
+                                        <td class="table-text">
+                                            {{ visit.reason }}
+                                        </td>
+                                    </tr>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        {% else %}
+                            <tbody>
+                                <tr class="table-row">
                                     <td class="table-text">
-                                        {{ visit.reason }}
+                                        <center>{{ 'visits.section_no_visits'|trans({}, 'visits') }}</center>
                                     </td>
                                 </tr>
-                                {% set i = i + 1 %}
-                            {% endfor %}
-                        </tbody>
-                    {% else %}
-                        <tbody>
-                            <tr class="table-row">
-                                <td class="table-text">
-                                    <center>{{ 'visits.section_no_visits'|trans({}, 'visits') }}</center>
-                                </td>
-                            </tr>
-                        </tbody>
-                    {% endif %}
-                </table>
-                <!--/visits_gallery-->
-{#                {% include 'common/paginator.html.twig' %}#}
+                            </tbody>
+                        {% endif %}
+                    </table>
+                </div>
                 <div class="clearfix"> </div>
             </div>
         </div>
+        <div class="clearfix"> </div>
+        <!--/visits_gallery-->
+{#        {% include 'common/paginator.html.twig' %}#}
     </div>
 {% endblock %}
 

@@ -27,24 +27,20 @@
                 <td> :</td>
                 <td> HTML, CSS,Jqury, Bootstrap</td>
             </tr>
-            <tr>
-                <td>Country </td>
-                <td>:</td>
-                <td> United Arab Emirates</td>
-            </tr>#}
+            #}
         </table>
     </div>
     <div class="clearfix"></div>
 </div>
-<div class="profile-bottom-bottom">
+{#<div class="profile-bottom-bottom">
     <div class="col-md-4 profile-fo">
         <h4>1.000.000</h4>
         <p>Performed massages</p>
-{#        <a href="#"><i class="fa fa-cog"></i>Options</a>#}
+        <a href="#"><i class="fa fa-cog"></i>Options</a>
     </div>
     <div class="clearfix"></div>
-</div>
+</div>#}
 <div class="profile-btn">
-    <a class="btn btn-block btn-info" href="{{ url('fos_user_profile_edit') }}"> Edit Profile </a>
+    <a class="btn btn-block btn-info" href="{{ url('fos_user_profile_edit') }}">{{ 'profile.edit.submit'|trans }}</a>
     <div class="clearfix"></div>
 </div>

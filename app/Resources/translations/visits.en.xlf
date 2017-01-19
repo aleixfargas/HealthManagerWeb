@@ -58,6 +58,10 @@
                 <source>visits.global_choose_another_hour</source>
                 <target>Please choose another hour. The selected hour is reserved yet.</target>
             </trans-unit>
+            <trans-unit id="section_visits_calendar">
+                <source>visits.section_visits_calendar</source>
+                <target>Calendar</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
