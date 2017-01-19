@@ -143,24 +143,6 @@ class PatientsController extends Controller
         $all_allergies_types = $this->get_all_allergies();
         $all_operations_types = $this->get_all_operations();
         
-//        return $this->render(
-//            'patients/edit_patients.html.twig', array(
-//                'patient_data'=>$patient_data,
-//                'all_phone_types'=>$all_telephone_types,
-//                'all_email_types'=>$all_email_types,
-//                'all_address_types'=>$all_address_types,
-//                'all_allergies_types'=>$all_allergies_types,
-//                'all_operations_types'=>$all_operations_types,
-//                'error' => $this->error,
-//                'error_message' => $this->error_message,
-//                'is_section' =>true,
-//                'sections' => [
-//                    ['url'=>$this->generateUrl('patients-list'), 'name'=>$this->getTranslatedSectionName()],
-//                    ['url'=>'#','name'=>$patient_data['patient']->getName()]
-//                ]
-//            )
-//        );
-        
         return $this->render(
             'patients/add_patients.html.twig', array(
                 'all_phone_types'=>$all_telephone_types,
@@ -193,7 +175,6 @@ class PatientsController extends Controller
         
         $data_correctly_formated = true;
         if($data_correctly_formated){
-            //everything ok
             try {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($this->patient);
@@ -241,7 +222,6 @@ class PatientsController extends Controller
                 $action = $this->translateId('patients', 'patients.section_patients_already_exist');
             }
         } else {
-            //not valid
             $action = $this->render(
                 'patients/add_patients.html.twig', array(
                     'form' => $form->createView(),
@@ -504,7 +484,6 @@ class PatientsController extends Controller
                 
                 //========= Patient Allergies Update =======
 //                $logger->info("TRACE edit Allergies");
-//                if($this->patientAllergies != null){
                 $patientAllergy_to_update = array();
 
                 $i = 0;
@@ -556,10 +535,8 @@ class PatientsController extends Controller
                         $changes = true;
                     }
                 }
-//                }
                 
                 //========= Patient Operations Update =======
-//                if($this->patientOperations != null){
                 $patientOperation_to_update = array();
 
                 $i = 0;
@@ -611,7 +588,6 @@ class PatientsController extends Controller
                         $changes = true;
                     }
                 }
-//                }
                 
                 if($changes){
                     $em->flush();

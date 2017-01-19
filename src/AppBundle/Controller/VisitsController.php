@@ -64,6 +64,36 @@ class VisitsController extends Controller{
     }
     
     /**
+     * @Route("/visits/fetch/visits/", name="visits-fetch-visits")
+    */
+    public function fetch_VisitsAction(Request $request){
+        $result = 'success';
+        $html = $this->translateId('visits', 'visits.error_loading_visits');
+
+        $day = $request->request->get('new_date');
+        if($day === "today") $day = date("Y-m-d");
+        
+        $patients_names = array();
+        $visits_list = $this->get_day_visits($day);
+        
+        foreach($visits_list as $visit){
+            array_push($patients_names, $this->get_visit_patient_name($visit->getPatient()));
+            $result = ($result == 'error')? 'success':'error';
+        }
+        
+        $html = $this->render(
+            'visits/list_table_visits.html.twig', array(
+                'visits_list' => $visits_list,
+                'visits_patients_name' => $patients_names,
+                'list_date' => $day,
+            )
+        )->getContent();
+        
+        $response = json_encode(array('status'=>$result, 'results'=>count($visits_list), 'action'=>$html));
+        return new Response($response);
+    }
+    
+    /**
      * @Route("/visits/new", name="visits-new")
      */
     public function createNewVisitAction()
@@ -92,17 +122,22 @@ class VisitsController extends Controller{
         $result = 'error';
         $action = $this->translateId('base', 'base.global_unknown_error');
 
-        $this->build_visit_entity($request);
-        try{
-            $em = $this->getDoctrine()->getManager();
-    //        $patient_to_update = $em->getRepository('AppBundle:Visits')->find($this->patient->getId());
-            $em->persist($this->visit);
+        $valid = $this->build_visit_entity($request);
+        if($valid){
+            try{
+                $em = $this->getDoctrine()->getManager();
+        //        $patient_to_update = $em->getRepository('AppBundle:Visits')->find($this->patient->getId());
+                $em->persist($this->visit);
 
-            $em->flush();
-            $result = 'success';
-            $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
-        } catch (UniqueConstraintViolationException $e){
-            $action = $this->translateId('visits', 'visits.global_choose_another_hour');
+                $em->flush();
+                $result = 'success';
+                $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
+            } catch (UniqueConstraintViolationException $e){
+                $action = $this->translateId('visits', 'visits.global_choose_another_hour');
+            }
+        }
+        else {
+            $action = $this->translateId('visits', 'visits.error_visit_fields');
         }
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
@@ -289,6 +324,8 @@ class VisitsController extends Controller{
     //================ PRIVATE METHODS ==================
     
     private function build_visit_entity($request){
+        $result = true;
+        
         $this->visit = new Visits($this->get_logged_User_id());
         if($request->request->get('visit_id') != null){
             $this->visit->setId($request->request->get('visit_id'));            
@@ -300,6 +337,8 @@ class VisitsController extends Controller{
             $date = $request->request->get('visit_date');
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $date);
             $this->visit->setVisitDate($date);
+        } else {
+            $result = false;
         }
         if($request->request->get('reservation_date') != null){
             $date = $request->request->get('reservation_date');
@@ -310,6 +349,7 @@ class VisitsController extends Controller{
         $this->visit->setComments($request->request->get('comments'));
         $this->visit->setFee(0);
         $this->visit->setInvoice(0);
+        return $result;
     }
     
     private function get_all_visits($page){

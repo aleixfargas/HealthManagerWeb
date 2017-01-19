@@ -23,6 +23,7 @@ var Translator = {
             text_error_noOperationSelected: "Primer tria una operació per eliminar",
             text_error_noAllergySelected: "Primer tria una al·lèrgia per eliminar",
             button_delete: "Esborrar",
+            error_loading_visits: "Error carregant les visites per el dia seleccionat, siusplau recarrega la pàgina",
         },
         en: {
             title_sure: "Are you sure?",            
@@ -38,6 +39,7 @@ var Translator = {
             text_error_noOperationSelected: "First select an operation to delete",
             text_error_noAllergySelected: "First select an allergy to delete",
             button_delete: "Delete",
+            error_loading_visits: "Error loading the visits for the selected date, please reload the page",
         },
         es: {
             title_sure: "¿Estás seguro?",
@@ -53,6 +55,7 @@ var Translator = {
             text_error_noOperationSelected: "Primero seleccione una operacion para borrar",
             text_error_noAllergySelected: "Primero seleccione una alergia para borrar",
             button_delete: "Borrar",
+            error_loading_visits: "Error cargando las visitas para el dia seleccionado, por favor, recarga la pagina",
         }
     },
     trans: function(trans_id){

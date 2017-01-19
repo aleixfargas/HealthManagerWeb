@@ -1,6 +1,8 @@
 var visits_selected = [];
 var current_day = "";
+var dp;
 $(document).ready(function () {
+    dp = $('#datetimepicker_visits');
     current_day = $('#current_day').val();
 //    alert(current_day);
     create_datetimepicker_visits();
@@ -13,7 +15,6 @@ $(document).ready(function () {
 function create_datetimepicker_visits(){
     var date_to_go;
     var current_date_moment = moment(current_day);
-    var dp = $('#datetimepicker_visits');
 
     dp.datetimepicker({
         locale: moment.locale(get_locale()),
@@ -24,12 +25,23 @@ function create_datetimepicker_visits(){
     }).on('dp.change', function(event) {
         if(event.oldDate != null){
             date_to_go = event.date.format('YYYY-MM-DD');
-            window.location.href = "/visits/list/" + date_to_go;
+            go_to_date(date_to_go);
+//            window.location.href = "/visits/list/" + date_to_go;
         }
     });
 }
 
+function change_datetimepicker_date(date){
+    dp.data("DateTimePicker").date(date);
+    dp.data("DateTimePicker").viewDate(date);
+}
+
 function next_previous_day_listeners(){
+    next_previous_day_button_listener();
+    next_previous_day_keyboard_listeners();
+}
+
+function next_previous_day_button_listener(){
     $('#go_previous').click(function(){
         go_previous_day();
     });
@@ -39,7 +51,8 @@ function next_previous_day_listeners(){
     $('#go_next').click(function(){
         go_next_day();        
     });
-    
+}
+function next_previous_day_keyboard_listeners(){
     $(document).keydown(function(e) {
         switch(e.which) {
             case 37: // left
@@ -57,23 +70,73 @@ function next_previous_day_listeners(){
 
 function go_today(){
 //    $('#go_today').addClass('active');
-    window.location.href = $('#go_today').attr('url');
+//    window.location.href = $('#go_today').attr('url');
+    go_to_date("today");
 }
 
 function go_previous_day(){
     $('#go_previous').addClass('active');
-    window.location.href = $('#go_previous').attr('url');    
+//    window.location.href = $('#go_previous').attr('url');
+    go_to_date($('#go_previous').attr('date'));
 }
 
 function go_next_day(){
     $('#go_next').addClass('active');
-    window.location.href = $('#go_next').attr('url');
+//    window.location.href = $('#go_next').attr('url');
+    go_to_date($('#go_next').attr('date'));
 }
 
 function add_show_visit_listener(){
     $('.visit > :not(.bs-checkbox)').click(function(){
         var url = $(this).parent('tr').attr('url');
         window.location.href = url;
+    });
+}
+
+function show_loading(){
+    var html = "<div class='col-md-6 col-md-offset-5'><img style='width: 50px' src='/assets/data/img/default.gif'></div>";
+    $('#list_table_visits').html();
+}
+
+function go_to_date(date){
+    check_uncheck_all_visits(false);
+    $('#list_table_visits').html('');
+    $('#loading-gif').removeClass('hidden');
+    $.ajax({
+        url: '/visits/fetch/visits/',
+        data: {'new_date': date},
+        type: 'POST',
+        dataType: 'json',
+        beforeSend:function(){
+            
+        },
+        success: function(response){
+            if(response.status = 'success'){
+                if(response.results > 0){
+                    if($('#visit_toolbar_delete').hasClass('hidden')){
+                       $('#visit_toolbar_delete').removeClass('hidden');
+                    }
+                }
+                else{
+                    if(!$('#visit_toolbar_delete').hasClass('hidden')){
+                        $('#visit_toolbar_delete').addClass('hidden');
+                    }
+                }
+                $('#loading-gif').addClass('hidden');
+                $('#list_table_visits').html(response.action);
+                current_day = $('#current_day').val();
+                add_show_visit_listener();
+                next_previous_day_button_listener();
+                change_datetimepicker_date(date);
+            } else {
+                $('#list_table_visits').html(response.error);
+            }
+        },
+        error: function(){
+            $('#loading-gif').addClass('hidden');
+            $('#list_table_visits').html(Translator.trans('error_loading_visits'));
+            console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+        }
     });
 }
 //=================== END LIST FUNCTIONS ===================
@@ -137,7 +200,6 @@ function add_all_checkbox_listener(){
 }
 
 function add_removeVisit_btn_listener(){
-    
     $('#delete_visits_btn').click(function(e){
         e.preventDefault();
 //        console.log(visits_selected);

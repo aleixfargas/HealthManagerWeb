@@ -62,6 +62,14 @@
                 <source>visits.section_visits_calendar</source>
                 <target>Calendar</target>
             </trans-unit>
+            <trans-unit id="error_loading_visits">
+                <source>visits.error_loading_visits</source>
+                <target>Error loading the visits for the selected date</target>
+            </trans-unit>
+            <trans-unit id="error_visit_fields">
+                <source>visits.error_visit_fields</source>
+                <target>Please, fill the visit date first</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,0 +1,65 @@
+{% block list_table_visits %}
+    <!--visits_gallery-->
+    <div id="list_table_visits">
+        <div class="head-table-visits">
+            <div class="float-right">
+                {# Day-to-day picker #}
+                <button id="go_previous" date="{{ list_date|date_modify("-1 day")|date("Y-m-d") }}" url="{{ url('visits-list', {'day': list_date|date_modify("-1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-angle-left"></i></button>
+                <button id="go_today" url="{{ url('visits-list', {'day': "now"|date("Y-m-d")}) }}" class="btn btn-default">{{ 'visits.section_today'|trans({}, 'visits') }}</button>
+                <button id="go_next" date="{{ list_date|date_modify("+1 day")|date("Y-m-d") }}" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-angle-right"></i></button>
+            </div>
+            <div class="float-left">
+                <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                <input id="current_day" value="{{ list_date }}" hidden />
+                <p>{{ visits_list|length }} {{ 'base.global_section_visits'|trans({}, 'base') }}</p>
+            </div>
+        </div>
+        <table id="visits-table" class="my-table table">
+            {% if visits_list|length > 0  %}
+                <thead>
+                    <tr class="check_visit hidden">
+                        <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
+                            <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
+                        </th>
+                        <th>
+                            <div class="btn-group-sm pull-right">
+                                <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set i = 0 %}
+                    {% for visit in visits_list %}
+                        <tr url=" {{ url('visits-show', {'visit_id': visit.id}) }} " class="table-row visit" data-index="{{ visit.id }}" class="table-row patient">
+                            <td class="bs-checkbox check_visit hidden">
+                                <input name="btSelectItem" type="checkbox">
+                            </td>
+                            <td class="table-text col-md-3">
+                                {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
+                            </td>
+                            <td class="table-text">
+                                <div class="float-left">
+                                    <a>{{ visits_patients_name[i] }}</a>
+                                </div>
+                            </td>
+                            <td class="table-text">
+                                {{ visit.reason }}
+                            </td>
+                        </tr>
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </tbody>
+            {% else %}
+                <tbody>
+                    <tr class="table-row">
+                        <td class="table-text">
+                            <center>{{ 'visits.section_no_visits'|trans({}, 'visits') }}</center>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}
