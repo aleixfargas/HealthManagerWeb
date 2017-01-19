@@ -80,8 +80,6 @@ function createInterval(dateTime){
 }
 
 function fetchVisitsDates(dateTime){
-    
-    
     $.ajax({
         url: '/visits/fetch/allVisitDates/',
         data: {'dateTime': dateTime},

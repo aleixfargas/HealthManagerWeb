@@ -54,7 +54,10 @@
         <!-- Base css and js -->
         <link rel="stylesheet" href="{{ asset('css/base.css', 'base') }}">
         <script src="{{ asset('js/base.js', 'base') }}"></script>
-                
+        
+        <!-- Translator js -->
+        <script src="{{ asset('js/translator.js', 'base') }}"></script>
+        
         {% block menu_javascripts %}{% endblock %}
         {% block menu_stylesheets %}{% endblock %}
         
@@ -70,8 +73,7 @@
             </style>
         {% endblock %}
     </head>
-    <body>
-        <input id="base_locale" value="{{ app.request.locale }}" hidden/>        
+    <body lang="{{ app.request.locale }}">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <!--scrolling js-->

@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    Translator.locale(get_locale());
+    console.log(Translator);
+    
     $(document).on( 'scroll', function(){
     	if ($(window).scrollTop() > 100) {
             add_scroll_to_top();
@@ -18,10 +21,6 @@ function array_pop(array, removeItem){
 
 function rm_click_listener(object){
     $(object).unbind('click');
-}
-
-function get_locale(){
-    return $("#base_locale").val();
 }
 
 function add_scroll_to_top(){

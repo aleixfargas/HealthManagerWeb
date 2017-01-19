@@ -8,7 +8,7 @@ $(document).ready(function () {
                 window.location.href = response.action;
             } else {
                 swal(
-                    'Error!',
+                    Translator.trans('title_error'), //'Error!',
                     response.action,
                     'error'
                 );

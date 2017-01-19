@@ -143,19 +143,19 @@ function add_removeVisit_btn_listener(){
 //        console.log(visits_selected);
         if(visits_selected.length > 0){
             swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: Translator.trans('title_sure'), //'Are you sure?',
+                text: Translator.trans('text_noRevert'), //"You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d9534f',
 //                cancelButtonColor: '#d33',
-                confirmButtonText: 'Delete'
+                confirmButtonText: Translator.trans('button_delete'), //'Delete'
             }).then(function() {
                 $.post('/visits/remove', {"visits_array":visits_selected, "current_day":current_day}, function(response){
                     if(response.status == 'success'){
                         swal(
-                            'Deleted!',
-                            'The visits has been deleted.',
+                            Translator.trans('title_deleted'), //'Deleted!',
+                            Translator.trans('text_visit_deleted'), //'The visits has been deleted.',
                             'success'
                         );
                         setTimeout(function() {
@@ -164,7 +164,7 @@ function add_removeVisit_btn_listener(){
                         }, 1000);
                     } else {
                         swal(
-                            'Error!',
+                            Translator.trans('title_error'), //'Error!',
                             response.action,
                             'error'
                         );
@@ -173,8 +173,8 @@ function add_removeVisit_btn_listener(){
             })
         } else {
             swal(
-                'Error!',
-                'First select a visit to delete',
+                Translator.trans('title_error'), //'Error!',
+                Translator.trans('text_error_noVisitSelected'), //'First select a visit to delete',
                 'error'
             );
         }        

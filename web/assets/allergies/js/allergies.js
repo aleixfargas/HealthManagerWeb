@@ -73,19 +73,19 @@ function add_removeVisit_btn_listener(){
 //        console.log(allergies_selected);
         if(allergies_selected.length > 0){
             swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: Translator.trans('title_sure'), //'Are you sure?',
+                text: Translator.trans('text_noRevert'), //"You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d9534f',
 //                cancelButtonColor: '#d33',
-                confirmButtonText: 'Delete'
+                confirmButtonText: Translator.trans('button_delete'), //'Delete'
             }).then(function() {
                 $.post('/allergies/remove', {"allergies_array":allergies_selected}, function(response){
                     if(response.status == 'success'){
                         swal(
-                            'Deleted!',
-                            'The allergies has been deleted.',
+                            Translator.trans('title_deleted'), //'Deleted!',
+                            Translator.trans('text_allergy_deleted'), //'The allergies has been deleted.',
                             'success'
                         );
                         setTimeout(function() {
@@ -94,7 +94,7 @@ function add_removeVisit_btn_listener(){
                         }, 1000);
                     } else {
                         swal(
-                            'Error!',
+                            Translator.trans('title_error'), //'Error!',
                             response.action,
                             'error'
                         );
@@ -103,8 +103,8 @@ function add_removeVisit_btn_listener(){
             })
         } else {
             swal(
-                'Error!',
-                'First select a allergy to delete',
+                Translator.trans('title_error'), //'Error!',
+                 Translator.trans('text_error_noAllergySelected'), //'First select a allergy to delete',
                 'error'
             );
         }        

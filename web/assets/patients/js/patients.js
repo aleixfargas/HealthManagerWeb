@@ -80,19 +80,19 @@ function add_removePatient_btn_listener(){
         
         if(patients_selected.length > 0){
             swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: Translator.trans('title_sure'), //'Are you sure?',
+                text: Translator.trans('text_noRevert'), //"You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d9534f',
 //                cancelButtonColor: '#d33',
-                confirmButtonText: 'Delete'
+                confirmButtonText: Translator.trans('button_delete'), //'Delete'
             }).then(function() {
                 $.post('/patients/remove', {"patients_array":patients_selected}, function(response){
                     if(response.status == 'success'){
                         swal(
-                            'Deleted!',
-                            'The patients has been deleted.',
+                            Translator.trans('title_deleted'), //'Deleted!',
+                            Translator.trans('text_patient_deleted'), //'The patients has been deleted.',
                             'success'
                         );
                         setTimeout(function() {
@@ -101,7 +101,7 @@ function add_removePatient_btn_listener(){
                         }, 1000);
                     } else {
                         swal(
-                            'Error!',
+                            Translator.trans('title_error'), //'Error!',
                             response.action,
                             'error'
                         );
@@ -110,8 +110,8 @@ function add_removePatient_btn_listener(){
             })
         } else {
             swal(
-                'Error!',
-                'First select a patient to delete',
+                Translator.trans('title_error'), //'Error!',
+                Translator.trans('text_error_noPatientSelected'), //'First select a patient to delete',
                 'error'
             );
         }        
