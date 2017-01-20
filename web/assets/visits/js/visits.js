@@ -1,5 +1,6 @@
 var visits_selected = [];
 var current_day = "";
+var keydown_press = false;
 var dp;
 $(document).ready(function () {
     dp = $('#datetimepicker_visits');
@@ -24,9 +25,14 @@ function create_datetimepicker_visits(){
         format: 'YYYY-M-D'
     }).on('dp.change', function(event) {
         if(event.oldDate != null){
-            date_to_go = event.date.format('YYYY-MM-DD');
-            go_to_date(date_to_go);
+            if(keydown_press === false){
+                date_to_go = event.date.format('YYYY-MM-DD');
+                go_to_date(date_to_go);
 //            window.location.href = "/visits/list/" + date_to_go;
+            }
+            else {
+                keydown_press = false;
+            }
         }
     });
 }
@@ -54,6 +60,9 @@ function next_previous_day_button_listener(){
 }
 function next_previous_day_keyboard_listeners(){
     $(document).keydown(function(e) {
+        e.stopImmediatePropagation();
+        $(this).unbind('keydown');
+        keydown_press = true;
         switch(e.which) {
             case 37: // left
                 go_previous_day();        
@@ -100,6 +109,9 @@ function show_loading(){
 
 function go_to_date(date){
     check_uncheck_all_visits(false);
+    if(!$('#visit_toolbar_delete').hasClass('hidden')){
+        $('#visit_toolbar_delete').addClass('hidden');
+    }
     $('#list_table_visits').html('');
     $('#loading-gif').removeClass('hidden');
     $.ajax({
@@ -113,20 +125,14 @@ function go_to_date(date){
         success: function(response){
             if(response.status = 'success'){
                 if(response.results > 0){
-                    if($('#visit_toolbar_delete').hasClass('hidden')){
-                       $('#visit_toolbar_delete').removeClass('hidden');
-                    }
-                }
-                else{
-                    if(!$('#visit_toolbar_delete').hasClass('hidden')){
-                        $('#visit_toolbar_delete').addClass('hidden');
-                    }
+                    $('#visit_toolbar_delete').removeClass('hidden');
                 }
                 $('#loading-gif').addClass('hidden');
                 $('#list_table_visits').html(response.action);
                 current_day = $('#current_day').val();
                 add_show_visit_listener();
                 next_previous_day_button_listener();
+                next_previous_day_keyboard_listeners();
                 change_datetimepicker_date(date);
             } else {
                 $('#list_table_visits').html(response.error);
