@@ -58,13 +58,7 @@ class PatientsController extends Controller
     {
         $logger = $this->get('logger');
         
-        list($total_patients, $patients_list) = $this->get_all_patients($page);        
-        $address_types = $this->get_all_address_types();
-        $telephone_types = $this->get_all_telephone_types();
-        $email_types = $this->get_all_email_types();
-        $diseases = $this->get_all_diseases();
-        $operations = $this->get_all_operations();
-        $allergies = $this->get_all_allergies();
+        list($total_patients, $patients_list) = $this->get_all_patients($page);
 //        $form = $this->create_addNew_patient_form();
         
         $pages = ((int)($total_patients/$this->maxResults))+(($total_patients%$this->maxResults)==0? 0 : 1);
@@ -77,13 +71,6 @@ class PatientsController extends Controller
             'patients/list_patients.html.twig', array(
                 'error' => $this->error,
                 'error_message' => $this->error_message,
-//                'form' => $form->createView(),
-                'address_types' => $address_types,
-                'phone_types' => $telephone_types,
-                'email_types' => $email_types,
-                'diseases_types' => $diseases,
-                'operations_types' => $operations,
-                'allergies_types' => $allergies,
                 'patients_list' => $patients_list,
                 'has_search' => true,
                 'search_url' => $this->generateUrl('patients-search'),

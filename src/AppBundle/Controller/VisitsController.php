@@ -208,10 +208,12 @@ class VisitsController extends Controller{
     {           
         list($visit, $visit_patient) =  $this->get_visit($visit_id);
         $patients = $this->get_all_visits_patients();
-        $this->logger->info($patients);
+        $patients_telephones = $this->get_all_visits_patients_telephones($patients);
+        
         return $this->render(
             'visits/edit_visits.html.twig', array(
                 'all_patients' => $patients,
+                'all_patients_telephones' => $patients_telephones,
                 'visit' => $visit,
                 'visit_patient_name' => $visit_patient,
                 'error' => $this->error,
