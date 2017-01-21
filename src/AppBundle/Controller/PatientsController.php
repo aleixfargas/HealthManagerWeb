@@ -683,7 +683,7 @@ class PatientsController extends Controller
         $patients = array();
         $search_copy = $search;
         settype($search_copy, "integer");
-        if($search_copy === 0){
+        if($search_copy != 0){
             $interval_init = $search;
             $interval_end = $search;
             for($i=strlen($search); $i < 9; $i++){
