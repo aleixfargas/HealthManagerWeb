@@ -98,11 +98,15 @@ class VisitsController extends Controller{
      */
     public function createNewVisitAction()
     {   
+        $this->logger = $this->get('logger');
+        
         $patients = $this->get_all_visits_patients();
-
+        $patients_telephones = $this->get_all_visits_patients_telephones($patients);
+        
         return $this->render(
             'visits/add_visits.html.twig', array(
                 'all_patients' => $patients,
+                'all_patients_telephones' => $patients_telephones,
                 'error' => $this->error,
                 'error_message' => $this->error_message,
                 'is_section' =>true,
@@ -201,12 +205,10 @@ class VisitsController extends Controller{
      * @Route("/visits/edit/{visit_id}", name="visits-edit")
      */
     public function editVisitAction($visit_id)
-    {
-        $this->logger = $this->get('logger');
-        
+    {           
         list($visit, $visit_patient) =  $this->get_visit($visit_id);
         $patients = $this->get_all_visits_patients();
-                
+        $this->logger->info($patients);
         return $this->render(
             'visits/edit_visits.html.twig', array(
                 'all_patients' => $patients,
@@ -457,10 +459,26 @@ class VisitsController extends Controller{
             WHERE p.user = :user_id
             ORDER BY p.name ASC'
         )->setParameter('user_id', $this->get_logged_User_id());
-
                 
         $patients = $query->getResult();
         
         return $patients;
+    }
+    
+    private function get_all_visits_patients_telephones($all_patients){
+        $patients_ids = array();
+        foreach($all_patients as $patient){
+            array_push($patients_ids, $patient->getId());
+        }
+                
+        $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT pt 
+                FROM AppBundle:PatientTelephones pt 
+                WHERE pt.patient IN (:patients_ids)'
+            )->setParameter('patients_ids', $patients_ids);
+        
+        $patients_telephones = $query->getResult();
+        return $patients_telephones;
     }
 }

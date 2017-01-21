@@ -104,11 +104,32 @@ class PatientsController extends Controller
      */
     public function searchPatientAction(Request $request)
     {
+        $logger = $this->get('logger');
+
         $result = false;
         $search = $request->query->get('search');
         if($search != null){
             $patients_list = $this->get_all_patients_ByName($search);
-
+            $patients_matched_telephone = $this->get_all_patients_ByTelephone($search);
+            $logger->info("TRACE names");
+            $logger->info(var_export($patients_list, true));
+            $logger->info("TRACE telephones");
+            $logger->info(var_export($patients_matched_telephone, true));
+            foreach($patients_matched_telephone as $patient_match_telephone){
+                $patient_noFound = true;
+                foreach($patients_list as $patient_match_name){
+                    if($patient_match_name->getId() == $patient_match_telephone->getId()){
+                        $patient_noFound = false;
+                    }    
+                }
+                if($patient_noFound){
+                    array_push($patients_list, $patient_match_telephone);
+                }
+            }
+            
+            $logger->info("TRACE result");
+            $logger->info(var_export($patients_list, true));
+            
             $result = $this->render(
                 'patients/list_patients.html.twig', array(
                     'error' => $this->error,
@@ -650,6 +671,44 @@ class PatientsController extends Controller
         $patients_founded = $query->getResult();
         
         return $patients_founded;
+    }
+    
+    /**
+     * Method to get all the patients by telephone number
+     * @param String $search containing all or a part of the number to search for.
+     * @return array Containing all patients that contains $search
+     * @throws Exception NotFoundException
+     */
+    private function get_all_patients_ByTelephone($search){
+        $patients = array();
+        $search_copy = $search;
+        settype($search_copy, "integer");
+        if($search_copy === 0){
+            $interval_init = $search;
+            $interval_end = $search;
+            for($i=strlen($search); $i < 9; $i++){
+                $interval_init = $interval_init.'0';
+                $interval_end = $interval_end.'9';
+            }
+            settype($interval_init, "integer");
+            settype($interval_end, "integer");
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT p
+                FROM AppBundle:Patients p
+                WHERE p.id IN (
+                    SELECT pt.patient 
+                    FROM AppBundle:PatientTelephones pt 
+                    WHERE pt.number >= :patients_numbers 
+                    AND pt.number <= :patients_numbers_max
+                )'
+                )->setParameter('patients_numbers', $interval_init)
+                ->setParameter('patients_numbers_max', $interval_end);
+
+            $patients = $query->getResult();
+        }
+        return $patients;
     }
     
     /**
