@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class VisitsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Function to get the next scheduled visit
+     * @return Entity The next scheduled Visit 
+     */
+    public function getNextVisit(){        
+        $format = 'Y-m-d H:i:s';
+        $dateTime = \DateTime::createFromFormat($format, date($format));
+        
+        $em = $this->getEntityManager();
+        
+        $query = $em->createQuery(
+            'SELECT v 
+            FROM AppBundle:Visits v 
+            WHERE v.visitDate > :dateTime
+            ORDER BY v.visitDate ASC'
+        )->setParameter('dateTime', $dateTime)
+        ->setMaxResults(1);
+        
+        $visit = $query->getResult();
+        return $visit;
+    }
 }

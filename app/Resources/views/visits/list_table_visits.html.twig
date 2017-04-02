@@ -30,25 +30,49 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% set hours = ['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22'] %}
                     {% set i = 0 %}
-                    {% for visit in visits_list %}
-                        <tr url=" {{ url('visits-show', {'visit_id': visit.id}) }} " class="table-row visit" data-index="{{ visit.id }}" class="table-row patient">
-                            <td class="bs-checkbox check_visit hidden">
-                                <input name="btSelectItem" type="checkbox">
-                            </td>
-                            <td class="table-text col-md-3">
-                                {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
-                            </td>
-                            <td class="table-text">
-                                <div class="float-left">
-                                    <a>{{ visits_patients_name[i] }}</a>
-                                </div>
-                            </td>
-                            <td class="table-text">
-                                {{ visit.reason }}
-                            </td>
-                        </tr>
-                        {% set i = i + 1 %}
+                    {% for hour in hours %}
+                        {% for visit in visits_list %}
+                            {% set visit_hour = 0 %}                    
+                            {% if hour == visit.visitDate|date("H", "Europe/Madrid")  %}
+                                {% set visit_hour = visit %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if visit_hour != 0 %}
+                            <tr url=" {{ url('visits-show', {'visit_id': visit.id}) }} " class="table-row visit" data-index="{{ visit.id }}" class="table-row patient">
+                                <td class="bs-checkbox check_visit hidden">
+                                    <input name="btSelectItem" type="checkbox">
+                                </td>
+                                <td class="table-text col-md-3">
+                                    {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
+                                </td>
+                                <td class="table-text">
+                                    <div class="float-left">
+                                        <a>{{ visits_patients_name[i] }}</a>
+                                    </div>
+                                </td>
+                                <td class="table-text">
+                                    {{ visit.reason }}
+                                </td>
+                            </tr>
+                            {% set i = i + 1 %}
+                        {% else %}
+                            <tr class="table-row visit" class="table-row patient">
+                                <td class="bs-checkbox check_visit hidden">
+{#                                    <input name="btSelectItem" type="checkbox">#}
+                                </td>
+                                <td class="table-text col-md-3">
+                                    {{ hour . ":00" }}
+                                </td>
+                                <td class="table-text">
+                                    <div class="float-left">
+                                    </div>
+                                </td>
+                                <td class="table-text">
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             {% else %}

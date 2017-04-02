@@ -474,11 +474,11 @@ class VisitsController extends Controller{
         }
                 
         $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery(
-                'SELECT pt 
-                FROM AppBundle:PatientTelephones pt 
-                WHERE pt.patient IN (:patients_ids)'
-            )->setParameter('patients_ids', $patients_ids);
+        $query = $em->createQuery(
+            'SELECT pt 
+            FROM AppBundle:PatientTelephones pt 
+            WHERE pt.patient IN (:patients_ids)'
+        )->setParameter('patients_ids', $patients_ids);
         
         $patients_telephones = $query->getResult();
         return $patients_telephones;

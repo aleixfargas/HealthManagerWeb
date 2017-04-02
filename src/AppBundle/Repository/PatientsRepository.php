@@ -10,4 +10,10 @@ namespace AppBundle\Repository;
  */
 class PatientsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function get_patient_name($patient_id){
+        $patient_name = '';
+        $patient = $this->find($patient_id);
+        
+        return $patient;
+    }
 }

@@ -2,16 +2,43 @@
 
 {% block content_main %}
     <!--content-->
-    <div class="typo-grid">
-        <div class="typo-1">
-            <div class="grid_3 grid_4">
-                <div class="col-md-12 profile-text">
-                    <h1>{{ 'dashboard.section_title'|trans({}, 'dashboard') }}{{ 'base.global_title'|trans({}, 'base') }}!</h1>
-                    <br/>
-                    {{ 'dashboard.section_content'|trans({}, 'dashboard') }}
-                </div>
-                <div class="clearfix"> </div>
+    <div class="content-top">
+        <div class="col-md-5">
+            <div class="content-top-1 compose">
+    {#          <h1>{{ 'dashboard.section_title'|trans({}, 'dashboard') }}{{ 'base.global_title'|trans({}, 'base') }}!</h1>#}
+                <center><h3>{{ 'dashboard.next_visit'|trans({}, 'dashboard') }}</h3></center>
+                <br/>
+                <table id="next-visit" class="my-table table">
+                    <tbody>
+                    {% if next_visit |length > 0  %}
+                        {% set i = 0 %}                                
+                        {% for visit in next_visit %}                                
+                            <tr onclick="window.location.href('{{ url('visits-show', {'visit_id': visit.id}) }}')" class="table-row">
+                                <td class="table-text col-md-3">
+                                {{ visit.visitDate|date("H:i", "Europe/Madrid") }}
+                                </td>
+                                <td class="table-text">
+                                    <div class="float-left">
+                                        <a>{{ next_visit_patient_names[i] }}</a>
+                                    </div>
+                                </td>
+                                {#<td class="table-text">
+                                    {{ visit.reason }}
+                                </td>#}
+                            </tr>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <center>No hi ha cap visita programada</center>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
             </div>
+            <div class="clearfix"> </div>
         </div>
     </div>
         

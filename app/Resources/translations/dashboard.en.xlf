@@ -6,9 +6,9 @@
                 <source>dashboard.section_title</source>
                 <target>Welcome to </target>
             </trans-unit>
-            <trans-unit id="section_content">
-                <source>dashboard.section_content</source>
-                <target></target>
+            <trans-unit id="next_visit">
+                <source>dashboard.next_visit</source>
+                <target>Next visit</target>
             </trans-unit>
         </body>
     </file>

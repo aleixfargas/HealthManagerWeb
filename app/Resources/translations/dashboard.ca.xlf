@@ -2,13 +2,13 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="ca" target-language="ca" datatype="plaintext" original="file.ext">
         <body>
-            <trans-unit id="dashboard_welcome">
+            <trans-unit id="section_title">
                 <source>dashboard.section_title</source>
-                <target>Benvingut a </target>
+                <target>Benvingut al </target>
             </trans-unit>
-            <trans-unit id="global_title">
-                <source>dashboard.section_content</source>
-                <target>Aquest projecte consisteix en implementar una plataforma, que es pugui visualitzar amb més d'un dispositiu (mòbil, tablet i PC), per a poder ajudar amb la gestió dels clients d'una consulta fisioterapèutica.</target>
+            <trans-unit id="next_visit">
+                <source>dashboard.next_visit</source>
+                <target>Següent visita</target>
             </trans-unit>
         </body>
     </file>
