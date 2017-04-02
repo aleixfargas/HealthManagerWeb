@@ -35,7 +35,7 @@
                     {% for hour in hours %}
                         {% set visit_hour = 0 %}                    
                         {% for visit in visits_list %}
-                            {% if hour == visit.visitDate|date("H", "Europe/Madrid")  %}
+                            {% if hour is same as visit.visitDate|date("H", "Europe/Madrid")  %}
                                 {% set visit_hour = visit %}
                             {% endif %}
                         {% endfor %}
