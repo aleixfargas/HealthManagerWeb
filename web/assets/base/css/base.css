@@ -42,6 +42,10 @@ a:hover {
     height: 68px!important;
 }
 
+.visits-table tr {
+    height: auto!important;
+}
+
 .blank {
     padding: 0em !important;
 }
