@@ -100,6 +100,18 @@ function add_show_visit_listener(){
         var url = $(this).parent('tr').attr('url');
         window.location.href = url;
     });
+    
+    $('.visit-empty').click(function(){
+        swal({ 
+            title: Translator.trans('title_add_new_fast_visit'),
+            type: 'info',
+            html:
+              Translator.trans('body_add_new_fast_visit'),
+            showCancelButton: true,
+            confirmButtonText: Translator.trans('button_add_new_fast_visit'),
+            cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
+        });
+    });
 }
 
 function show_loading(){

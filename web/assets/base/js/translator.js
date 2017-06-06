@@ -24,6 +24,10 @@ var Translator = {
             text_error_noAllergySelected: "Primer tria una al·lèrgia per eliminar",
             button_delete: "Esborrar",
             error_loading_visits: "Error carregant les visites per el dia seleccionat, siusplau recarrega la pàgina",
+            title_add_new_fast_visit: "Afegeix una nova visita",
+            body_add_new_fast_visit: "Vols afegir una nova visita?",
+            button_add_new_fast_visit: "Afegir",
+            button_cancel_add_new_fast_visit: "Cancel·lar",
         },
         en: {
             title_sure: "Are you sure?",            
@@ -40,6 +44,10 @@ var Translator = {
             text_error_noAllergySelected: "First select an allergy to delete",
             button_delete: "Delete",
             error_loading_visits: "Error loading the visits for the selected date, please reload the page",
+            title_add_new_fast_visit: "Add a new visit",
+            body_add_new_fast_visit: "Do you want to add a new visit?",
+            button_add_new_fast_visit: "Add",
+            button_cancel_add_new_fast_visit: "Cancel",
         },
         es: {
             title_sure: "¿Estás seguro?",
@@ -56,6 +64,10 @@ var Translator = {
             text_error_noAllergySelected: "Primero seleccione una alergia para borrar",
             button_delete: "Borrar",
             error_loading_visits: "Error cargando las visitas para el dia seleccionado, por favor, recarga la pagina",
+            title_add_new_fast_visit: "Añade una nueva visita",
+            body_add_new_fast_visit: "Quieres añadir una nueva visita?",
+            button_add_new_fast_visit: "Añadir",
+            button_cancel_add_new_fast_visit: "Cancelar",
         }
     },
     trans: function(trans_id){
