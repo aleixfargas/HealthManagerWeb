@@ -130,6 +130,9 @@ function go_to_date(date){
                 $('#loading-gif').addClass('hidden');
                 $('#list_table_visits').html(response.action);
                 current_day = $('#current_day').val();
+                if(date == 'today'){
+                    date = current_day;
+                }
                 add_show_visit_listener();
                 next_previous_day_button_listener();
                 next_previous_day_keyboard_listeners();
