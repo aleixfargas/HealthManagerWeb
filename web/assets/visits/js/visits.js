@@ -172,7 +172,7 @@ function add_show_visit_listener(){
                 },
                 success: function(response){
                     if(response.status = 'success'){
-                        window.location.href(response.action);
+                        window.location.href = response.action;
                     } else {
                         swal('Error', response.error, 'error');
                     }
