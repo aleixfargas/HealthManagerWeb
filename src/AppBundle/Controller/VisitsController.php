@@ -130,6 +130,7 @@ class VisitsController extends Controller{
 //        $this->logger = $this->get('logger');
         $result = 'error';
         $action = $this->translateId('base', 'base.global_unknown_error');
+        $action_listVisits = "";
 
         $valid = $this->build_visit_entity($request);
         if($valid){
@@ -141,6 +142,7 @@ class VisitsController extends Controller{
                 $em->flush();
                 $result = 'success';
                 $action = $this->generateUrl('visits-show', ['visit_id'=>$this->visit->getId()]);
+                $action_listVisits = $this->generateUrl('visits-edit', ['visit_id'=>$this->visit->getId()]);
             } catch (UniqueConstraintViolationException $e){
                 $action = $this->translateId('visits', 'visits.global_choose_another_hour');
             }
@@ -148,7 +150,7 @@ class VisitsController extends Controller{
         else {
             $action = $this->translateId('visits', 'visits.error_visit_fields');
         }
-        $response = json_encode(array('status'=>$result, 'action'=>$action));
+        $response = json_encode(array('status'=>$result, 'action'=>$action, 'action_listVisits'=>$action_listVisits));
         return new Response($response);
     }
     
