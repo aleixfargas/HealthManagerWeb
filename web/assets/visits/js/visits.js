@@ -214,6 +214,7 @@ function show_visits_checkbox(){
     $('#delete_visits').click(function(){
         $('.check_visit').removeClass('hidden');
         rm_click_listener('.visit > :not(.bs-checkbox input)');
+        rm_click_listener('.visit-empty');
         add_checkbox_listener();
         add_all_checkbox_listener();
         add_removeVisit_btn_listener();
