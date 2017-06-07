@@ -164,7 +164,7 @@ function add_show_visit_listener(){
             console.log(visit_dateTimeString);
             $.ajax({
                 url: '/visits/save',
-                data: {'patient': result[0], 'visit_date': result[1]},
+                data: {'patient': result[0], 'visit_date': visit_dateTimeString},
                 type: 'POST',
                 dataType: 'json',
                 beforeSend:function(){
@@ -172,30 +172,17 @@ function add_show_visit_listener(){
                 },
                 success: function(response){
                     if(response.status = 'success'){
-                        if(response.results > 0){
-                            $('#visit_toolbar_delete').removeClass('hidden');
-                        }
-                        $('#loading-gif').addClass('hidden');
-                        $('#list_table_visits').html(response.action);
-                        current_day = $('#current_day').val();
-                        if(date == 'today'){
-                            date = current_day;
-                        }
-                        add_show_visit_listener();
-                        next_previous_day_button_listener();
-                        next_previous_day_keyboard_listeners();
-                        change_datetimepicker_date(date);
+                        window.location(response.action);
                     } else {
-                        $('#list_table_visits').html(response.error);
+                        swal('Error', response.error, 'error');
                     }
                 },
                 error: function(){
-                    $('#loading-gif').addClass('hidden');
-                    $('#list_table_visits').html(Translator.trans('error_loading_visits'));
+                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
                     console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
                 }
             });
-            swal(JSON.stringify(result));
+//            swal(JSON.stringify(result));
         })
     });
 }
