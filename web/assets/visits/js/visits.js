@@ -104,17 +104,21 @@ function add_show_visit_listener(){
     var visitDayText = null;
     var visitDay = null;
     var visitHour = null;
+    var s = $('#all-patients-select-div').clone();
+    s.find('.all-patients-select').addClass('swal');
+
     $('.visit-empty').click(function(){
         visitDayText = $(this).attr('dayText');
         visitDay = $(this).attr('day');
         visitHour = $(this).attr('hour');
 
 //        alert("dayText="+visitDayText+"</br> "+"visitDay="+visitDay+"</br> "+"visitHour="+visitHour);
-
+        
         swal({
             title: Translator.trans('title_add_new_fast_visit'),
             type: 'question',
             html:
+                "</br>" + 
                 "<table>" + 
                     "<tr>" + 
                         "<td class='col-md-4'>" + 
@@ -133,31 +137,26 @@ function add_show_visit_listener(){
                         "</td>" + 
                     "</tr>" + 
                 "</table>" + 
-                "<br/>" + 
-                "Selecciona el pacient:" + 
-                $('#all-patients-selector').html(), 
+//                "<br/>" + 
+//                "Selecciona el pacient:" + 
+//                "</br>" + 
+                s.html(), 
             showCancelButton: true,
             confirmButtonText: Translator.trans('button_add_new_fast_visit'),
             cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
             showLoaderOnConfirm: true,
-            preConfirm: function (email) {
-                return new Promise(function (resolve, reject) {
-                    setTimeout(function () {
-                        if (email === 'taken@example.com') {
-                            reject('This email is already taken.')
-                        } else {
-                            resolve()
-                        }
-                    }, 2000)
+            preConfirm: function () {
+            return new Promise(function (resolve) {
+                resolve([
+                        $('.all-patients-select.swal').val(),
+                        visitHour,
+                        visitDay
+                    ])
                 })
             },
             allowOutsideClick: false
-        }).then(function (email) {
-            swal({
-                type: 'success',
-                title: 'Ajax request finished!',
-                html: 'Submitted email: ' + email
-            })
+        }).then(function (result) {
+            swal(JSON.stringify(result));
         })
     });
 }
