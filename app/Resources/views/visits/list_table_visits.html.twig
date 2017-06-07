@@ -1,4 +1,5 @@
 {% block list_table_visits %}
+    {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
     <!--visits_gallery-->
     <div id="list_table_visits">
         <div class="head-table-visits">
@@ -9,7 +10,7 @@
                 <button id="go_next" date="{{ list_date|date_modify("+1 day")|date("Y-m-d") }}" url="{{ url('visits-list', {'day': list_date|date_modify("+1 day")|date("Y-m-d")}) }}" class="btn btn-default"><i class="fa fa-angle-right"></i></button>
             </div>
             <div class="float-left">
-                <h3>{{ list_date|localizeddate('full', 'none', app.request.locale) }}</h3>
+                <h3>{{ fullFormattedDate }}</h3>
                 <input id="current_day" value="{{ list_date }}" hidden />
                 <p>{{ visits_list|length }} {{ 'base.global_section_visits'|trans({}, 'base') }}</p>
             </div>
@@ -63,7 +64,7 @@
                             </td>
                         </tr>
                     {% else %}
-                        <tr class="table-row visit-empty" class="table-row patient">
+                        <tr class="table-row visit-empty" dayText="{{ fullFormattedDate }}" day="{{ list_date }}" hour="{{ hour }}">
                             <td class="bs-checkbox check_visit hidden">
 {#                                    <input name="btSelectItem" type="checkbox">#}
                             </td>

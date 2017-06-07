@@ -48,6 +48,9 @@ class VisitsController extends Controller{
             array_push($patients_names, $this->get_visit_patient_name($visit->getPatient()));
         }
         
+        $all_patients = $this->get_all_visits_patients();
+        $all_patients_telephones = $this->get_all_visits_patients_telephones($all_patients);
+        
         return $this->render(
             'visits/list_visits.html.twig', array(
                 'error' => $this->error,
@@ -55,6 +58,8 @@ class VisitsController extends Controller{
                 'visits_list' => $visits_list,
                 'visits_patients_name' => $patients_names,
                 'list_date' => $day,
+                'all_patients' => $all_patients,
+                'all_patients_telephones' => $all_patients_telephones,
                 'is_section' =>true,
                 'sections' => [
                     ['url'=>$this->generateUrl('visits-list'), 'name'=>$this->getTranslatedSectionName()]

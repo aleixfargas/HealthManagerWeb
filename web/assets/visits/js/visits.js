@@ -101,16 +101,64 @@ function add_show_visit_listener(){
         window.location.href = url;
     });
     
+    var visitDayText = null;
+    var visitDay = null;
+    var visitHour = null;
     $('.visit-empty').click(function(){
-        swal({ 
+        visitDayText = $(this).attr('dayText');
+        visitDay = $(this).attr('day');
+        visitHour = $(this).attr('hour');
+
+//        alert("dayText="+visitDayText+"</br> "+"visitDay="+visitDay+"</br> "+"visitHour="+visitHour);
+
+        swal({
             title: Translator.trans('title_add_new_fast_visit'),
-            type: 'info',
+            type: 'question',
             html:
-              Translator.trans('body_add_new_fast_visit'),
+                "<table>" + 
+                    "<tr>" + 
+                        "<td class='col-md-4'>" + 
+                            "Day: " + 
+                        "</td>" + 
+                        "<td class='col-md-8' style='text-align: left;'>" + 
+                            visitDayText + 
+                        "</td>" + 
+                    "</tr>" + 
+                    "<tr>" + 
+                        "<td class='col-md-4'>" + 
+                            "Hour: " + 
+                        "</td>" + 
+                        "<td class='col-md-8' style='text-align: left;'>" + 
+                            visitHour + ":00" +
+                        "</td>" + 
+                    "</tr>" + 
+                "</table>" + 
+                "<br/>" + 
+                "Selecciona el pacient:" + 
+                $('#all-patients-selector').html(), 
             showCancelButton: true,
             confirmButtonText: Translator.trans('button_add_new_fast_visit'),
             cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
-        });
+            showLoaderOnConfirm: true,
+            preConfirm: function (email) {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        if (email === 'taken@example.com') {
+                            reject('This email is already taken.')
+                        } else {
+                            resolve()
+                        }
+                    }, 2000)
+                })
+            },
+            allowOutsideClick: false
+        }).then(function (email) {
+            swal({
+                type: 'success',
+                title: 'Ajax request finished!',
+                html: 'Submitted email: ' + email
+            })
+        })
     });
 }
 

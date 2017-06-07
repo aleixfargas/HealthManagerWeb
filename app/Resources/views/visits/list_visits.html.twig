@@ -61,6 +61,24 @@
             </div>
         </div>                
         <div class="clearfix"> </div>
+        <div id="all-patients-selector" class="form-group" style="display: none;">
+{#            <label for="patient_select">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>#}
+            <select class="form-control selectpicker show-tick" data-live-search="true" id="patient_select" name="patient">
+                <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
+                {% set patients_telephones_counter = all_patients_telephones|length %}
+                {% for patient in all_patients %}
+                    {% if all_patients_telephones is defined %}
+                        {% set patients_telephones = "" %}
+                        {% for patient_telephone in all_patients_telephones %}
+                            {% if patient_telephone.patient == patient.id %}
+                                {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}" {% if patient.id == visit_patient %} selected {% endif %}>{{ patient.name }} {{ patient.surname }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <!--/visits_gallery-->
     </div>
 {% endblock %}
