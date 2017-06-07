@@ -157,6 +157,9 @@ function add_show_visit_listener(){
             allowOutsideClick: false
         }).then(function (result) {
             console.log(result);
+            console.log(result[0]);
+            console.log(result[1]);
+            console.log(result[2]);
 //            $.ajax({
 //                url: '/visits/save',
 //                data: {'patient': date, 'visit_date': visit_date},
