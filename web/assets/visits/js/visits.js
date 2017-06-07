@@ -146,8 +146,8 @@ function add_show_visit_listener(){
             cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
             showLoaderOnConfirm: true,
             preConfirm: function () {
-            return new Promise(function (resolve) {
-                resolve([
+                return new Promise(function (resolve) {
+                    resolve([
                         $('.all-patients-select.swal').val(),
                         visitHour,
                         visitDay
@@ -156,6 +156,40 @@ function add_show_visit_listener(){
             },
             allowOutsideClick: false
         }).then(function (result) {
+            console.log(result);
+//            $.ajax({
+//                url: '/visits/save',
+//                data: {'patient': date, 'visit_date': visit_date},
+//                type: 'POST',
+//                dataType: 'json',
+//                beforeSend:function(){
+//
+//                },
+//                success: function(response){
+//                    if(response.status = 'success'){
+//                        if(response.results > 0){
+//                            $('#visit_toolbar_delete').removeClass('hidden');
+//                        }
+//                        $('#loading-gif').addClass('hidden');
+//                        $('#list_table_visits').html(response.action);
+//                        current_day = $('#current_day').val();
+//                        if(date == 'today'){
+//                            date = current_day;
+//                        }
+//                        add_show_visit_listener();
+//                        next_previous_day_button_listener();
+//                        next_previous_day_keyboard_listeners();
+//                        change_datetimepicker_date(date);
+//                    } else {
+//                        $('#list_table_visits').html(response.error);
+//                    }
+//                },
+//                error: function(){
+//                    $('#loading-gif').addClass('hidden');
+//                    $('#list_table_visits').html(Translator.trans('error_loading_visits'));
+//                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+//                }
+//            });
             swal(JSON.stringify(result));
         })
     });
