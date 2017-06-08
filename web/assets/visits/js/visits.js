@@ -7,8 +7,7 @@ $(document).ready(function () {
     current_day = $('#current_day').val();
 //    alert(current_day);
     
-    prepare_for_ios();
-
+//    prepare_for_ios();
     create_datetimepicker_visits();
     next_previous_day_listeners();
     add_show_visit_listener();
@@ -118,6 +117,7 @@ function add_show_visit_listener(){
     var s = $('#all-patients-select-div').clone();
     s.find('.all-patients-select').addClass('swal');
 
+    prepare_for_ios();
     $('#modal_add_new_visit').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         
