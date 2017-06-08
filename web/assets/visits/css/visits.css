@@ -26,3 +26,32 @@ tr.visit-empty:hover{
 .datepicker div table tbody tr td span {
     color: #333!important;
 }
+
+.modal-patient-input {
+    margin-bottom: 15px;
+    padding: 0px 0px 0px 0px!important;
+}
+
+.modal-my-plugin {
+    margin-top: 35px;
+}
+
+/*MD devices
+@media (max-width: 992px){
+    .modal-patient-input {
+        margin-right: 15px;
+    }
+}
+*/
+
+@media (min-width: 600px){
+    .modal-patient-input {
+        margin-right: 15px;
+    }
+}
+
+/*@media (max-width: 600px){
+    .modal-my-plugin {
+        margin-top: 35px;
+    }
+}*/

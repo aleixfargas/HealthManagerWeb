@@ -30,6 +30,10 @@
                 <source>patients.section_input_surname</source>
                 <target>Cognoms</target>
             </trans-unit>
+            <trans-unit id="section_input_name_and_surnames">
+                <source>patients.section_input_name_and_surnames</source>
+                <target>Nom i Cognoms</target>
+            </trans-unit>
             <trans-unit id="section_basic_information">
                 <source>patients.section_basic_information</source>
                 <target>Informació bàsica</target>

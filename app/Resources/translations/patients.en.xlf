@@ -30,6 +30,10 @@
                 <source>patients.section_input_surname</source>
                 <target>Surname</target>
             </trans-unit>
+            <trans-unit id="section_input_name_and_surnames">
+                <source>patients.section_input_name_and_surnames</source>
+                <target>Name and Surnames</target>
+            </trans-unit>
             <trans-unit id="section_basic_information">
                 <source>patients.section_basic_information</source>
                 <target>Basic Information</target>

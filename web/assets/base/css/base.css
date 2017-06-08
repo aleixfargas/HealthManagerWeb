@@ -100,6 +100,34 @@ a:hover {
 }
 /* ENS SCROLL TOP FEATURE */
 
+/* Plugin feature */
+.my-plugin{
+    border: 1px solid #ebeff6;
+    border-radius: 10px;
+    padding: 0px 0px 0px 0px!important;
+    /*margin-top: 30px;*/
+    
+    font-weight: 100!important;
+    font-size: 0.9em!important;
+}
+
+.my-plugin-header{
+    background-color: #1ABC9C !important;
+    
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    
+    color: #fff;
+}
+
+.my-plugin-body{
+    padding: 5px 5px 5px 5px;
+    
+    font-weight: 100!important;
+    font-size: 0.9em!important;
+}
+/* END Plugin feature */
+
 /*MD devices*/
 @media (max-width: 992px){
     .visits-dashboard{
