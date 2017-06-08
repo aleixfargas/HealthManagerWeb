@@ -6,12 +6,23 @@ $(document).ready(function () {
     dp = $('#datetimepicker_visits');
     current_day = $('#current_day').val();
 //    alert(current_day);
+    
+    prepare_for_ios();
+
     create_datetimepicker_visits();
     next_previous_day_listeners();
     add_show_visit_listener();
-    show_visits_checkbox();
+    show_visits_checkbox();    
 });
 
+function prepare_for_ios(){
+    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if(iOS == true){
+        $('.show_modal_add_new').each(function(){
+            $(this).removeClass('hidden');
+        })
+    }
+}
 //=================== LIST FUNCTIONS ===================
 function create_datetimepicker_visits(){
     var date_to_go;
@@ -107,64 +118,26 @@ function add_show_visit_listener(){
     var s = $('#all-patients-select-div').clone();
     s.find('.all-patients-select').addClass('swal');
 
-    $('.visit-empty').click(function(){
-        visitDayText = $(this).attr('dayText');
-        visitDay = $(this).attr('day');
-        visitHour = $(this).attr('hour');
-
-//        alert("dayText="+visitDayText+"</br> "+"visitDay="+visitDay+"</br> "+"visitHour="+visitHour);
+    $('#modal_add_new_visit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
         
-        swal({
-            title: Translator.trans('title_add_new_fast_visit'),
-            type: 'question',
-            html:
-                "</br>" + 
-                "<table>" + 
-                    "<tr>" + 
-                        "<td class='col-md-4'>" + 
-                            "Day: " + 
-                        "</td>" + 
-                        "<td class='col-md-8' style='text-align: left;'>" + 
-                            visitDayText + 
-                        "</td>" + 
-                    "</tr>" + 
-                    "<tr>" + 
-                        "<td class='col-md-4'>" + 
-                            "Hour: " + 
-                        "</td>" + 
-                        "<td class='col-md-8' style='text-align: left;'>" + 
-                            visitHour + ":00" +
-                        "</td>" + 
-                    "</tr>" + 
-                "</table>" + 
-//                "<br/>" + 
-//                "Selecciona el pacient:" + 
-//                "</br>" + 
-                s.html(), 
-            showCancelButton: true,
-            confirmButtonText: Translator.trans('button_add_new_fast_visit'),
-            cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
-            showLoaderOnConfirm: true,
-            preConfirm: function () {
-                return new Promise(function (resolve) {
-                    resolve([
-                        $('.all-patients-select.swal').val(),
-                        visitHour,
-                        visitDay
-                    ])
-                })
-            },
-            allowOutsideClick: false
-        }).then(function (result) {
-            console.log(result[1]);
-            console.log(result[2]);
-            var visit_dateTime = moment(result[2]);
-            visit_dateTime.hour(result[1]);
-            var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-            console.log(visit_dateTimeString);
+        var visitDayText = button.data('daytext');
+        var visitDay = button.data('day');
+        var visitHour = button.data('hour');
+        
+        var visit_dateTime = moment(visitDay);
+        visit_dateTime.hour(visitHour);
+        var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
+
+        var modal = $(this)
+        modal.find('.modal-body #modal_visit_day').val(visitDayText)
+        modal.find('.modal-body #modal_visit_hour').val(visitHour)
+        
+        $('#modal_submit_add_new').click(function(){
+            var patient = $('.modal-body #modal_patient').val();
             $.ajax({
                 url: '/visits/save',
-                data: {'patient': result[0], 'visit_date': visit_dateTimeString},
+                data: {'patient': patient, 'visit_date': visit_dateTimeString},
                 type: 'POST',
                 dataType: 'json',
                 beforeSend:function(){
@@ -172,7 +145,9 @@ function add_show_visit_listener(){
                 },
                 success: function(response){
                     if(response.status = 'success'){
-                        window.location.href = response.action_listVisits;
+//                        window.location.href = response.action_listVisits;
+                        go_to_date(visitDay);
+                        modal.modal('hide')
                     } else {
                         swal('Error', response.error, 'error');
                     }
@@ -182,9 +157,87 @@ function add_show_visit_listener(){
                     console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
                 }
             });
-//            swal(JSON.stringify(result));
-        })
-    });
+        });
+    })
+
+//    $('.visit-empty').click(function(){
+//        visitDayText = $(this).attr('dayText');
+//        visitDay = $(this).attr('day');
+//        visitHour = $(this).attr('hour');
+//
+////        alert("dayText="+visitDayText+"</br> "+"visitDay="+visitDay+"</br> "+"visitHour="+visitHour);
+//        
+//        swal({
+//            title: Translator.trans('title_add_new_fast_visit'),
+//            type: 'question',
+//            html:
+//                "</br>" + 
+//                "<table>" + 
+//                    "<tr>" + 
+//                        "<td class='col-md-4'>" + 
+//                            "Day: " + 
+//                        "</td>" + 
+//                        "<td class='col-md-8' style='text-align: left;'>" + 
+//                            visitDayText + 
+//                        "</td>" + 
+//                    "</tr>" + 
+//                    "<tr>" + 
+//                        "<td class='col-md-4'>" + 
+//                            "Hour: " + 
+//                        "</td>" + 
+//                        "<td class='col-md-8' style='text-align: left;'>" + 
+//                            visitHour + ":00" +
+//                        "</td>" + 
+//                    "</tr>" + 
+//                "</table>" + 
+////                "<br/>" + 
+////                "Selecciona el pacient:" + 
+////                "</br>" + 
+//                s.html(), 
+//            showCancelButton: true,
+//            confirmButtonText: Translator.trans('button_add_new_fast_visit'),
+//            cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
+//            showLoaderOnConfirm: true,
+//            preConfirm: function () {
+//                return new Promise(function (resolve) {
+//                    resolve([
+//                        $('.all-patients-select.swal').val(),
+//                        visitHour,
+//                        visitDay
+//                    ])
+//                })
+//            },
+//            allowOutsideClick: false
+//        }).then(function (result) {
+//            console.log(result[1]);
+//            console.log(result[2]);
+//            var visit_dateTime = moment(result[2]);
+//            visit_dateTime.hour(result[1]);
+//            var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
+//            console.log(visit_dateTimeString);
+//            $.ajax({
+//                url: '/visits/save',
+//                data: {'patient': result[0], 'visit_date': visit_dateTimeString},
+//                type: 'POST',
+//                dataType: 'json',
+//                beforeSend:function(){
+//
+//                },
+//                success: function(response){
+//                    if(response.status = 'success'){
+//                        window.location.href = response.action_listVisits;
+//                    } else {
+//                        swal('Error', response.error, 'error');
+//                    }
+//                },
+//                error: function(){
+//                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
+//                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+//                }
+//            });
+////            swal(JSON.stringify(result));
+//        })
+//    });
 }
 
 function show_loading(){

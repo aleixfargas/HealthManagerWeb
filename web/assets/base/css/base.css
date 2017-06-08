@@ -43,7 +43,8 @@ a:hover {
 }
 
 .visits-table tr {
-    height: auto!important;
+/*    height: auto!important;*/
+    height: 45px!important;
 }
 
 .blank {

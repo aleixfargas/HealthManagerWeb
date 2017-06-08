@@ -64,7 +64,7 @@
                             </td>
                         </tr>
                     {% else %}
-                        <tr class="table-row visit-empty" dayText="{{ fullFormattedDate }}" day="{{ list_date }}" hour="{{ hour }}">
+                        <tr class="table-row visit-empty" data-toggle="modal" data-target="#modal_add_new_visit" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}" >
                             <td class="bs-checkbox check_visit hidden">
 {#                                    <input name="btSelectItem" type="checkbox">#}
                             </td>
@@ -73,10 +73,11 @@
                             </td>
                             <td class="table-text">
                                 <div class="float-left">
-                                    Empty
+                                    {{ 'visits.empty_visit'|trans({}, 'visits') }}
                                 </div>
                             </td>
                             <td class="table-text">
+                                <button class='show_modal_add_new btn btn-success btn-sm hidden'>{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</button>
                             </td>
                         </tr>
                     {% endif %}

@@ -70,6 +70,30 @@
                 <source>visits.error_visit_fields</source>
                 <target>Primer omple la data de la visita, si us plau</target>
             </trans-unit>
+            <trans-unit id="empty_visit">
+                <source>visits.empty_visit</source>
+                <target>Lliure</target>
+            </trans-unit>
+            <trans-unit id="modal_add_visit_title">
+                <source>visits.modal_add_visit_title</source>
+                <target>Afegeix una visita</target>
+            </trans-unit>
+            <trans-unit id="modal_label_day">
+                <source>visits.modal_label_day</source>
+                <target>Dia:</target>
+            </trans-unit>
+            <trans-unit id="modal_label_hour">
+                <source>visits.modal_label_hour</source>
+                <target>Hora:</target>
+            </trans-unit>
+            <trans-unit id="modal_button_addNew">
+                <source>visits.modal_button_addNew</source>
+                <target>Guardar</target>
+            </trans-unit>
+            <trans-unit id="modal_button_cancel">
+                <source>visits.modal_button_cancel</source>
+                <target>Cancel·lar</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

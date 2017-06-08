@@ -70,6 +70,26 @@
                 <source>visits.error_visit_fields</source>
                 <target>Please, fill the visit date first</target>
             </trans-unit>
+            <trans-unit id="modal_add_visit_title">
+                <source>visits.modal_add_visit_title</source>
+                <target>Add a new visit</target>
+            </trans-unit>
+            <trans-unit id="modal_label_day">
+                <source>visits.modal_label_day</source>
+                <target>Day:</target>
+            </trans-unit>
+            <trans-unit id="modal_label_hour">
+                <source>visits.modal_label_hour</source>
+                <target>Hour:</target>
+            </trans-unit>
+            <trans-unit id="modal_button_addNew">
+                <source>visits.modal_button_addNew</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="modal_button_cancel">
+                <source>visits.modal_button_cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -61,8 +61,7 @@
             </div>
         </div>                
         <div class="clearfix"> </div>
-        <div id="all-patients-select-div" class="form-group" style="display: none;">
-{#            <label for="patient_select">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>#}
+        {#<div id="all-patients-select-div" class="form-group" style="display: none;">
             <select class="all-patients-select swal2-select">
                 <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
                 {% set patients_telephones_counter = all_patients_telephones|length %}
@@ -78,8 +77,53 @@
                     <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
                 {% endfor %}
             </select>
-        </div>
+        </div>#}
         <!--/visits_gallery-->
+        
+        <div class="modal fade" id="modal_add_new_visit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="modal_visit_day" class="control-label">{{ 'visits.modal_label_day'|trans({}, 'visits') }}</label>
+                                <input type="text" class="form-control" id="modal_visit_day" disabled/>
+                            </div>
+                            <div class="form-group">
+                                <label for="visit_hour" class="control-label">{{ 'visits.modal_label_hour'|trans({}, 'visits') }}</label>
+                                <input class="form-control" id="modal_visit_hour" disabled/>
+                            </div>
+                            <div class="form-group">
+                                <label for="modal_patient">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
+                                <select class="form-control selectpicker show-tick" data-live-search="true" id="modal_patient" name="patient">
+                                    <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
+                                    {% set patients_telephones_counter = all_patients_telephones|length %}
+                                    {% for patient in all_patients %}
+                                        {% if all_patients_telephones is defined %}
+                                            {% set patients_telephones = "" %}
+                                            {% for patient_telephone in all_patients_telephones %}
+                                                {% if patient_telephone.patient == patient.id %}
+                                                    {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'visits.modal_button_cancel'|trans({}, 'visits') }}</button>
+                        <button id='modal_submit_add_new' type="button" class="btn btn-success">{{ 'visits.modal_button_addNew'|trans({}, 'visits') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
