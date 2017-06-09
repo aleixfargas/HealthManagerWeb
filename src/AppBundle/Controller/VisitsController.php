@@ -391,33 +391,20 @@ class VisitsController extends Controller{
         $this->visit->setPhysiotherapist(1);
         $this->visit->setDuration(60);
         
-        $this->logger->info('TRACE 0');
-        $this->logger->info($request->request->has('save_new_patient'));
-        $this->logger->info($request->request->get('save_new_patient'));
-        $this->logger->info($request->request->get('patient_all_new_name'));
-        $this->logger->info($request->request->get('phone'));
-        $this->logger->info($request->request->get('visit_date'));
         if($request->request->has('save_new_patient')){
             //create new patient
-            $this->logger->info('Creating new patient');
             list($name, $surname) = explode(' ', $request->request->get('patient_all_new_name'), 2);
-            $this->logger->info("name = {$name}, surname = {$surname}");
             $phone = $request->request->get('phone');
-            $this->logger->info("phone = {$phone}");
             
             $new_patient_id = $this->createNewPatient($name, $surname, $phone);
-            $this->logger->info("New patient id = {$new_patient_id}");
             if($new_patient_id){
                 $this->visit->setPatient($new_patient_id);
-                $this->logger->info('success creating');
             } else {
                 $result = false;
                 $message = "The new patient {$name} {$surname} already exist! Please select it at the row of exisiting patients or add all the surnames!";
-                $this->logger->info($message);
             }
         } else {
             //existing patient
-            $this->logger->info("Existing patient");
             $this->visit->setPatient($request->request->get('patient'));            
         }
         if($request->request->get('visit_date') != null){        

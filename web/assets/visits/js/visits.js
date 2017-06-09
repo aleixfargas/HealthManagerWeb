@@ -163,7 +163,6 @@ function add_show_visit_listener(){
 //            }
             
             var postData = JSON.stringify($(this).serializeArray());
-            alert(postData);
             var formSerialize = $(this).serialize();
             $.post($(this).attr('url'), formSerialize, function(response){
                 if(response.status = 'success'){
