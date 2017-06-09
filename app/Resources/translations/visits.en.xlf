@@ -90,6 +90,14 @@
                 <source>visits.modal_button_cancel</source>
                 <target>Cancel</target>
             </trans-unit>
+            <trans-unit id="add_new_patient">
+                <source>visits.add_new_patient</source>
+                <target>Add a new patient</target>
+            </trans-unit>
+            <trans-unit id="add_existing_patient">
+                <source>visits.add_existing_patient</source>
+                <target>Add an existing patient</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

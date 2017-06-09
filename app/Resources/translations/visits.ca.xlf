@@ -94,6 +94,14 @@
                 <source>visits.modal_button_cancel</source>
                 <target>Cancel·lar</target>
             </trans-unit>
+            <trans-unit id="add_new_patient">
+                <source>visits.add_new_patient</source>
+                <target>Crea un nou pacient</target>
+            </trans-unit>
+            <trans-unit id="add_existing_patient">
+                <source>visits.add_existing_patient</source>
+                <target>Tria un pacient existent</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
