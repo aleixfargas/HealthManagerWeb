@@ -343,7 +343,11 @@ class VisitsController extends Controller{
         }
         $this->visit->setPhysiotherapist(1);
         $this->visit->setDuration(60);
-        $this->visit->setPatient($request->request->get('patient'));
+        if($request->request->has('patient')){
+            $this->visit->setPatient($request->request->get('patient'));
+        } else {
+            
+        }
         if($request->request->get('visit_date') != null){        
             $date = $request->request->get('visit_date');
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $date);

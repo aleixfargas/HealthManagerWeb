@@ -36,6 +36,11 @@ tr.visit-empty:hover{
     margin-top: 35px;
 }
 
+.createNewPatientCheckbox{
+    margin: 0px!important;
+    float: right!important;
+}
+
 /*MD devices
 @media (max-width: 992px){
     .modal-patient-input {

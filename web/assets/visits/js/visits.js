@@ -128,35 +128,61 @@ function add_show_visit_listener(){
         var visit_dateTime = moment(visitDay);
         visit_dateTime.hour(visitHour);
         var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-
+        
         var modal = $(this)
+        modal.find('#modal_visit_dateTime').val(visit_dateTimeString)
         modal.find('.modal-body #modal_visit_day').val(visitDayText)
         modal.find('.modal-body #modal_visit_hour').val(visitHour)
         
-        $('#modal_submit_add_new').click(function(){
-            var patient = $('.modal-body #modal_patient').val();
-            $.ajax({
-                url: '/visits/save',
-                data: {'patient': patient, 'visit_date': visit_dateTimeString},
-                type: 'POST',
-                dataType: 'json',
-                beforeSend:function(){
-
-                },
-                success: function(response){
-                    if(response.status = 'success'){
-//                        window.location.href = response.action_listVisits;
-                        go_to_date(visitDay);
-                        modal.modal('hide')
-                    } else {
-                        swal('Error', response.error, 'error');
-                    }
-                },
-                error: function(){
-                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
-                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
-                }
-            });
+        $('#modal_createNewPatient').click(function(){
+            $('#modal_patient').prop('disabled', function(i, v) { return !v; });
+            $('.selectpicker').selectpicker('refresh');
+            
+            $('#modal_patient_name_input').prop('disabled', function(i, v) { return !v; });
+            $('#modal_patient_phone_input').prop('disabled', function(i, v) { return !v; });
+        });
+        
+        $('#modal_addNewPatientForm').submit(function(e){
+//            var createNewPatient = $('#modal_createNewPatient:checked').val();
+//            var patient = false;
+//            var new_patientName = false;
+//            var new_patientPhone = false;
+//            
+//            if(createNewPatient = 'on'){
+//                new_patientName = $('.modal-body #modal_patient_name_input').val();
+//                new_patientPhone = $('.modal-body #modal_patient_phone_input').val();
+//            } else {
+//                patient = $('.modal-body #modal_patient_phone_input').val();                
+//            }
+            
+            alert('0');
+                
+            var postData = JSON.stringify($(this).serializeArray());
+            alert(postData);
+//            $.ajax({
+//                url: '/visits/save',
+//                data: {'patient': patient, 'visit_date': visit_dateTimeString},
+//                type: 'POST',
+//                dataType: 'json',
+//                beforeSend:function(){
+//
+//                },
+//                success: function(response){
+//                    if(response.status = 'success'){
+////                        window.location.href = response.action_listVisits;
+//                        go_to_date(visitDay);
+//                        modal.modal('hide')
+//                    } else {
+//                        swal('Error', response.error, 'error');
+//                    }
+//                },
+//                error: function(){
+//                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
+//                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+//                }
+//            });
+            
+            e.preventDefault();
         });
     })
 
