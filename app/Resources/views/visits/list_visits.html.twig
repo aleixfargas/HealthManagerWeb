@@ -101,7 +101,7 @@
                             <div class="form-group modal-my-plugin">
                                 <div class="modal-patient-input my-plugin col-xs-12 col-sm-6 col-md-6">
                                     <div class='my-plugin-header' style='background-color: #4d4d4d !important'>
-                                        <h7>Add an existing patient</h7>
+                                        <h7>{{ 'visits.add_existing_patient'|trans({}, 'visits') }}</h7>
                                     </div>
                                     <div class='my-plugin-body'>
                                         <label for="modal_patient">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="my-plugin col-xs-12 col-sm-5 col-md-5">
                                     <div class='my-plugin-header'>
-                                        <h7>Add a new patient</h7>
+                                        <h7>{{ 'visits.add_new_patient'|trans({}, 'visits') }}</h7>
                                         <input id='modal_createNewPatient' type="checkbox" name='save_new_patient' class="createNewPatientCheckbox"/>
                                     </div>
                                     <div class='my-plugin-body'>
