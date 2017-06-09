@@ -382,6 +382,7 @@ class VisitsController extends Controller{
     
     private function build_visit_entity($request){
         $result = true;
+        $message = "";
         
         $this->visit = new Visits($this->get_logged_User_id());
         if($request->request->get('visit_id') != null){
