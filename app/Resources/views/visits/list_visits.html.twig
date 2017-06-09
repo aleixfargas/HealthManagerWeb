@@ -88,8 +88,8 @@
                         <h4 class="modal-title" id="exampleModalLabel">{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</h4>
                     </div>
                     <div class="modal-body">
-                        <form id='modal_addNewPatientForm' action='{{ url('visits-save') }}' type='POST'>
-                            <input type="text" class="hidden" name='visit_dateTime' id="modal_visit_dateTime" value=''/>
+                        <form id='modal_addNewPatientForm' url='{{ url('visits-save') }}' type='POST'>
+                            <input type="text" class="hidden" name='visit_date' id="modal_visit_dateTime" value=''/>
                             <div class="form-group">
                                 <label for="modal_visit_day" class="control-label">{{ 'visits.modal_label_day'|trans({}, 'visits') }}</label>
                                 <input type="text" class="form-control" id="modal_visit_day" readonly/>
@@ -125,7 +125,7 @@
                                 <div class="my-plugin col-xs-12 col-sm-5 col-md-5">
                                     <div class='my-plugin-header'>
                                         <h7>Add a new patient</h7>
-                                        <input id='modal_createNewPatient' type="checkbox" class="createNewPatientCheckbox"/>
+                                        <input id='modal_createNewPatient' type="checkbox" name='save_new_patient' class="createNewPatientCheckbox"/>
                                     </div>
                                     <div class='my-plugin-body'>
                                         <div class="input-group">
@@ -134,7 +134,7 @@
                                         </div>
                                         <div class="input-group">
                                             <label for="modal_patient_phone_input">{{ 'patients.section_input_phone'|trans({}, 'patients') }}</label>
-                                            <input type="text" class="form-control" id="modal_patient_phone_input" name="patient_new_phone" value="" disabled> 
+                                            <input type="text" class="form-control" id="modal_patient_phone_input" name="phone" value="" disabled> 
                                         </div>
                                     </div>
                                 </div>

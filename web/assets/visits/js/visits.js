@@ -134,6 +134,13 @@ function add_show_visit_listener(){
         modal.find('.modal-body #modal_visit_day').val(visitDayText)
         modal.find('.modal-body #modal_visit_hour').val(visitHour)
         
+        $('#modal_createNewPatient').prop('checked', false);
+        $('#modal_patient_name_input').prop('disabled', true);
+        $('#modal_patient_phone_input').prop('disabled', true);
+        
+        $('#modal_patient').prop('disabled', false);
+        $('.selectpicker').selectpicker('refresh');
+        
         $('#modal_createNewPatient').click(function(){
             $('#modal_patient').prop('disabled', function(i, v) { return !v; });
             $('.selectpicker').selectpicker('refresh');
@@ -155,32 +162,21 @@ function add_show_visit_listener(){
 //                patient = $('.modal-body #modal_patient_phone_input').val();                
 //            }
             
-            alert('0');
-                
             var postData = JSON.stringify($(this).serializeArray());
             alert(postData);
-//            $.ajax({
-//                url: '/visits/save',
-//                data: {'patient': patient, 'visit_date': visit_dateTimeString},
-//                type: 'POST',
-//                dataType: 'json',
-//                beforeSend:function(){
-//
-//                },
-//                success: function(response){
-//                    if(response.status = 'success'){
-////                        window.location.href = response.action_listVisits;
-//                        go_to_date(visitDay);
-//                        modal.modal('hide')
-//                    } else {
-//                        swal('Error', response.error, 'error');
-//                    }
-//                },
-//                error: function(){
-//                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
-//                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
-//                }
-//            });
+            var formSerialize = $(this).serialize();
+            $.post($(this).attr('url'), formSerialize, function(response){
+                if(response.status = 'success'){
+//                    window.location.href = response.action_listVisits;
+                    go_to_date(visitDay);
+                    modal.modal('hide')
+                } else {
+                    swal('Error', response.action, 'error');
+                }
+            },'JSON').fail(function() {
+                swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
+                console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+            });
             
             e.preventDefault();
         });

@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use AppBundle\Entity\PatientTelephones;
+
 use AppBundle\Form\PostType;
 
 use AppBundle\Entity\Patients;
@@ -127,12 +129,12 @@ class VisitsController extends Controller{
      * @Route("/visits/save", name="visits-save")
      */
     public function saveNewVisitAction(Request $request){
-//        $this->logger = $this->get('logger');
+        $this->logger = $this->get('logger');
         $result = 'error';
         $action = $this->translateId('base', 'base.global_unknown_error');
         $action_listVisits = "";
 
-        $valid = $this->build_visit_entity($request);
+        list($valid, $error_message) = $this->build_visit_entity($request);
         if($valid){
             try{
                 $em = $this->getDoctrine()->getManager();
@@ -148,9 +150,11 @@ class VisitsController extends Controller{
             }
         }
         else {
-            $action = $this->translateId('visits', 'visits.error_visit_fields');
+            $action = $error_message;
         }
         $response = json_encode(array('status'=>$result, 'action'=>$action, 'action_listVisits'=>$action_listVisits));
+        $this->logger->info("response = ");
+        $this->logger->info($response);
         return new Response($response);
     }
     
@@ -169,7 +173,7 @@ class VisitsController extends Controller{
                 $result = 'success';
                 $action = $this->generateUrl('visits-list', array('day'=>$current_day));
             } catch (NotFoundHttpException $e){
-                $logger->error($e->getMessage());
+                $this->logger->error($e->getMessage());
                 $result = 'error';
                 $action = $this->translateId('visits', 'visits.section_could_not_remove');
             }
@@ -334,6 +338,48 @@ class VisitsController extends Controller{
     
     //================ PRIVATE METHODS ==================
     
+    private function createNewPatient($name, $surname, $phone){
+        $newPatientId = FALSE;
+        
+        $patient = new Patients($this->get_logged_User_id());
+        $patient->setName($name);
+        $patient->setSurname($surname);
+        if($phone != NULL){
+            $patient->setTelephones(TRUE);
+            $patientTelephones = new PatientTelephones();
+            $patientTelephones->setPatient($patient->getId());
+            $patientTelephones->setNumber($phone);
+            $patientTelephones->setTelephoneType(1);
+        } else {
+            $patient->setTelephones(FALSE);
+        }
+        
+        $patient->setPhoto(FALSE);
+        $patient->setEmails(FALSE);
+        $patient->setAddresses(FALSE);
+        $patient->setOperations(FALSE);
+        $patient->setAllergies(FALSE);
+        $patient->setDiseases(FALSE);
+        
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($patient);
+            $em->flush();
+            
+            $newPatientId = $patient->getId();
+    
+            $patientTelephones->setPatient($newPatientId);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($patientTelephones);
+            $em->flush();
+        } catch (UniqueConstraintViolationException $e){
+            $this->logger->error($e->getMessage());
+        }
+        
+        
+        return $newPatientId;
+    }
+    
     private function build_visit_entity($request){
         $result = true;
         
@@ -343,10 +389,35 @@ class VisitsController extends Controller{
         }
         $this->visit->setPhysiotherapist(1);
         $this->visit->setDuration(60);
-        if($request->request->has('patient')){
-            $this->visit->setPatient($request->request->get('patient'));
-        } else {
+        
+        $this->logger->info('TRACE 0');
+        $this->logger->info($request->request->has('save_new_patient'));
+        $this->logger->info($request->request->get('save_new_patient'));
+        $this->logger->info($request->request->get('patient_all_new_name'));
+        $this->logger->info($request->request->get('phone'));
+        $this->logger->info($request->request->get('visit_date'));
+        if($request->request->has('save_new_patient')){
+            //create new patient
+            $this->logger->info('Creating new patient');
+            list($name, $surname) = explode(' ', $request->request->get('patient_all_new_name'), 2);
+            $this->logger->info("name = {$name}, surname = {$surname}");
+            $phone = $request->request->get('phone');
+            $this->logger->info("phone = {$phone}");
             
+            $new_patient_id = $this->createNewPatient($name, $surname, $phone);
+            $this->logger->info("New patient id = {$new_patient_id}");
+            if($new_patient_id){
+                $this->visit->setPatient($new_patient_id);
+                $this->logger->info('success creating');
+            } else {
+                $result = false;
+                $message = "The new patient {$name} {$surname} already exist! Please select it at the row of exisiting patients or add all the surnames!";
+                $this->logger->info($message);
+            }
+        } else {
+            //existing patient
+            $this->logger->info("Existing patient");
+            $this->visit->setPatient($request->request->get('patient'));            
         }
         if($request->request->get('visit_date') != null){        
             $date = $request->request->get('visit_date');
@@ -354,6 +425,7 @@ class VisitsController extends Controller{
             $this->visit->setVisitDate($date);
         } else {
             $result = false;
+            $message = $this->translateId('visits', 'visits.error_visit_fields');
         }
         if($request->request->get('reservation_date') != null){
             $date = $request->request->get('reservation_date');
@@ -364,7 +436,8 @@ class VisitsController extends Controller{
         $this->visit->setComments($request->request->get('comments'));
         $this->visit->setFee(0);
         $this->visit->setInvoice(0);
-        return $result;
+        
+        return array($result, $message);
     }
     
     private function get_all_visits($page){
@@ -385,8 +458,8 @@ class VisitsController extends Controller{
     
     private function get_day_visits($day){
         $format = 'Y-m-d';
-        $logger = $this->get('logger');
-        $logger->info($day);
+        $this->logger = $this->get('logger');
+        $this->logger->info($day);
         $date = \DateTime::createFromFormat($format, $day);
         
         $em = $this->getDoctrine()->getManager();

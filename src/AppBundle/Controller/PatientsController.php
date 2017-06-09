@@ -32,10 +32,10 @@ class PatientsController extends Controller
     private $section_name = 'base.global_section_patients';
     private $maxResults = 6;
     
-    private $patient = null;
+    public $patient = null;
     private $patientEmails = null;
     private $patientAddress = null;
-    private $patientTelephones = null;
+    public $patientTelephones = null;
     private $patientOperations = null;
     private $patientAllergies = null;
     
@@ -183,50 +183,11 @@ class PatientsController extends Controller
         
         $data_correctly_formated = true;
         if($data_correctly_formated){
-            try {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($this->patient);
-                $em->flush();
-                
-                if($this->patient->getEmails() == TRUE){
-                    $this->patientEmails->setPatient($this->patient->getId());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($this->patientEmails);
-                    $em->flush();
-                }
-                if($this->patient->getAddresses() == TRUE){
-                    $this->patientAddress->setPatient($this->patient->getId());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($this->patientAddress);
-                    $em->flush();
-                }
-                if($this->patient->getTelephones() == TRUE){
-                    $this->patientTelephones->setPatient($this->patient->getId());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($this->patientTelephones);
-                    $em->flush();
-                }
-                if($this->patient->getOperations() == TRUE){
-                    foreach($this->patientOperations as $one_patientOperations){
-                        $one_patientOperations->setPatient($this->patient->getId());
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($one_patientOperations);
-                        $em->flush();
-                    }
-                }
-                if($this->patient->getAllergies() == TRUE){
-                    foreach($this->patientAllergies as $one_patientAllergies){
-                        $one_patientAllergies->setPatient($this->patient->getId());
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($one_patientAllergies);
-                        $em->flush();
-                    }
-                }
-                
+            $created = $this->createNewPatientFromEntity();
+            if($created){
                 $action = $this->generateUrl('patients-show', ['patient_id'=>$this->patient->getId()]);
                 $result = 'success';
-            } catch (UniqueConstraintViolationException $e){
-                $logger->error($e->getMessage());
+            } else {
                 $action = $this->translateId('patients', 'patients.section_patients_already_exist');
             }
         } else {
@@ -609,6 +570,57 @@ class PatientsController extends Controller
         
         $response = json_encode(array('status'=>$result, 'action'=>$action));
         return new Response($response);
+    }
+    
+    public function createNewPatientFromEntity(){
+        $result = false;
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($this->patient);
+            $em->flush();
+
+            if($this->patient->getEmails() == TRUE){
+                $this->patientEmails->setPatient($this->patient->getId());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($this->patientEmails);
+                $em->flush();
+            }
+            if($this->patient->getAddresses() == TRUE){
+                $this->patientAddress->setPatient($this->patient->getId());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($this->patientAddress);
+                $em->flush();
+            }
+            if($this->patient->getTelephones() == TRUE){
+                $this->patientTelephones->setPatient($this->patient->getId());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($this->patientTelephones);
+                $em->flush();
+            }
+            if($this->patient->getOperations() == TRUE){
+                foreach($this->patientOperations as $one_patientOperations){
+                    $one_patientOperations->setPatient($this->patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($one_patientOperations);
+                    $em->flush();
+                }
+            }
+            if($this->patient->getAllergies() == TRUE){
+                foreach($this->patientAllergies as $one_patientAllergies){
+                    $one_patientAllergies->setPatient($this->patient->getId());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($one_patientAllergies);
+                    $em->flush();
+                }
+            }
+
+            $result = $this->patient->getId();
+        } catch (UniqueConstraintViolationException $e){
+            $logger->error($e->getMessage());
+        }
+        
+        return $result;
     }
     
     //================== PRIVATE METHODS ===================
