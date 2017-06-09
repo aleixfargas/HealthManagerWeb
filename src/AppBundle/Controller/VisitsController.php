@@ -38,7 +38,7 @@ class VisitsController extends Controller{
     }
     
     /**
-     * @Route("/visits/list/{day}", name="visits-list")
+     * @Route("/{day}", name="homepage")
     */
     public function listVisitsAction($day = false){
         if($day === false) $day = date("Y-m-d");
