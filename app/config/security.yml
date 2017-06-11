@@ -12,7 +12,7 @@ security:
 
     firewalls:
         main:
-            pattern: ^/
+            pattern: ^/visits/list
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
