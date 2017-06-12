@@ -397,7 +397,8 @@ function add_removeVisit_btn_listener(){
                         );
                         setTimeout(function() {
                             check_uncheck_all_visits(false);
-                            window.location.href = response.action;
+//                            window.location.href = response.action;
+                            go_to_date(current_day);
                         }, 1000);
                     } else {
                         swal(
