@@ -142,6 +142,22 @@ a:hover {
 }
 
 /*Mobile devices vertical*/
+@media(max-width:500px){
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .modal-content {
+        height: 100%;
+        min-height: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+}
+
 @media(max-width:404px){
     .navbar-left-right{
         width: 100%;
@@ -149,5 +165,19 @@ a:hover {
     
     .my-dropdown-right{
         left: -7em!important;
+    }
+    
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .modal-content {
+        height: 100%;
+        min-height: 100%;
+        height: auto;
+        border-radius: 0;
     }
 }
