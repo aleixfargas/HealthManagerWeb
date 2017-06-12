@@ -146,7 +146,9 @@ function add_show_visit_listener(){
             $('.selectpicker').selectpicker('refresh');
             
             $('#modal_patient_name_input').prop('disabled', function(i, v) { return !v; });
+            $('#modal_patient_name_input').prop('required', function(i, v) { return !v; });
             $('#modal_patient_phone_input').prop('disabled', function(i, v) { return !v; });
+            $('#modal_patient_phone_input').prop('required', function(i, v) { return !v; });
         });
         
         $('#modal_addNewPatientForm').submit(function(e){
@@ -173,8 +175,8 @@ function add_show_visit_listener(){
                     swal('Error', response.action, 'error');
                 }
             },'JSON').fail(function() {
-                swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
-                console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
+                swal('Error', 'OUPS!, Something went incredibly wrong adding the new visit...', 'error');
+                console.log('OUPS!, Something went incredibly wrong adding the new visit...');
             });
             
             e.preventDefault();
