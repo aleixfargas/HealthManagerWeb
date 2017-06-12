@@ -166,7 +166,7 @@ function add_show_visit_listener(){
             alert(postData);
             var formSerialize = $(this).serialize();
             $.post($(this).attr('url'), formSerialize, function(response){
-                if(response.status = 'success'){
+                if(response.status == 'success'){
 //                    window.location.href = response.action_listVisits;
                     go_to_date(visitDay);
                     modal.modal('hide')
