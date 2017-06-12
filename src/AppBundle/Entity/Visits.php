@@ -15,7 +15,7 @@ use ORM\JoinColumn;
  * @ORM\Table(name="visits",uniqueConstraints={@ORM\UniqueConstraint(name="visit", columns={"visitDate", "user"})}))
  * @ORM\Entity(repositoryClass="AppBundle\Repository\VisitsRepository")
  * @UniqueEntity(
- *      fields="visitDate"
+ *      fields={"visitDate", "user"}
  * )
  */
 class Visits
@@ -71,7 +71,7 @@ class Visits
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="visitDate", type="datetime", unique=true)
+     * @ORM\Column(name="visitDate", type="datetime")
      */
     private $visitDate;
     
