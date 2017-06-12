@@ -118,6 +118,17 @@ function add_show_visit_listener(){
     s.find('.all-patients-select').addClass('swal');
 
     prepare_for_ios();
+    
+    $('#modal_createNewPatient').click(function(){
+        $('#modal_patient').prop('disabled', function(i, v) { return !v; });
+        $('.selectpicker').selectpicker('refresh');
+
+        $('#modal_patient_name_input').prop('disabled', function(i, v) { return !v; });
+        $('#modal_patient_name_input').prop('required', function(i, v) { return !v; });
+        $('#modal_patient_phone_input').prop('disabled', function(i, v) { return !v; });
+        $('#modal_patient_phone_input').prop('required', function(i, v) { return !v; });
+    });
+    
     $('#modal_add_new_visit').on('show.bs.modal', function (event) {
         remove_scroll_to_top();
 
@@ -142,16 +153,6 @@ function add_show_visit_listener(){
         
         $('#modal_patient').prop('disabled', false);
         $('.selectpicker').selectpicker('refresh');
-        
-        $('#modal_createNewPatient').click(function(){
-            $('#modal_patient').prop('disabled', function(i, v) { return !v; });
-            $('.selectpicker').selectpicker('refresh');
-            
-            $('#modal_patient_name_input').prop('disabled', function(i, v) { return !v; });
-            $('#modal_patient_name_input').prop('required', function(i, v) { return !v; });
-            $('#modal_patient_phone_input').prop('disabled', function(i, v) { return !v; });
-            $('#modal_patient_phone_input').prop('required', function(i, v) { return !v; });
-        });
         
         $('#modal_addNewPatientForm').submit(function(e){
 //            var createNewPatient = $('#modal_createNewPatient:checked').val();
