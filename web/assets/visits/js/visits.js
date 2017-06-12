@@ -156,7 +156,6 @@ function add_show_visit_listener(){
 
         $('#modal_addNewPatientForm').unbind('submit');
         $('#modal_addNewPatientForm').submit(function(e){
-            alert('submit');
 //            var createNewPatient = $('#modal_createNewPatient:checked').val();
 //            var patient = false;
 //            var new_patientName = false;

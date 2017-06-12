@@ -92,7 +92,7 @@
             </trans-unit>
             <trans-unit id="modal_button_cancel">
                 <source>visits.modal_button_cancel</source>
-                <target>Cancel·lar</target>
+                <target>Cancelar</target>
             </trans-unit>
             <trans-unit id="add_new_patient">
                 <source>visits.add_new_patient</source>
