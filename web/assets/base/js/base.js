@@ -24,10 +24,12 @@ function rm_click_listener(object){
 }
 
 function add_scroll_to_top(){
-    $('.scroll-top-wrapper').addClass('show');
-    $('.scroll-top-wrapper').click(function(){
-        window.scroll({ top: 0, left: 0, behavior: 'smooth' });    
-    });
+    if(!($(".modal").data('bs.modal') || {}).isShown){
+        $('.scroll-top-wrapper').addClass('show');
+        $('.scroll-top-wrapper').click(function(){
+            window.scroll({ top: 0, left: 0, behavior: 'smooth' });    
+        });
+    }
 }
 
 function remove_scroll_to_top(){

@@ -119,6 +119,8 @@ function add_show_visit_listener(){
 
     prepare_for_ios();
     $('#modal_add_new_visit').on('show.bs.modal', function (event) {
+        remove_scroll_to_top();
+
         var button = $(event.relatedTarget);
         
         var visitDayText = button.data('daytext');
@@ -129,7 +131,7 @@ function add_show_visit_listener(){
         visit_dateTime.hour(visitHour);
         var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
         
-        var modal = $(this)
+        var modal = $(this)        
         modal.find('#modal_visit_dateTime').val(visit_dateTimeString)
         modal.find('.modal-body #modal_visit_day').val(visitDayText)
         modal.find('.modal-body #modal_visit_hour').val(visitHour)
