@@ -139,7 +139,7 @@ function add_show_visit_listener(){
         var visitHour = button.data('hour') + ':00';
         
         alert(visitDay);
-        var visit_dateTime = moment(visitDay);
+        var visit_dateTime = moment(visitDay, "YYYY-MM-DD");
         visit_dateTime.hour(visitHour);
         var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
         alert(visit_dateTimeString);
