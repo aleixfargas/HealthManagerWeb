@@ -7,7 +7,6 @@ $(document).ready(function () {
     current_day = $('#current_day').val();
 //    alert(current_day);
     
-//    prepare_for_ios();
     create_datetimepicker_visits();
     next_previous_day_listeners();
     add_show_visit_listener();
@@ -119,6 +118,7 @@ function add_show_visit_listener(){
 
     prepare_for_ios();
     
+    rm_click_listener('#modal_createNewPatient');
     $('#modal_createNewPatient').click(function(){
         $('#modal_patient').prop('disabled', function(i, v) { return !v; });
         $('.selectpicker').selectpicker('refresh');
@@ -141,7 +141,7 @@ function add_show_visit_listener(){
         var visit_dateTime = moment(visitDay);
         visit_dateTime.hour(visitHour);
         var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-        
+        alert(visit_dateTimeString);
         var modal = $(this)        
         modal.find('#modal_visit_dateTime').val(visit_dateTimeString)
         modal.find('.modal-body #modal_visit_day').val(visitDayText)
