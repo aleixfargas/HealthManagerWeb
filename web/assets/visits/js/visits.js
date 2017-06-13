@@ -136,18 +136,18 @@ function add_show_visit_listener(){
         
         var visitDayText = button.data('daytext');
         var visitDay = button.data('day');
-        var visitHour = button.data('hour') + ':00';
+        var visitHour_string = button.data('hour') + ':00';
+        var visitHour = button.data('hour');
         
-        alert(visitDay);
-        var visit_dateTime = moment(visitDay, ["YYYY-MM-DD"]);
-        console.log(visit_dateTime);
+        var visit_dateTime = moment(visitDay);
         visit_dateTime.hour(visitHour);
         var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-        alert(visit_dateTimeString);
+        
         var modal = $(this)        
+        
         modal.find('#modal_visit_dateTime').val(visit_dateTimeString)
         modal.find('.modal-body #modal_visit_day').val(visitDayText)
-        modal.find('.modal-body #modal_visit_hour').val(visitHour)
+        modal.find('.modal-body #modal_visit_hour').val(visitHour_string)
         
         $('#modal_createNewPatient').prop('checked', false);
         $('#modal_patient_name_input').prop('disabled', true);
