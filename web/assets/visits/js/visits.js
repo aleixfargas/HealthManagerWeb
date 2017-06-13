@@ -118,11 +118,8 @@ function add_show_visit_listener(){
 
     prepare_for_ios();
     
-    console.log('creating listener');
-    
     rm_click_listener('#modal_createNewPatient');
     $('#modal_createNewPatient').click(function(){
-        console.log('click');
         $('#modal_patient').prop('disabled', function(i, v) { return !v; });
         $('.selectpicker').selectpicker('refresh');
 
