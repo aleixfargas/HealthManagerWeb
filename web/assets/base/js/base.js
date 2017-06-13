@@ -21,6 +21,7 @@ function array_pop(array, removeItem){
 
 function rm_click_listener(object){
     $(object).unbind('click');
+    $(object).unbind('mousedown');
 }
 
 function add_scroll_to_top(){
@@ -34,4 +35,13 @@ function add_scroll_to_top(){
 
 function remove_scroll_to_top(){
     $('.scroll-top-wrapper').removeClass('show');
+}
+
+function open_link(e, url){
+    if (e.metaKey || e.ctrlKey || e.which == 2){
+        window.open(url, '_blank');
+    }
+    else {
+        window.location.href = url;            
+    }
 }

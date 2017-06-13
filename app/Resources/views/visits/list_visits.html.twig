@@ -2,154 +2,165 @@
 
 {% block content_main %}
     <div class="content-top">
-        <div class="col-md-4 visits-calendar">
-            <div class="content-top-1 compose less-padding">
-                <!--visits_calendar-->
-                <h2>{{ 'visits.section_visits_calendar'|trans({}, 'visits') }}</h2>
-                <div id="datetimepicker_visits"></div>
-                <div class="clearfix"></div>
-                <!--/visits_calendar-->
-            </div>
-        </div>
-        <div class="col-md-8 visits-dashboard">
-            <div class="content-top-1 compose">
-                <div class="col-md-12">
-                    <!--visits_toolbar-->
-                    <div class="mail-toolbar clearfix">
-                        <div class="float-left">
-                            <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
-                                <!--AddNew Visit-->
-                                <div class="btn-group">
-{#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
-                                    <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
+        {#<ul class="nav nav-pills">
+            <li class="active"><a data-toggle="tab" href="#visits-daily">Daily</a></li>
+            <li><a data-toggle="tab" href="#visits-weekly">Weekly</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="visits-daily" class="tab-pane fade in active">#}
+                <div class="col-md-4 visits-calendar">
+                    <div class="content-top-1 compose less-padding">
+                        <!--visits_calendar-->
+                        <h2>{{ 'visits.section_visits_calendar'|trans({}, 'visits') }}</h2>
+                        <div id="datetimepicker_visits"></div>
+                        <div class="clearfix"></div>
+                        <!--/visits_calendar-->
+                    </div>
+                </div>
+                <div class="col-md-8 visits-dashboard">
+                    <div class="content-top-1 compose">
+                        <div class="col-md-12">
+                            <!--visits_toolbar-->
+                            <div class="mail-toolbar clearfix">
+                                <div class="float-left">
+                                    <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                        <!--AddNew Visit-->
+                                        <div class="btn-group">
+        {#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
+                                            <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
+                                        </div>
+                                        <!--/AddNew Visit-->
+                                    </div>
                                 </div>
-                                <!--/AddNew Visit-->
-                            </div>
-                        </div>
 
-                        {% set hidden = '' %}
-                        {% if visits_list|length == 0 %}
-                            {% set hidden = 'hidden' %}
-                        {% endif %}
-                        <div id="visit_toolbar_delete" class="float-right {{ hidden }}">
-                            <div class="btn-group">
-                                <div class="btn-group dropdown">
-                                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-cog icon_8"></i>
-                                        <i class="fa fa-chevron-down icon_8"></i>
-                                        <div class="ripple-wrapper"></div>
-                                    </a>
-                                    <ul class="dropdown-menu my-dropdown-right float-right">
-                                        <li>
-                                            <a id="delete_visits" class="font-red" title="">
-                                                <i class="fa fa-times" icon_9=""></i>
-                                                {{ 'base.global_delete'|trans({}, 'base') }}
+                                {% set hidden = '' %}
+                                {% if visits_list|length == 0 %}
+                                    {% set hidden = 'hidden' %}
+                                {% endif %}
+                                <div id="visit_toolbar_delete" class="float-right {{ hidden }}">
+                                    <div class="btn-group">
+                                        <div class="btn-group dropdown">
+                                            <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-cog icon_8"></i>
+                                                <i class="fa fa-chevron-down icon_8"></i>
+                                                <div class="ripple-wrapper"></div>
                                             </a>
-                                        </li>
-                                    </ul>
+                                            <ul class="dropdown-menu my-dropdown-right float-right">
+                                                <li>
+                                                    <a id="delete_visits" class="font-red" title="">
+                                                        <i class="fa fa-times" icon_9=""></i>
+                                                        {{ 'base.global_delete'|trans({}, 'base') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!--/visits_toolbar-->
+                            <div id='loading-gif' class="col-xs-6 col-xs-offset-5 col-md-6 col-md-offset-5 hidden">
+                                <img style='width: 50px' src='{{ asset('assets/data/img/default.gif') }}'>
+                            </div>
+                            {% include 'visits/list_table_visits.html.twig' %}
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>                
+                <div class="clearfix"> </div>
+                {#<div id="all-patients-select-div" class="form-group" style="display: none;">
+                    <select class="all-patients-select swal2-select">
+                        <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
+                        {% set patients_telephones_counter = all_patients_telephones|length %}
+                        {% for patient in all_patients %}
+                            {% if all_patients_telephones is defined %}
+                                {% set patients_telephones = "" %}
+                                {% for patient_telephone in all_patients_telephones %}
+                                    {% if patient_telephone.patient == patient.id %}
+                                        {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>#}
+                <!--/visits_gallery-->
+
+                <div class="modal fade" id="modal_add_new_visit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style='background-color: #D95459; color: #fff;'>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id='modal_addNewPatientForm' url='{{ url('visits-save') }}' type='POST'>
+                                    <input type="text" class="hidden" name='visit_date' id="modal_visit_dateTime" value=''/>
+                                    <div class="form-group">
+                                        <label for="modal_visit_day" class="control-label">{{ 'visits.modal_label_day'|trans({}, 'visits') }}</label>
+                                        <input type="text" class="form-control" id="modal_visit_day" readonly/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visit_hour" class="control-label">{{ 'visits.modal_label_hour'|trans({}, 'visits') }}</label>
+                                        <input class="form-control" id="modal_visit_hour" readonly/>
+                                    </div>
+                                    <div class="form-group modal-my-plugin">
+                                        <div class="modal-patient-input my-plugin col-xs-12 col-sm-6 col-md-6">
+                                            <div class='my-plugin-header' style='background-color: #4d4d4d !important'>
+                                                <h7>{{ 'visits.add_existing_patient'|trans({}, 'visits') }}</h7>
+                                            </div>
+                                            <div class='my-plugin-body'>
+                                                <label for="modal_patient">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
+                                                <select class="form-control selectpicker show-tick" data-live-search="true" id="modal_patient" name="patient">
+                                                    <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
+                                                    {% set patients_telephones_counter = all_patients_telephones|length %}
+                                                    {% for patient in all_patients %}
+                                                        {% if all_patients_telephones is defined %}
+                                                            {% set patients_telephones = "" %}
+                                                            {% for patient_telephone in all_patients_telephones %}
+                                                                {% if patient_telephone.patient == patient.id %}
+                                                                    {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="my-plugin col-xs-12 col-sm-5 col-md-5">
+                                            <div class='my-plugin-header'>
+                                                <h7>{{ 'visits.add_new_patient'|trans({}, 'visits') }}</h7>
+                                                <input id='modal_createNewPatient' type="checkbox" name='save_new_patient' class="createNewPatientCheckbox"/>
+                                            </div>
+                                            <div class='my-plugin-body'>
+                                                <div class="input-group">
+                                                    <label for="modal_patient_name_input">{{ 'patients.section_input_name_and_surnames'|trans({}, 'patients') }}</label>
+                                                    <input type="text" class="form-control" id="modal_patient_name_input" name="patient_all_new_name" value="" disabled>
+                                                </div>
+                                                <div class="input-group">
+                                                    <label for="modal_patient_phone_input">{{ 'patients.section_input_phone'|trans({}, 'patients') }}</label>
+                                                    <input type="text" class="form-control" id="modal_patient_phone_input" name="phone" value="" disabled> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='clearfix'></div>
+                                    </div>
+        {#                        </form>#}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" style='margin-bottom: 0px!important;' data-dismiss="modal">{{ 'visits.modal_button_cancel'|trans({}, 'visits') }}</button>
+                                <button id='modal_submit_add_new' type="submit" class="btn btn-success">{{ 'visits.modal_button_addNew'|trans({}, 'visits') }}</button>
+                            </div>
+                            </form>
                         </div>
                     </div>
-                    <!--/visits_toolbar-->
-                    <div id='loading-gif' class="col-xs-6 col-xs-offset-5 col-md-6 col-md-offset-5 hidden">
-                        <img style='width: 50px' src='{{ asset('assets/data/img/default.gif') }}'>
-                    </div>
-                    {% include 'visits/list_table_visits.html.twig' %}
                 </div>
-                <div class="clearfix"> </div>
+            {#</div>
+            <div id="visits-weekly" class="tab-pane fade">
+                Weekly
             </div>
-        </div>                
-        <div class="clearfix"> </div>
-        {#<div id="all-patients-select-div" class="form-group" style="display: none;">
-            <select class="all-patients-select swal2-select">
-                <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
-                {% set patients_telephones_counter = all_patients_telephones|length %}
-                {% for patient in all_patients %}
-                    {% if all_patients_telephones is defined %}
-                        {% set patients_telephones = "" %}
-                        {% for patient_telephone in all_patients_telephones %}
-                            {% if patient_telephone.patient == patient.id %}
-                                {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
-                {% endfor %}
-            </select>
         </div>#}
-        <!--/visits_gallery-->
-        
-        <div class="modal fade" id="modal_add_new_visit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header" style='background-color: #D95459; color: #fff;'>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form id='modal_addNewPatientForm' url='{{ url('visits-save') }}' type='POST'>
-                            <input type="text" class="hidden" name='visit_date' id="modal_visit_dateTime" value=''/>
-                            <div class="form-group">
-                                <label for="modal_visit_day" class="control-label">{{ 'visits.modal_label_day'|trans({}, 'visits') }}</label>
-                                <input type="text" class="form-control" id="modal_visit_day" readonly/>
-                            </div>
-                            <div class="form-group">
-                                <label for="visit_hour" class="control-label">{{ 'visits.modal_label_hour'|trans({}, 'visits') }}</label>
-                                <input class="form-control" id="modal_visit_hour" readonly/>
-                            </div>
-                            <div class="form-group modal-my-plugin">
-                                <div class="modal-patient-input my-plugin col-xs-12 col-sm-6 col-md-6">
-                                    <div class='my-plugin-header' style='background-color: #4d4d4d !important'>
-                                        <h7>{{ 'visits.add_existing_patient'|trans({}, 'visits') }}</h7>
-                                    </div>
-                                    <div class='my-plugin-body'>
-                                        <label for="modal_patient">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
-                                        <select class="form-control selectpicker show-tick" data-live-search="true" id="modal_patient" name="patient">
-                                            <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
-                                            {% set patients_telephones_counter = all_patients_telephones|length %}
-                                            {% for patient in all_patients %}
-                                                {% if all_patients_telephones is defined %}
-                                                    {% set patients_telephones = "" %}
-                                                    {% for patient_telephone in all_patients_telephones %}
-                                                        {% if patient_telephone.patient == patient.id %}
-                                                            {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="my-plugin col-xs-12 col-sm-5 col-md-5">
-                                    <div class='my-plugin-header'>
-                                        <h7>{{ 'visits.add_new_patient'|trans({}, 'visits') }}</h7>
-                                        <input id='modal_createNewPatient' type="checkbox" name='save_new_patient' class="createNewPatientCheckbox"/>
-                                    </div>
-                                    <div class='my-plugin-body'>
-                                        <div class="input-group">
-                                            <label for="modal_patient_name_input">{{ 'patients.section_input_name_and_surnames'|trans({}, 'patients') }}</label>
-                                            <input type="text" class="form-control" id="modal_patient_name_input" name="patient_all_new_name" value="" disabled>
-                                        </div>
-                                        <div class="input-group">
-                                            <label for="modal_patient_phone_input">{{ 'patients.section_input_phone'|trans({}, 'patients') }}</label>
-                                            <input type="text" class="form-control" id="modal_patient_phone_input" name="phone" value="" disabled> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='clearfix'></div>
-                            </div>
-{#                        </form>#}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'visits.modal_button_cancel'|trans({}, 'visits') }}</button>
-                        <button id='modal_submit_add_new' type="submit" class="btn btn-success">{{ 'visits.modal_button_addNew'|trans({}, 'visits') }}</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
 
