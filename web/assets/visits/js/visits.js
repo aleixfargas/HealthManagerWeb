@@ -16,9 +16,23 @@ $(document).ready(function () {
 function prepare_for_ios(){
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if(iOS == true){
-        $('.show_modal_add_new').each(function(){
-            $(this).removeClass('hidden');
-        })
+//        $('.show_modal_add_new').each(function(){
+//            $(this).removeClass('hidden');
+//        })
+
+//        data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}"
+        $('.visit-empty').on('click', function(e) {
+            e.preventDefault();
+            var dayText = $(this).attr('data-daytext');
+            var day = $(this).attr('data-day');
+            var hour = $(this).attr('data-hour');
+                    
+            $('#modal_add_new_visit').modal({
+                'data-dayText': dayText,
+                'data-day': day,
+                'data-hour': hour,
+            });
+        });
     }
 }
 //=================== LIST FUNCTIONS ===================

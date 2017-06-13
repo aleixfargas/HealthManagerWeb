@@ -64,7 +64,8 @@
                             </td>
                         </tr>
                     {% else %}
-                        <tr class="table-row visit-empty" data-toggle="modal" data-target="#modal_add_new_visit" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}" >
+{#                        <tr class="table-row visit-empty" data-toggle="modal" data-target="#modal_add_new_visit" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}" >#}
+                        <tr class="table-row visit-empty" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}" >
                             <td class="bs-checkbox check_visit hidden">
 {#                                    <input name="btSelectItem" type="checkbox">#}
                             </td>
@@ -77,7 +78,7 @@
                                 </div>
                             </td>
                             <td class="table-text">
-                                <button class='show_modal_add_new btn btn-success btn-sm hidden'>{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</button>
+                                <button class='show_modal_add_new btn btn-success btn-sm hidden'><i class="fa fa-calendar-check-o" style='color: white;'></i>{#{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}#}</button>
                             </td>
                         </tr>
                     {% endif %}
