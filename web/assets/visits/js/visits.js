@@ -104,10 +104,10 @@ function go_next_day(){
     go_to_date($('#go_next').attr('date'));
 }
 
-function add_show_visit_listener(){
-    $('.visit > :not(.bs-checkbox)').click(function(){
+function add_show_visit_listener(){  
+    $('.visit > :not(.bs-checkbox)').on('mousedown', function(e) { 
         var url = $(this).parent('tr').attr('url');
-        window.location.href = url;
+        open_link(e, url);
     });
     
     var visitDayText = null;
@@ -118,8 +118,11 @@ function add_show_visit_listener(){
 
     prepare_for_ios();
     
+    console.log('creating listener');
+    
     rm_click_listener('#modal_createNewPatient');
     $('#modal_createNewPatient').click(function(){
+        console.log('click');
         $('#modal_patient').prop('disabled', function(i, v) { return !v; });
         $('.selectpicker').selectpicker('refresh');
 
@@ -136,7 +139,7 @@ function add_show_visit_listener(){
         
         var visitDayText = button.data('daytext');
         var visitDay = button.data('day');
-        var visitHour = button.data('hour');
+        var visitHour = button.data('hour') + ':00';
         
         var visit_dateTime = moment(visitDay);
         visit_dateTime.hour(visitHour);
