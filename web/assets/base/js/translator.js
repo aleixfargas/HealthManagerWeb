@@ -27,7 +27,8 @@ var Translator = {
             title_add_new_fast_visit: "Afegeix una visita",
             body_add_new_fast_visit: "Vols afegir una visita?",
             button_add_new_fast_visit: "Afegir",
-            button_cancel_add_new_fast_visit: "Cancel·lar",
+            button_cancel_add_new_fast_visit: "Cancelar",
+            incorrect_phone_length: "Numero de telefon incorrecte",
         },
         en: {
             title_sure: "Are you sure?",            
@@ -48,6 +49,7 @@ var Translator = {
             body_add_new_fast_visit: "Do you want to add a new visit?",
             button_add_new_fast_visit: "Add",
             button_cancel_add_new_fast_visit: "Cancel",
+            incorrect_phone_length: "Numero de telefono no valido",
         },
         es: {
             title_sure: "¿Estás seguro?",
@@ -68,6 +70,7 @@ var Translator = {
             body_add_new_fast_visit: "Quieres añadir una nueva visita?",
             button_add_new_fast_visit: "Añadir",
             button_cancel_add_new_fast_visit: "Cancelar",
+            incorrect_phone_length: "Phone number not valid",
         }
     },
     trans: function(trans_id){

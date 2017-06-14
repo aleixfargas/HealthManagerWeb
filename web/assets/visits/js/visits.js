@@ -21,18 +21,19 @@ function prepare_for_ios(){
 //        })
 
 //        data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date }}" data-hour="{{ hour }}"
-        $('.visit-empty').on('click', function(e) {
-            e.preventDefault();
-            var dayText = $(this).attr('data-daytext');
-            var day = $(this).attr('data-day');
-            var hour = $(this).attr('data-hour');
-                    
-            $('#modal_add_new_visit').modal({
-                'data-dayText': dayText,
-                'data-day': day,
-                'data-hour': hour,
-            });
-        });
+
+//        $('.visit-empty').on('click', function(e) {
+//            e.preventDefault();
+//            var dayText = $(this).attr('data-daytext');
+//            var day = $(this).attr('data-day');
+//            var hour = $(this).attr('data-hour');
+//                    
+//            $('#modal_add_new_visit').modal({
+//                'data-dayText': dayText,
+//                'data-day': day,
+//                'data-hour': hour,
+//            });
+//        });
     }
 }
 //=================== LIST FUNCTIONS ===================
@@ -131,7 +132,30 @@ function add_show_visit_listener(){
     s.find('.all-patients-select').addClass('swal');
 
     prepare_for_ios();
-    
+    $('.visit-empty').on('click', function(e) {
+        e.preventDefault();
+        var dayText = $(this).data('data-daytext');
+        var day = $(this).data('data-day');
+        var hour = $(this).data('data-hour');
+
+        var visitDayText = $(this).data('daytext');
+        visitDay = $(this).data('day');
+        var visitHour_string = $(this).data('hour') + ':00';
+        var visitHour = $(this).data('hour');
+        
+        var visit_dateTime = moment(visitDay);
+        visit_dateTime.hour(visitHour);
+        var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
+//        alert(visit_dateTimeString);
+        
+        $('#modal_add_new_visit').find('.modal-body #modal_visit_dateTime').val(visit_dateTimeString);
+        $('#modal_add_new_visit').find('.modal-body #modal_visit_dateTime').attr("value", visit_dateTimeString);
+        $('#modal_add_new_visit').find('.modal-body #modal_visit_day').val(visitDayText);
+        $('#modal_add_new_visit').find('.modal-body #modal_visit_hour').val(visitHour_string);
+        
+        $('#modal_add_new_visit').modal('show');
+    });
+
     rm_click_listener('#modal_createNewPatient');
     $('#modal_createNewPatient').click(function(){
         $('#modal_patient').prop('disabled', function(i, v) { return !v; });
@@ -145,142 +169,46 @@ function add_show_visit_listener(){
     
     $('#modal_add_new_visit').on('show.bs.modal', function (event) {
         remove_scroll_to_top();
-
-        var button = $(event.relatedTarget);
         
-        var visitDayText = button.data('daytext');
-        var visitDay = button.data('day');
-        var visitHour_string = button.data('hour') + ':00';
-        var visitHour = button.data('hour');
-        
-        var visit_dateTime = moment(visitDay);
-        visit_dateTime.hour(visitHour);
-        var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-        
-        var modal = $(this)        
-        
-        modal.find('#modal_visit_dateTime').val(visit_dateTimeString)
-        modal.find('.modal-body #modal_visit_day').val(visitDayText)
-        modal.find('.modal-body #modal_visit_hour').val(visitHour_string)
+        var modal = $(this)
         
         $('#modal_createNewPatient').prop('checked', false);
+        
         $('#modal_patient_name_input').prop('disabled', true);
+        $('#modal_patient_name_input').val('');
         $('#modal_patient_phone_input').prop('disabled', true);
+        $('#modal_patient_phone_input').val('');
         
         $('#modal_patient').prop('disabled', false);
+        $('#modal_patient').val(0);
         $('.selectpicker').selectpicker('refresh');
 
         $('#modal_addNewPatientForm').unbind('submit');
         $('#modal_addNewPatientForm').submit(function(e){
-//            var createNewPatient = $('#modal_createNewPatient:checked').val();
-//            var patient = false;
-//            var new_patientName = false;
-//            var new_patientPhone = false;
-//            
-//            if(createNewPatient = 'on'){
-//                new_patientName = $('.modal-body #modal_patient_name_input').val();
-//                new_patientPhone = $('.modal-body #modal_patient_phone_input').val();
-//            } else {
-//                patient = $('.modal-body #modal_patient_phone_input').val();                
-//            }
-            
-            var postData = JSON.stringify($(this).serializeArray());
+            var arrayData = $(this).serializeArray();
+            var postData = JSON.stringify(arrayData);
             var formSerialize = $(this).serialize();
-            $.post($(this).attr('url'), formSerialize, function(response){
-                if(response.status == 'success'){
-//                    window.location.href = response.action_listVisits;
-                    go_to_date(visitDay);
-                    modal.modal('hide')
-                } else {
-                    swal('Error', response.action, 'error');
-                }
-            },'JSON').fail(function() {
-                swal('Error', 'OUPS!, Something went incredibly wrong adding the new visit...', 'error');
-                console.log('OUPS!, Something went incredibly wrong adding the new visit...');
-            });
             
+            if(arrayData.length > 3 && arrayData[3].name == 'phone' && arrayData[3].value.length > 11){
+                swal('Error', Translator.trans('incorrect_phone_length'), 'error');                            
+            } else {
+                $.post($(this).attr('url'), formSerialize, function(response){
+                    if(response.status == 'success'){
+//                    window.location.href = response.action_listVisits;
+                        go_to_date(visitDay);
+                        modal.modal('hide')
+                    } else {
+                        swal('Error', response.action, 'error');
+                    }
+                },'JSON').fail(function() {
+                    swal('Error', 'OUPS!, Something went incredibly wrong adding the new visit...', 'error');
+                    console.log('OUPS!, Something went incredibly wrong adding the new visit...');
+                });
+            }
+
             e.preventDefault();
         });
     })
-
-//    $('.visit-empty').click(function(){
-//        visitDayText = $(this).attr('dayText');
-//        visitDay = $(this).attr('day');
-//        visitHour = $(this).attr('hour');
-//
-////        alert("dayText="+visitDayText+"</br> "+"visitDay="+visitDay+"</br> "+"visitHour="+visitHour);
-//        
-//        swal({
-//            title: Translator.trans('title_add_new_fast_visit'),
-//            type: 'question',
-//            html:
-//                "</br>" + 
-//                "<table>" + 
-//                    "<tr>" + 
-//                        "<td class='col-md-4'>" + 
-//                            "Day: " + 
-//                        "</td>" + 
-//                        "<td class='col-md-8' style='text-align: left;'>" + 
-//                            visitDayText + 
-//                        "</td>" + 
-//                    "</tr>" + 
-//                    "<tr>" + 
-//                        "<td class='col-md-4'>" + 
-//                            "Hour: " + 
-//                        "</td>" + 
-//                        "<td class='col-md-8' style='text-align: left;'>" + 
-//                            visitHour + ":00" +
-//                        "</td>" + 
-//                    "</tr>" + 
-//                "</table>" + 
-////                "<br/>" + 
-////                "Selecciona el pacient:" + 
-////                "</br>" + 
-//                s.html(), 
-//            showCancelButton: true,
-//            confirmButtonText: Translator.trans('button_add_new_fast_visit'),
-//            cancelButtonText: Translator.trans('button_cancel_add_new_fast_visit'),
-//            showLoaderOnConfirm: true,
-//            preConfirm: function () {
-//                return new Promise(function (resolve) {
-//                    resolve([
-//                        $('.all-patients-select.swal').val(),
-//                        visitHour,
-//                        visitDay
-//                    ])
-//                })
-//            },
-//            allowOutsideClick: false
-//        }).then(function (result) {
-//            console.log(result[1]);
-//            console.log(result[2]);
-//            var visit_dateTime = moment(result[2]);
-//            visit_dateTime.hour(result[1]);
-//            var visit_dateTimeString = visit_dateTime.format('YYYY-MM-DD HH:mm:ss');
-//            console.log(visit_dateTimeString);
-//            $.ajax({
-//                url: '/visits/save',
-//                data: {'patient': result[0], 'visit_date': visit_dateTimeString},
-//                type: 'POST',
-//                dataType: 'json',
-//                beforeSend:function(){
-//
-//                },
-//                success: function(response){
-//                    if(response.status = 'success'){
-//                        window.location.href = response.action_listVisits;
-//                    } else {
-//                        swal('Error', response.error, 'error');
-//                    }
-//                },
-//                error: function(){
-//                    swal('Error', 'OUPS!, Something went incredibly wrong changing the visit tables...', 'error');
-//                    console.log('OUPS!, Something went incredibly wrong changing the visit tables...');
-//                }
-//            });
-////            swal(JSON.stringify(result));
-//        })
-//    });
 }
 
 function show_loading(){

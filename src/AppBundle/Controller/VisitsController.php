@@ -393,7 +393,7 @@ class VisitsController extends Controller{
         
         if($request->request->has('save_new_patient')){
             //create new patient
-            list($name, $surname) = explode(' ', $request->request->get('patient_all_new_name'), 2);
+            list($name, $surname) = explode(' ', $request->request->get('patient_all_new_name') . ' ', 2);
             $phone = $request->request->get('phone');
             
             $new_patient_id = $this->createNewPatient($name, $surname, $phone);
