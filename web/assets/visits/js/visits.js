@@ -206,6 +206,13 @@ function add_show_visit_listener(){
         $('#modal_patient').val(0);
         $('.selectpicker').selectpicker('refresh');
 
+        patient_name_value = "";
+        last_patient_name_value = "";
+        patient_phone_value = "";
+        last_patient_phone_value = "";
+        existing_patient = 0;
+        last_existing_patient = 0;
+
         $('#modal_addNewPatientForm').unbind('submit');
         $('#modal_addNewPatientForm').submit(function(e){
             var arrayData = $(this).serializeArray();
