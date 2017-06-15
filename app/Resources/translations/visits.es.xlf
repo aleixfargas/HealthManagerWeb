@@ -98,6 +98,10 @@
                 <source>visits.add_existing_patient</source>
                 <target>Elige un paciente existente</target>
             </trans-unit>
+            <trans-unit id="visit_patient_already_exist">
+                <source>visits.visit_patient_already_exist</source>
+                <target>El nuevo paciente %name% %surname% ya existe! Por favor seleccionalo de la lista de pacientes existentes o si se trata de otro paciente añade todos sus apellidos!</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

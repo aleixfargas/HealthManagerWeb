@@ -156,15 +156,37 @@ function add_show_visit_listener(){
         $('#modal_add_new_visit').modal('show');
     });
 
+    var patient_name_value = "";
+    var last_patient_name_value = "";
+    var patient_phone_value = "";
+    var last_patient_phone_value = "";
+    var existing_patient = 0;
+    var last_existing_patient = 0;
+    
     rm_click_listener('#modal_createNewPatient');
     $('#modal_createNewPatient').click(function(){
+        
         $('#modal_patient').prop('disabled', function(i, v) { return !v; });
+        
+        existing_patient = $('#modal_patient').val();
+        $('#modal_patient').val(last_existing_patient);
+        last_existing_patient = existing_patient;
+        
         $('.selectpicker').selectpicker('refresh');
 
         $('#modal_patient_name_input').prop('disabled', function(i, v) { return !v; });
         $('#modal_patient_name_input').prop('required', function(i, v) { return !v; });
         $('#modal_patient_phone_input').prop('disabled', function(i, v) { return !v; });
         $('#modal_patient_phone_input').prop('required', function(i, v) { return !v; });
+        
+        patient_name_value = $('#modal_patient_name_input').val();
+        patient_phone_value = $('#modal_patient_phone_input').val();
+        
+        $('#modal_patient_name_input').val(last_patient_name_value);
+        $('#modal_patient_phone_input').val(last_patient_phone_value);
+        
+        last_patient_name_value = patient_name_value;
+        last_patient_phone_value = patient_phone_value;
     });
     
     $('#modal_add_new_visit').on('show.bs.modal', function (event) {

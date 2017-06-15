@@ -29,8 +29,8 @@ class VisitsController extends Controller{
     
     private $logger = null;
 
-    private function translateId($domain, $id){
-        return $this->get('translator')->trans($id, array(), $domain);
+    private function translateId($domain, $id, $params = array()){
+        return $this->get('translator')->trans($id, $params, $domain);
     }
 
     private function getTranslatedSectionName(){
@@ -401,7 +401,8 @@ class VisitsController extends Controller{
                 $this->visit->setPatient($new_patient_id);
             } else {
                 $result = false;
-                $message = "The new patient {$name} {$surname} already exist! Please select it at the row of exisiting patients or add all the surnames!";
+//                $message = $this->get('translator')->trans('visits.visit_patient_already_exist', array('%name%' => $name, '%surname%' => $surname), 'visits');
+                $message = $this->translateId('visits', 'visits.visit_patient_already_exist', array('%name%' => $name, '%surname%' => $surname));
             }
         } else {
             //existing patient
