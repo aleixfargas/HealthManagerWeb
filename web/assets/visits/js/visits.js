@@ -178,6 +178,7 @@ function add_show_visit_listener(){
         $('#modal_patient_name_input').val('');
         $('#modal_patient_phone_input').prop('disabled', true);
         $('#modal_patient_phone_input').val('');
+        $('#modal_visit_reason').val('');
         
         $('#modal_patient').prop('disabled', false);
         $('#modal_patient').val(0);
