@@ -1,0 +1,162 @@
+{% extends 'base_menu.html.twig' %}
+
+{% block content_main %}
+    <!--grid-->
+    <div class="typo-grid">
+        <div class="typo-1">
+            <div class="grid_3 grid_4">
+                    <!--visits_toolbar-->
+                    <div class="mail-toolbar clearfix">
+                        <div class="float-left">
+                            <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                <!--AddNew Visit-->
+                                <div class="btn-group">
+{#                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#visit_addnew_modal"><i class="fa fa-user-plus text-color-green"></i> Add New Patient</button>#}
+                                    <a href="{{ url('visits-new') }}" class="btn btn-default"><i class="fa fa-calendar-check-o text-color-green"></i> {{ 'visits.section_add_new'|trans({}, 'visits') }}</a>
+                                </div>
+                                <!--/AddNew Visit-->
+                            </div>
+                        </div>
+
+                        {% set hidden = '' %}
+                        {% if visits_list|length == 0 %}
+                            {% set hidden = 'hidden' %}
+                        {% endif %}
+                        <div id="visit_toolbar_delete" class="float-right {{ hidden }}">
+                            <div class="btn-group">
+                                <div class="btn-group dropdown">
+                                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-cog icon_8"></i>
+                                        <i class="fa fa-chevron-down icon_8"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </a>
+                                    <ul class="dropdown-menu my-dropdown-right float-right">
+                                        <li>
+                                            <a id="delete_visits" class="font-red" title="">
+                                                <i class="fa fa-times" icon_9=""></i>
+                                                {{ 'base.global_delete'|trans({}, 'base') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div id='visits-week-list'>
+                        <div class="visits-month-title col-md-12 text-center">
+                            <h3>MONTH 2017</h3>
+                        </div>
+                        <div class="visits-table col-md-12 text-center">
+                            <div class="visits-table-column col-md-1 text-center">
+                                <div class="visits-table-header">
+                                </div>
+                                <div class="visits-table-body">
+                                    <table class="visits-table table">
+                                        <tbody>
+                                            {% set hours = ['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22'] %}
+                                            {% for hour in hours %}
+                                                <tr class="table-row visit-hour-row">
+                                                    <td class="table-text col-md-3">
+                                                        {{ hour ~ ":00" }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            {% for list_date in days %}
+                                <div class="visits-table-column col-md-3 text-center">
+                                    <div class="visits-table-header">
+                                        <div class="visits-table-number">
+                                            {{ list_date|date('j') }}
+                                        </div>
+                                        <div class="visits-table-day">
+                                            {{ list_date|date('l') }}
+                                        </div>
+                                    </div>
+                                    <div class="visits-table-body">
+                                        {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
+
+                                        <table id="visits-table" class="visits-table table">
+                                            <thead>
+                                                <tr class="check_visit hidden">
+                                                    <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                                        <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
+                                                    </th>
+                                                    <th>
+                                                        <div class="btn-group-sm pull-right">
+                                                            <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                                            <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for hour in hours %}
+                                                    {% set picked_visit = null %}
+                                                    {% set picked_hour = 0 %}                    
+                                                    {% set picked_i = 0 %}
+                                                    {% set i = 0 %}
+                                                    {% for my_visit in visits_list %}
+                                                        {% set visit_hour = my_visit.visitDate|date("H", "Europe/Madrid") %}
+                                                        {% if hour == visit_hour %}
+                                                            {% set picked_hour = hour %}
+                                                            {% set picked_visit = my_visit %}
+                                                            {% set picked_i = i %}
+                                                        {% endif %}
+                                                        {% set i = i + 1 %}
+                                                    {% endfor %}
+                                                    {% if picked_hour != 0 %}
+                                                        <tr url=" {{ url('visits-show', {'visit_id': picked_visit.id}) }} " class="table-row visit" data-index="{{ picked_visit.id }}" class="table-row patient">
+                                                            <td class="bs-checkbox check_visit hidden">
+                                                                <input name="btSelectItem" type="checkbox">
+                                                            </td>
+                                                            <td class="table-text">
+                                                                <div class="float-left">
+                                                                    <a>{{ visits_patients_name[picked_i] }}</a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    {% else %}
+                                                        <tr class="table-row visit-empty" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date|date('Y-m-d') }}" data-hour="{{ hour }}" >
+                                                            <td class="bs-checkbox check_visit hidden">
+                                {#                                    <input name="btSelectItem" type="checkbox">#}
+                                                            </td>
+                                                            <td class="table-text">
+                                                                <div class="float-left">
+                                                                    {{ 'visits.empty_visit'|trans({}, 'visits') }}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endfor %}                                
+                        </div>
+                    </div>
+                    <!--/visits_toolbar-->
+                    <div id='loading-gif' class="col-xs-6 col-xs-offset-5 col-md-6 col-md-offset-5 hidden">
+                        <img style='width: 50px' src='{{ asset('assets/data/img/default.gif') }}'>
+                    </div>
+{#                    {% include 'visits/list_table_visits.html.twig' %}#}
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>                
+        {% include 'visits/add_visits_modal.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/visits.css', 'visits') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/visits_week.css', 'visits') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/visits.js', 'visits') }}"></script>
+{% endblock %}

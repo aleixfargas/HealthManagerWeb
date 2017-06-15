@@ -135,7 +135,7 @@
             <div class="clearfix"></div>  
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">				
+                    <ul class="nav" id="side-menu">
                         <li class="hidden">
                             <a href="{{ url('homepage') }}" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">{{ 'base.global_section_dashboard'|trans({}, 'base') }}</span> </a>
                         </li>
@@ -143,7 +143,11 @@
                             <a href="{{ url('calendar-month') }}" class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_calendar'|trans({}, 'base') }}</span></a>
                         </li>#}
                         <li>
-                            <a href="{{ url('visits-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_visits'|trans({}, 'base') }}</span></a>
+                            <a class=" hvr-bounce-to-right"><i class="fa fa-calendar nav_icon "></i><span class="nav-label">{{ 'base.global_section_visits'|trans({}, 'base') }}</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ url('visits-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-angle-right nav_icon"></i>Day</a></li>
+                                <li><a href="{{ url('visits-week-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-angle-right nav_icon "></i>Week</a></li>
+                            </ul>
                         </li>
                         <li>
                             <li><a href="{{ url('patients-list') }}" class=" hvr-bounce-to-right"><i class="fa fa-users nav_icon "></i><span class="nav-label">{{ 'base.global_section_patients'|trans({}, 'base') }}</span></a></li>

@@ -1,0 +1,75 @@
+{% block add_visits_modal %}
+    <div class="modal fade" id="modal_add_new_visit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style='background-color: #D95459; color: #fff;'>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">{{ 'visits.modal_add_visit_title'|trans({}, 'visits') }}</h4>
+                </div>
+                <form id='modal_addNewPatientForm' url='{{ url('visits-save') }}' type='POST'>
+                    <div class="modal-body">
+                        <input type="text" class="hidden" name='visit_date' id="modal_visit_dateTime" value=''/>
+                        <div class="form-group">
+                            <label for="modal_visit_day" class="control-label">{{ 'visits.modal_label_day'|trans({}, 'visits') }}</label>
+                            <input type="text" class="form-control" id="modal_visit_day" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <label for="visit_hour" class="control-label">{{ 'visits.modal_label_hour'|trans({}, 'visits') }}</label>
+                            <input class="form-control" id="modal_visit_hour" readonly/>
+                        </div>
+                        <div class="form-group modal-my-plugin">
+                            <div class="modal-patient-input my-plugin col-xs-12 col-sm-6 col-md-6">
+                                <div class='my-plugin-header' style='background-color: #4d4d4d !important'>
+                                    <h7>{{ 'visits.add_existing_patient'|trans({}, 'visits') }}</h7>
+                                </div>
+                                <div class='my-plugin-body'>
+                                    <label for="modal_patient">{{ 'visits.section_input_patient'|trans({}, 'visits') }}</label>
+                                    <select class="form-control selectpicker show-tick" data-live-search="true" id="modal_patient" name="patient">
+                                        <option value="0" data-tokens="">{{ 'visits.section_unknow_patient'|trans({}, 'visits') }}</option>
+                                        {% set patients_telephones_counter = all_patients_telephones|length %}
+                                        {% for patient in all_patients %}
+                                            {% if all_patients_telephones is defined %}
+                                                {% set patients_telephones = "" %}
+                                                {% for patient_telephone in all_patients_telephones %}
+                                                    {% if patient_telephone.patient == patient.id %}
+                                                        {% set patients_telephones = patients_telephones ~ " " ~ patient_telephone.number%}  
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            <option value="{{ patient.id }}" data-tokens="{{ patient.name }} {{ patient.surname }} {{ patients_telephones }}" data-subtext="{{ patients_telephones }}">{{ patient.name }} {{ patient.surname }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="my-plugin col-xs-12 col-sm-5 col-md-5">
+                                <div class='my-plugin-header'>
+                                    <h7>{{ 'visits.add_new_patient'|trans({}, 'visits') }}</h7>
+                                    <input id='modal_createNewPatient' type="checkbox" name='save_new_patient' class="createNewPatientCheckbox"/>
+                                </div>
+                                <div class='my-plugin-body'>
+                                    <div class="input-group">
+                                        <label for="modal_patient_name_input">{{ 'patients.section_input_name_and_surnames'|trans({}, 'patients') }}</label>
+                                        <input type="text" class="form-control" id="modal_patient_name_input" name="patient_all_new_name" value="" disabled>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="modal_patient_phone_input">{{ 'patients.section_input_phone'|trans({}, 'patients') }}</label>
+                                        <input type="number" class="form-control" id="modal_patient_phone_input" name="phone" value="" disabled> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='clearfix'></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal_visit_reason" class="control-label">{{ 'visits.section_input_visit_reason'|trans({}, 'visits') }}</label>
+                            <textarea class="form-control" rows="5" name="reason" id="modal_visit_reason" name='' type="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" style='margin-bottom: 0px!important;' data-dismiss="modal">{{ 'visits.modal_button_cancel'|trans({}, 'visits') }}</button>
+                        <button id='modal_submit_add_new' type="submit" class="btn btn-success">{{ 'visits.modal_button_addNew'|trans({}, 'visits') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

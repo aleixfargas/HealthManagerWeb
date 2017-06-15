@@ -71,6 +71,54 @@ class VisitsController extends Controller{
     }
     
     /**
+     * @Route("/visits/week/list/{day}", name="visits-week-list")
+    */
+    public function listWeekVisitsAction($day = false){
+        if($day === false) $day = date("Y-m-d");
+
+        $patients_names = array();
+
+        $format = 'Y-m-d';
+        $DateTime = \DateTime::createFromFormat($format, $day);
+        $fromDate = clone($DateTime);
+        $toDate = $DateTime->modify('+7 days');
+
+        $visits_list = $this->get_week_visits($fromDate, $toDate);
+        
+        $days = array();
+        for($date = clone($fromDate); $date < $toDate; $date->modify('+1 day')){
+            array_push($days, $date->format($format));
+        }
+        
+        
+        foreach($visits_list as $visit){
+            array_push($patients_names, $this->get_visit_patient_name($visit->getPatient()));
+        }
+        
+        $all_patients = $this->get_all_visits_patients();
+        $all_patients_telephones = $this->get_all_visits_patients_telephones($all_patients);
+        
+        return $this->render(
+            'visits/list_visits_weekly.html.twig', array(
+                'error' => $this->error,
+                'error_message' => $this->error_message,
+                'visits_list' => $visits_list,
+                'visits_patients_name' => $patients_names,
+//                'list_date' => $day,
+                'days' => $days,
+                'from_date' => $fromDate,
+                'to_date' => $toDate,
+                'all_patients' => $all_patients,
+                'all_patients_telephones' => $all_patients_telephones,
+                'is_section' =>true,
+                'sections' => [
+                    ['url'=>$this->generateUrl('visits-list'), 'name'=>$this->getTranslatedSectionName()]
+                ],
+            )
+        );
+    }
+    
+    /**
      * @Route("/visits/fetch/visits/", name="visits-fetch-visits")
     */
     public function fetch_VisitsAction(Request $request){
@@ -461,6 +509,24 @@ class VisitsController extends Controller{
             ORDER BY v.visitDate ASC"
         )->setParameter('from_day', $date->format('Y-m-d 00:00:00'))
         ->setParameter('to_day', $date->format('Y-m-d 23:59:59'))
+        ->setParameter('user_id', $this->get_logged_User_id());
+                
+        $visits = $query->getResult();
+        
+        return $visits;
+    }
+    
+    private function get_week_visits($fromDateTime, $toDateTime){
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            "SELECT v
+            FROM AppBundle:Visits v
+            WHERE v.visitDate > :from_day
+            AND v.visitDate < :to_day
+            AND v.user = :user_id
+            ORDER BY v.visitDate ASC"
+        )->setParameter('from_day', $fromDateTime->format('Y-m-d 00:00:00'))
+        ->setParameter('to_day', $toDateTime->format('Y-m-d 23:59:59'))
         ->setParameter('user_id', $this->get_logged_User_id());
                 
         $visits = $query->getResult();
