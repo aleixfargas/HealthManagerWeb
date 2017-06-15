@@ -90,7 +90,6 @@ class VisitsController extends Controller{
             array_push($days, $date->format($format));
         }
         
-        
         foreach($visits_list as $visit){
             array_push($patients_names, $this->get_visit_patient_name($visit->getPatient()));
         }

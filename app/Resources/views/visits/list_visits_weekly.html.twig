@@ -48,7 +48,7 @@
                             <h3>MONTH 2017</h3>
                         </div>
                         <div class="visits-table col-md-12 text-center">
-                            <div class="visits-table-column col-md-1 text-center">
+                            <div class="visits-table-column visits-table-column-hours col-xs-2 col-sm-2 col-md-1 text-center">
                                 <div class="visits-table-header">
                                 </div>
                                 <div class="visits-table-body">
@@ -66,78 +66,88 @@
                                     </table>
                                 </div>
                             </div>
-                            
-                            {% for list_date in days %}
-                                <div class="visits-table-column col-md-3 text-center">
-                                    <div class="visits-table-header">
-                                        <div class="visits-table-number">
-                                            {{ list_date|date('j') }}
-                                        </div>
-                                        <div class="visits-table-day">
-                                            {{ list_date|date('l') }}
-                                        </div>
-                                    </div>
-                                    <div class="visits-table-body">
-                                        {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
+                            <div class="visits-table-scrollable">
+                                {% set days_count = 0 %}
+                                {% for list_date in days %}
+                                    {#{% set hidden = '' %}
+                                    {% if days_count > 3 %}
+                                        {% set hidden = 'hidden-sm' %}
+                                    {% elseif days_count > 4 %}
+                                        {% set hidden = 'hidden' %}
+                                    {% endif %}#}
 
-                                        <table id="visits-table" class="visits-table table">
-                                            <thead>
-                                                <tr class="check_visit hidden">
-                                                    <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
-                                                        <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
-                                                    </th>
-                                                    <th>
-                                                        <div class="btn-group-sm pull-right">
-                                                            <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
-                                                            <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for hour in hours %}
-                                                    {% set picked_visit = null %}
-                                                    {% set picked_hour = 0 %}                    
-                                                    {% set picked_i = 0 %}
-                                                    {% set i = 0 %}
-                                                    {% for my_visit in visits_list %}
-                                                        {% set visit_hour = my_visit.visitDate|date("H", "Europe/Madrid") %}
-                                                        {% if hour == visit_hour %}
-                                                            {% set picked_hour = hour %}
-                                                            {% set picked_visit = my_visit %}
-                                                            {% set picked_i = i %}
+                                    <div class="visits-table-column col-xs-3 col-sm-2 col-md-2 text-center">
+                                        <div class="visits-table-header">
+                                            <div class="visits-table-number {% if "now"|date('Y-m-d') == list_date|date('Y-m-d') %} visit-number-today center-block {% endif %}">
+                                                {{ list_date|date('j') }}
+                                            </div>
+                                            <div class="visits-table-day">
+                                                {{ list_date|date('l') }}
+                                            </div>
+                                        </div>
+                                        <div class="visits-table-body">
+                                            {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
+
+                                            <table id="visits-table" class="visits-table table">
+                                                <thead>
+                                                    <tr class="check_visit hidden">
+                                                        <th colspan="3" data-field="state" data-checkbox="true" class="cursor-pointer">
+                                                            <p id="check_all_visits"><input name="btSelectAll" type="checkbox"> {{ 'base.global_check_uncheck_all'|trans({}, 'base') }}</p>
+                                                        </th>
+                                                        <th>
+                                                            <div class="btn-group-sm pull-right">
+                                                                <button id="delete_visits_btn" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> <span class="hidden-xs">{{ 'base.global_delete'|trans({}, 'base') }}</span></button>
+                                                                <button id="cancel_delete_visits_btn" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{{ 'base.section_cancel_button'|trans({}, 'base') }}</span></button>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for hour in hours %}
+                                                        {% set picked_visit = null %}
+                                                        {% set picked_hour = 0 %}                    
+                                                        {% set picked_i = 0 %}
+                                                        {% set i = 0 %}
+                                                        {% for my_visit in visits_list %}
+                                                            {% set visit_hour = my_visit.visitDate|date("H", "Europe/Madrid") %}
+                                                            {% if hour == visit_hour %}
+                                                                {% set picked_hour = hour %}
+                                                                {% set picked_visit = my_visit %}
+                                                                {% set picked_i = i %}
+                                                            {% endif %}
+                                                            {% set i = i + 1 %}
+                                                        {% endfor %}
+                                                        {% if picked_hour != 0 %}
+                                                            <tr url=" {{ url('visits-show', {'visit_id': picked_visit.id}) }} " class="table-row visit" data-index="{{ picked_visit.id }}" class="table-row patient">
+                                                                <td class="bs-checkbox check_visit hidden">
+                                                                    <input name="btSelectItem" type="checkbox">
+                                                                </td>
+                                                                <td class="table-text">
+                                                                    <div class="float-left">
+                                                                        <a>{{ visits_patients_name[picked_i] }}</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        {% else %}
+                                                            <tr class="table-row visit-empty" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date|date('Y-m-d') }}" data-hour="{{ hour }}" >
+                                                                <td class="bs-checkbox check_visit hidden">
+                                    {#                                    <input name="btSelectItem" type="checkbox">#}
+                                                                </td>
+                                                                <td class="table-text">
+                                                                    <div class="float-left">
+                                                                        {{ 'visits.empty_visit'|trans({}, 'visits') }}
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                         {% endif %}
-                                                        {% set i = i + 1 %}
                                                     {% endfor %}
-                                                    {% if picked_hour != 0 %}
-                                                        <tr url=" {{ url('visits-show', {'visit_id': picked_visit.id}) }} " class="table-row visit" data-index="{{ picked_visit.id }}" class="table-row patient">
-                                                            <td class="bs-checkbox check_visit hidden">
-                                                                <input name="btSelectItem" type="checkbox">
-                                                            </td>
-                                                            <td class="table-text">
-                                                                <div class="float-left">
-                                                                    <a>{{ visits_patients_name[picked_i] }}</a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    {% else %}
-                                                        <tr class="table-row visit-empty" data-daytext="{{ fullFormattedDate }}" data-day="{{ list_date|date('Y-m-d') }}" data-hour="{{ hour }}" >
-                                                            <td class="bs-checkbox check_visit hidden">
-                                {#                                    <input name="btSelectItem" type="checkbox">#}
-                                                            </td>
-                                                            <td class="table-text">
-                                                                <div class="float-left">
-                                                                    {{ 'visits.empty_visit'|trans({}, 'visits') }}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}                                
+                                    {% set days_count = days_count + 1 %}
+                                {% endfor %}                                
+                            </div>
                         </div>
                     </div>
                     <!--/visits_toolbar-->
