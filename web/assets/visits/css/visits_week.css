@@ -1,22 +1,38 @@
 .visits-table{
     padding-top: 15px;
-    max-height: 497px;
-    overflow-x: auto;
 }
 
 .visits-table-header{
     height: 50px;
     display: inline-block;
     float: none;
+    padding-right: 0px!important; 
+    padding-left: 0px!important;
 }
 
+.visits-table-header-empty{
+    height: 50px;
+    padding-right: 0px!important; 
+    padding-left: 0px!important;
+}
+
+.visits-table-body{
+    margin-top: 50px;
+}
 .visits-table-row{
     width: 100%; 
     padding-right: 0px!important; 
     padding-left: 0px!important;
 }
 
+.visits-table-column-hours{
+    padding-right: 0px!important; 
+    padding-left: 0px!important; 
+}
+
 .visits-table-column{
+    display: inline-block;
+    float: none;
     padding-right: 0px!important; 
     padding-left: 0px!important; 
 }
@@ -29,16 +45,29 @@
     height: 22.85px;
 }
 
-.visits-table-scrollable{
+.visits-table-scrollable-vertical{
+    overflow-y: auto!important;
+    overflow-x: hidden;
+    max-height: 497px;
+}
+    
+.visits-table-scrollable-horitzontal{
     overflow-x: scroll!important;
+    overflow-y: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    float:none;
+}
+
+.visits-table-scrollable-header{
+    overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
 }
 
-.visits-table-scrollable-header{
-    overflow-x: scroll!important;
+.hide-scroll {
     overflow-y: hidden;
-    white-space: nowrap;
+    overflow-x: hidden;
     height: 50px;
 }
 
