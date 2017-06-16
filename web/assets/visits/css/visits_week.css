@@ -1,11 +1,17 @@
 .visits-table{
     padding-top: 15px;
-    max-height: 495px;
+    max-height: 497px;
     overflow-x: auto;
 }
 
 .visits-table-header{
     height: 50px;
+}
+
+.visits-table-row{
+    width: 100%; 
+    padding-right: 0px!important; 
+    padding-left: 0px!important;
 }
 
 .visits-table-column{
@@ -27,8 +33,14 @@
     white-space: nowrap;
 }
 
+.visits-table-scrollable-header{
+    overflow-x: scroll!important;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 50px;
+}
+
 .visits-table-scrollable > .visits-table-column{
     display: inline-block;
     float: none; /* Very important */
 }
-

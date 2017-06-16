@@ -48,10 +48,27 @@
                             <h3>MONTH 2017</h3>
                         </div>
                         <div class="visits-table col-md-12 text-center">
-                            <div class="visits-table-column visits-table-column-hours col-xs-2 col-sm-2 col-md-1 text-center">
-                                <div class="visits-table-header">
+                            <div class="visits-table-row visits-table-row-header col-md-12">
+                                <div class="visits-table-header col-xs-2 col-sm-2 col-md-1">
                                 </div>
-                                <div class="visits-table-body">
+                                <div class="visits-table-scrollable-header">
+                                    {% set days_count = 0 %}
+                                    {% for list_date in days %}
+                                        <div class="visits-table-header col-xs-3 col-sm-2 col-md-2">
+                                            <div class="visits-table-number {% if "now"|date('Y-m-d') == list_date|date('Y-m-d') %} visit-number-today center-block {% endif %}">
+                                                {{ list_date|date('j') }}
+                                            </div>
+                                            <div class="visits-table-day">
+                                                {{ list_date|date('l') }}
+                                            </div>
+                                        </div>
+                                        {% set days_count = days_count + 1 %}
+                                    {% endfor %} 
+                                </div>
+                            </div>
+                            
+                            <div class="visits-table-body">
+                                <div class="visits-table-column visits-table-column-hours col-xs-2 col-sm-2 col-md-1 text-center">
                                     <table class="visits-table table">
                                         <tbody>
                                             {% set hours = ['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22'] %}
@@ -65,27 +82,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                            <div class="visits-table-scrollable">
-                                {% set days_count = 0 %}
-                                {% for list_date in days %}
-                                    {#{% set hidden = '' %}
-                                    {% if days_count > 3 %}
-                                        {% set hidden = 'hidden-sm' %}
-                                    {% elseif days_count > 4 %}
-                                        {% set hidden = 'hidden' %}
-                                    {% endif %}#}
-
-                                    <div class="visits-table-column col-xs-3 col-sm-2 col-md-2 text-center">
-                                        <div class="visits-table-header">
-                                            <div class="visits-table-number {% if "now"|date('Y-m-d') == list_date|date('Y-m-d') %} visit-number-today center-block {% endif %}">
-                                                {{ list_date|date('j') }}
-                                            </div>
-                                            <div class="visits-table-day">
-                                                {{ list_date|date('l') }}
-                                            </div>
-                                        </div>
-                                        <div class="visits-table-body">
+                                <div class="visits-table-scrollable">
+                                    {% set days_count = 0 %}
+                                    {% for list_date in days %}
+                                        <div class="visits-table-column col-xs-3 col-sm-2 col-md-2 text-center">                                        
                                             {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
 
                                             <table id="visits-table" class="visits-table table">
@@ -144,9 +144,9 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
-                                    {% set days_count = days_count + 1 %}
-                                {% endfor %}                                
+                                        {% set days_count = days_count + 1 %}
+                                    {% endfor %}                                
+                                </div>
                             </div>
                         </div>
                     </div>
