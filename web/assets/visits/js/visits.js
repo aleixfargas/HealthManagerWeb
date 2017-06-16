@@ -219,6 +219,9 @@ function add_show_visit_listener(){
             var postData = JSON.stringify(arrayData);
             var formSerialize = $(this).serialize();
             
+            if(arrayData.length > 3 && arrayData[3].name == 'phone'){
+                arrayData[3].value.replace(/\s/g,'');
+            }
             if(arrayData.length > 3 && arrayData[3].name == 'phone' && arrayData[3].value.length > 11){
                 swal('Error', Translator.trans('incorrect_phone_length'), 'error');                            
             } else {
