@@ -6,6 +6,8 @@
 
 .visits-table-header{
     height: 50px;
+    display: inline-block;
+    float: none;
 }
 
 .visits-table-row{
