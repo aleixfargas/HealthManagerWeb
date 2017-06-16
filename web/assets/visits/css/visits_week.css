@@ -1,0 +1,34 @@
+.visits-table{
+    padding-top: 15px;
+    max-height: 495px;
+    overflow-x: auto;
+}
+
+.visits-table-header{
+    height: 50px;
+}
+
+.visits-table-column{
+    padding-right: 0px!important; 
+    padding-left: 0px!important; 
+}
+
+.visit-number-today{
+    background-color: #d95459;
+    color: white;
+    border-radius: 17px;
+    width: 22.85px;
+    height: 22.85px;
+}
+
+.visits-table-scrollable{
+    overflow-x: scroll!important;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.visits-table-scrollable > .visits-table-column{
+    display: inline-block;
+    float: none; /* Very important */
+}
+
