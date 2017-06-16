@@ -45,7 +45,7 @@ class PatientTelephones
     /**
      * @var int
      *
-     * @ORM\Column(name="number", type="integer", nullable=true)
+     * @ORM\Column(name="number", type="string", length=45, nullable=true)
      */
     private $number;
 
