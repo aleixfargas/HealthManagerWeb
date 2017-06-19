@@ -415,10 +415,12 @@ class VisitsController extends Controller{
             
             $newPatientId = $patient->getId();
     
-            $patientTelephones->setPatient($newPatientId);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($patientTelephones);
-            $em->flush();
+            if($phone != NULL){
+                $patientTelephones->setPatient($newPatientId);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($patientTelephones);
+                $em->flush();
+            }
         } catch (UniqueConstraintViolationException $e){
             $this->logger->error($e->getMessage());
         }

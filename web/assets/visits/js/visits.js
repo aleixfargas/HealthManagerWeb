@@ -219,22 +219,22 @@ function add_show_visit_listener(){
             var postData = JSON.stringify(arrayData);
             var formSerialize = $(this).serialize();
             
-            if(arrayData.length > 3 && arrayData[3].name == 'phone' && arrayData[3].value.length > 11){
-                swal('Error', Translator.trans('incorrect_phone_length'), 'error');                            
-            } else {
-                $.post($(this).attr('url'), formSerialize, function(response){
-                    if(response.status == 'success'){
-//                    window.location.href = response.action_listVisits;
-                        go_to_date(visitDay);
-                        modal.modal('hide')
-                    } else {
-                        swal('Error', response.action, 'error');
-                    }
-                },'JSON').fail(function() {
-                    swal('Error', 'OUPS!, Something went incredibly wrong adding the new visit...', 'error');
-                    console.log('OUPS!, Something went incredibly wrong adding the new visit...');
-                });
+            if(arrayData.length > 3 && arrayData[3].name == 'phone'){
+                arrayData[3].value.replace(/\s/g,'');
             }
+            
+            $.post($(this).attr('url'), formSerialize, function(response){
+                if(response.status == 'success'){
+//                    window.location.href = response.action_listVisits;
+                    go_to_date(visitDay);
+                    modal.modal('hide')
+                } else {
+                    swal('Error', response.action, 'error');
+                }
+            },'JSON').fail(function() {
+                swal('Error', 'OUPS!, Something went incredibly wrong adding the new visit...', 'error');
+                console.log('OUPS!, Something went incredibly wrong adding the new visit...');
+            });
 
             e.preventDefault();
         });
