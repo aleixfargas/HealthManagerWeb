@@ -100,7 +100,7 @@
                                 {%endfor%}
                             </select>
                         </div>
-                        <input class="form-control" type="number" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
+                        <input class="form-control" type="text" name="phone" {% if telephones_names is defined %} value="{{ telephones_names[i].number }}" {% endif %}>
                     </div>
                 {% endfor%}                            
             </div>
