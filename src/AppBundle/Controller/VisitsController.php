@@ -81,7 +81,8 @@ class VisitsController extends Controller{
         $format = 'Y-m-d';
         $DateTime = \DateTime::createFromFormat($format, $day);
         $fromDate = clone($DateTime);
-        $toDate = $DateTime->modify('+7 days');
+        $fromDate->modify('-7 days');
+        $toDate = $DateTime->modify('+2 months');
 
         $visits_list = $this->get_week_visits($fromDate, $toDate);
         

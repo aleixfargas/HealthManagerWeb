@@ -7,7 +7,8 @@
     display: inline-block;
     float: none;
     padding-right: 0px!important; 
-    padding-left: 0px!important;
+    padding-left: 0px!important; 
+    overflow: hidden;
 }
 
 .visits-table-header-empty{
@@ -35,6 +36,7 @@
     float: none;
     padding-right: 0px!important; 
     padding-left: 0px!important; 
+    overflow: hidden;
 }
 
 .visit-number-today{
@@ -65,10 +67,22 @@
     white-space: nowrap;
 }
 
-.hide-scroll {
+.visits-table-scrollable-hours{
+    overflow-y: auto!important;
+    overflow-x: hidden;
+    max-height: 497px;
+    width: 113%;
+}
+
+.hide-h-scroll {
     overflow-y: hidden;
     overflow-x: hidden;
     height: 50px;
+}
+
+.hide-v-scroll {
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .visits-table-scrollable > .visits-table-column{
