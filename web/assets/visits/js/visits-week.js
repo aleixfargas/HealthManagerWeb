@@ -1,6 +1,7 @@
 $(document).ready(function () {
     followScroll();
     scrollWithMouse();
+    scrollLeftToToday();
 });
 
 function followScroll(){
@@ -27,4 +28,11 @@ function scrollWithMouse(){
         this.scrollTop += (delta < 0 ? 1 : -1)*30;
         e.preventDefault();  
     });
+}
+
+function scrollLeftToToday(){
+    var lastElementTop = $('.visit-today').position().left;
+    var scrollAmount = lastElementTop - 200 ;
+
+    $('.visits-table-scrollable-horitzontal').scrollLeft(scrollAmount);
 }

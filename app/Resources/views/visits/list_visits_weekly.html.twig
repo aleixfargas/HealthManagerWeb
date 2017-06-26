@@ -89,7 +89,7 @@
                             <div class="visits-table-scrollable-horitzontal visits-table-scrollable-vertical">                                        
                                 {% set days_count = 0 %}
                                 {% for list_date in days %}
-                                    <div class="visits-table-column col-xs-3 col-sm-2 col-md-2 text-center">                                        
+                                    <div class="visits-table-column col-xs-3 col-sm-2 col-md-2 text-center {% if "now"|date('Y-m-d') == list_date|date('Y-m-d') %} visit-today {% endif %}">                                        
                                         {% set fullFormattedDate = list_date|localizeddate('full', 'none', app.request.locale) %}
 
                                         <table id="visits-table" class="visits-table table">
@@ -114,7 +114,7 @@
                                                     {% set i = 0 %}
                                                     {% for my_visit in visits_list %}
                                                         {% set visit_hour = my_visit.visitDate|date("H", "Europe/Madrid") %}
-                                                        {% if hour == visit_hour %}
+                                                        {% if hour == visit_hour and my_visit.visitDate|date('Y-m-d') == list_date|date('Y-m-d')%}
                                                             {% set picked_hour = hour %}
                                                             {% set picked_visit = my_visit %}
                                                             {% set picked_i = i %}
@@ -122,7 +122,7 @@
                                                         {% set i = i + 1 %}
                                                     {% endfor %}
                                                     {% if picked_hour != 0 %}
-                                                        <tr url=" {{ url('visits-show', {'visit_id': picked_visit.id}) }} " class="table-row visit" data-index="{{ picked_visit.id }}" class="table-row patient">
+                                                        <tr url=" {{ url('visits-show', {'visit_id': picked_visit.id}) }} " class="table-row visit patient" data-index="{{ picked_visit.id }}">
                                                             <td class="bs-checkbox check_visit hidden">
                                                                 <input name="btSelectItem" type="checkbox">
                                                             </td>
