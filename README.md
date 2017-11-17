@@ -17,3 +17,4 @@ sql-mode="STRICT_ALL_TABLES"
 ```
 * php7.0-mbstring
 * php7.0-intl (reboot required)
+* run `composer install`
